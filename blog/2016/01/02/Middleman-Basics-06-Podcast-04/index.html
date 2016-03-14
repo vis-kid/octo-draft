@@ -1,0 +1,1368 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Middleman Basics 06-Podcast Site (Part 04) - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Topics Hero Section
+Navigation
+Title
+Pagination Hero Section Why don’t we add a small hero section on top of the index site? I want something that &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2016/01/02/Middleman-Basics-06-Podcast-04/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Middleman Basics 06-Podcast Site (Part 04)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-02T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Hero Section</li>
+<li>Navigation</li>
+<li>Title</li>
+<li>Pagination</li>
+</ul>
+
+
+<h2>Hero Section</h2>
+
+<p>Why don’t we add a small hero section on top of the index site? I want something that gives us an opportunity to brand the podcast site without going full-splashy-marketing-page-apeshit. I strongly trust in “less is more” and moreover, in “don’t insult your users by bombarding them with bs”. Let’s keep it nice and simple.</p>
+
+<p>In this last article we will make use of another part of the Bourbon family and implement a couple of patterns from <a href="http://refills.bourbon.io/">Refills</a>—which provides a pattern / components library (styled and unstyled) and is built with Bourbon and Neat. Why reinvent the wheel when we can now and then adjust existing ones to our needs. Btw, this project is also maintained by designers at <a href="https://thoughtbot.com/">thoughtbot</a>—so it’s in very good hands qualitywise.</p>
+
+<p>Go to <a href="http://refills.bourbon.io/">http://refills.bourbon.io/</a> and copy the markup for the “Hero Unit”. The provided markup is placed in our index file—right above the part where we iterate over our <code>page_articles</code>.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>...
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-inner&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span> <span class="na">class=</span><span class="s">&quot;hero-logo&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png</span>
+</span><span class='line'><span class="s">&quot;</span> <span class="na">alt=</span><span class="s">&quot;Logo Image&quot;</span><span class="nt">&gt;&lt;/a&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-copy&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h1&gt;</span>Short description of Product<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>A few reasons why this product is worth using, who it&#39;s for and why they need it.<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;posts&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="err">&lt;</span>% page_articles.each_with_index do |article, i| %&gt;
+</span><span class='line'>    <span class="nt">&lt;h2</span> <span class="na">class=</span><span class="s">&#39;post-title&#39;</span><span class="nt">&gt;&lt;span</span> <span class="na">class=</span><span class="s">&#39;post-date&#39;</span><span class="nt">&gt;</span><span class="err">&lt;</span>%= article.date.strftime(&#39;%b %e&#39;) %&gt;<span class="nt">&lt;/span&gt;</span> <span class="err">&lt;</span>%= link_to article.title, article %&gt;<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I copied the styles from Refills’ pattern section as well and placed them into a new file dedicated to this banner section. The provided styles are in the <code>.scss</code> syntax and so I go with the flow—see no need to convert this into <code>.sass</code> really.</p>
+
+<h5>source/stylesheets/_hero_banner.scss</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nc">.hero</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$base-border-radius</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$action-color</span><span class="o">:</span> <span class="mh">#477DCA</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$large-screen</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">860</span><span class="p">)</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$hero-background-top</span><span class="o">:</span> <span class="mh">#7F99BE</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$hero-background-bottom</span><span class="o">:</span> <span class="mh">#20392B</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$hero-color</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$gradient-angle</span><span class="o">:</span> <span class="mi">10</span><span class="kt">deg</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$hero-image</span><span class="o">:</span> <span class="s1">&#39;</span><span class="s2">https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/mountains.png&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">@include</span><span class="nd"> background</span><span class="p">(</span><span class="sx">url($hero-image)</span><span class="o">,</span> <span class="nf">linear-gradient</span><span class="p">(</span><span class="nv">$gradient-angle</span><span class="o">,</span> <span class="nv">$hero-background-bottom</span><span class="o">,</span> <span class="nv">$hero-background-top</span><span class="p">)</span><span class="o">,</span> <span class="no">no-repeat</span> <span class="nv">$hero-background-top</span> <span class="no">scroll</span><span class="p">);</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="mh">#324766</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">background-position</span><span class="o">:</span> <span class="no">top</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">background-repeat</span><span class="o">:</span> <span class="no">no-repeat</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">background-size</span><span class="o">:</span> <span class="n">cover</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">padding-bottom</span><span class="o">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.hero-logo</span> <span class="nt">img</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">height</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.hero-inner</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> outer-container</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> clearfix</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">margin</span><span class="o">:</span> <span class="no">auto</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">padding</span><span class="o">:</span> <span class="mi">3</span><span class="mf">.5</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">text-align</span><span class="o">:</span> <span class="no">center</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nc">.hero-copy</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">text-align</span><span class="o">:</span> <span class="no">center</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nt">h1</span> <span class="p">{</span>
+</span><span class='line'>        <span class="na">color</span><span class="o">:</span> <span class="nv">$hero-color</span><span class="p">;</span>
+</span><span class='line'>        <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.6</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>        <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$large-screen</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.8</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nt">p</span> <span class="p">{</span>
+</span><span class='line'>        <span class="na">color</span><span class="o">:</span> <span class="nv">$hero-color</span><span class="p">;</span>
+</span><span class='line'>        <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>        <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="no">auto</span> <span class="mi">3</span><span class="kt">em</span> <span class="no">auto</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$large-screen</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.1</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>          <span class="na">max-width</span><span class="o">:</span> <span class="mi">40</span><span class="kt">%</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We will adjust this in a second but let’s take a peek first:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/hero-unit-copy.png"></p>
+
+<p>Fits right in—that’s how I like it! Let’s tweak this to our needs by getting rid of the image and icon. But let’s start with the text.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-inner&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span> <span class="na">class=</span><span class="s">&quot;hero-logo&quot;</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png</span>
+</span><span class='line'><span class="s">&quot;</span> <span class="na">alt=</span><span class="s">&quot;Logo Image&quot;</span><span class="nt">&gt;&lt;/a&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-copy&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h1&gt;</span>MATCHA NERDZ<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>Podcast for green tea connoisseurs<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can tweak this any way you like. I wanna make this quick and just increase the size of the <code>h1</code> for both large screens and smaller devices. The hero unit header is now <code>2em</code> and <code>3em</code> respectively—not too much. The padding on <code>.hero-inner</code> also needs to move a nudge.</p>
+
+<h5>source/stylesheets</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nc">.hero-inner</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//padding: 3.5em;</span>
+</span><span class='line'>  <span class="na">padding-top</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.2</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.hero-copy</span> <span class="p">{</span>
+</span><span class='line'>  <span class="na">text-align</span><span class="o">:</span> <span class="no">center</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">h1</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nv">$hero-color</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">font-size</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$large-screen</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">font-size</span><span class="o">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next let’s kill the logo placeholder. I find this things often a bit annoying.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-inner&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-copy&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h1&gt;</span>MATCHA NERDZ<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>Podcast for green tea connoisseurs<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That’s all we need really. Since we don’t use the hero logo, let’s get rid of their styles—dead weight.</p>
+
+<h5>source/stylesheets/_hero_banner.scss</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="c1">//.hero-logo img {</span>
+</span><span class='line'><span class="c1">//  height: 4em;</span>
+</span><span class='line'><span class="c1">//  margin-bottom: 1em;</span>
+</span><span class='line'><span class="c1">//}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The generic background image also has to go. I’ll show you fist how I want it to look and explain then how to get there.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/hero-unit-preview.png"></p>
+
+<p>Ignore the typography for now. You can adjust this later. I replaced the image and put a slight gradient on top of it. Since the type is white, I needed a bit more contrast for a better reading experience. If you choose an image that does not need an additional gradient, go for it!</p>
+
+<p>I adjusted the Refills code with a couple of changes. First, I added an image to <code>source/images</code> and saved this image in the variable <code>$hero-image</code>. Then I reused this variable in the <code>background</code> mixin from Bourbon and reorder the image and the <code>linear-gradient</code> (a Bourbon mixin as well). Because the gradient comes first, it is overlayed on top of the <code>Matcha_Nerdz.png</code>.</p>
+
+<h5>source/stylesheets/_hero_banner.scss</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nc">.hero</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$hero-image</span><span class="o">:</span> <span class="s1">&#39;</span><span class="s2">../images/Matcha_Nerdz.png&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">$hero-background-top</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$matcha-green</span><span class="o">,</span> <span class="mi">65</span><span class="kt">%</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$hero-background-bottom</span><span class="o">:</span> <span class="nf">rgba</span><span class="p">(</span><span class="nf">lighten</span><span class="p">(</span><span class="nv">$matcha-green</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mf">.3</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">@include</span><span class="nd"> background</span><span class="p">(</span><span class="nf">linear-gradient</span><span class="p">(</span><span class="nv">$gradient-angle</span><span class="o">,</span> <span class="nv">$hero-background-bottom</span><span class="o">,</span> <span class="nv">$hero-background-top</span><span class="p">)</span><span class="o">,</span> <span class="sx">url($hero-image)</span><span class="o">,</span> <span class="no">no-repeat</span> <span class="nv">$hero-background-top</span> <span class="no">scroll</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//background-color: #324766;</span>
+</span><span class='line'>  <span class="c1">//background-size: cover;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For the gradient itself, I reused our <code>$matcha-green</code> that we stored in <code>source/stylesheets/base/_variables.scss</code>. The top color is darkend by 65 percent with a Sass function the other one is lightened by 10 percent and also made transparent via another Sass function called <code>rgba</code>. We then reuse these variables in our <code>background</code> mixin. The <code>gradient-angle</code> stayed the same. I also added a small margin of <code>2em</code> to push the index list down a bit. The styles I commented out for you are dead weight and so I deleted them.</p>
+
+<p>You can play with such a gradient directly in Photoshop as well of course. Wanted to show you how you can use them in Sass. Below is a screenshot that has no linear gradient added to the hero unit. Up to you what you prefer. As a little exercise, I’ll leave the cleanup of the styles we copied to you. If you find duplications or unused styles, I recommend you fix this before moving on.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/hero-unit-preview-no-gradient.png"></p>
+
+<p>Time for another commit and deploy.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds hero unit to index.html.erb</span>
+</span><span class='line'><span class="s1">               Adds hero image with gradient</span>
+</span><span class='line'><span class="s1">               Adds _hero_banner Sass partial</span>
+</span><span class='line'><span class="s1">               Imports Sass partial&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/hero-unit-preview-no-grid.png"></p>
+
+<p>Without the visual grid, it doesn’t look you have much work left to adjust this page for your podcasting needs. A few things I’d recommend to do is find a typeface that communicates your project distinctively without being too exotic and adjust the size and spacing of your text so that it fits your hero unit background image. Since this is part of your branding, I suggest you take your time and have some fun!</p>
+
+<h2>Navigation</h2>
+
+<p>It’s a good time to add a navbar. We will also use a pattern from Refills and adapt it for our own needs. I chose the “Centered Navigation” which you will find under “Patterns”. For this one, we need to copy the HTML, SCSS and the CoffeeScript code. I’ll start first by adding the markup to our global <code>layout.erb</code> file</p>
+
+<h3>source/layouts/layout.erb</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;!doctype html&gt;</span>
+</span><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;head&gt;</span>
+</span><span class='line'><span class="x">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span>
+</span><span class='line'><span class="x">    &lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge;chrome=1&#39; /&gt;</span>
+</span><span class='line'><span class="x">       &lt;meta content=&quot;IE=edge,chrome=1&quot; http-equiv=&quot;X-UA-Compatible&quot;&gt;</span>
+</span><span class='line'><span class="x">    &lt;title&gt;Blog Title</span><span class="cp">&lt;%=</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">current_article</span><span class="o">.</span><span class="n">title</span> <span class="k">unless</span> <span class="n">current_article</span><span class="o">.</span><span class="n">nil?</span> <span class="cp">%&gt;</span><span class="x">&lt;/title&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">feed_tag</span> <span class="ss">:atom</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">blog</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">to_s</span><span class="si">}</span><span class="s2">/feed.xml&quot;</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Atom Feed&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">&quot;all&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span>  <span class="s2">&quot;all&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;header class=&quot;centered-navigation&quot; role=&quot;banner&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;div class=&quot;centered-navigation-wrapper&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;a href=&quot;javascript:void(0)&quot; class=&quot;mobile-logo&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;img src=&quot;https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_3_dark.png&quot; alt=&quot;Logo image&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;/a&gt;</span>
+</span><span class='line'><span class="x">        &lt;a href=&quot;javascript:void(0)&quot; id=&quot;js-centered-navigation-mobile-menu&quot; class=&quot;centered-navigation-mobile-menu&quot;&gt;MENU&lt;/a&gt;</span>
+</span><span class='line'><span class="x">        &lt;nav role=&quot;navigation&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;ul id=&quot;js-centered-navigation-menu&quot; class=&quot;centered-navigation-menu show&quot;&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Products&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;About Us&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link logo&quot;&gt;</span>
+</span><span class='line'><span class="x">              &lt;a href=&quot;javascript:void(0)&quot; class=&quot;logo&quot;&gt;</span>
+</span><span class='line'><span class="x">                &lt;img src=&quot;https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_3_dark.png&quot; alt=&quot;Logo image&quot;&gt;</span>
+</span><span class='line'><span class="x">              &lt;/a&gt;</span>
+</span><span class='line'><span class="x">            &lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Testimonials&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link more&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;More&lt;/a&gt;</span>
+</span><span class='line'><span class="x">              &lt;ul class=&quot;submenu&quot;&gt;</span>
+</span><span class='line'><span class="x">                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Submenu Item&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Another Item&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Item with submenu&lt;/a&gt;</span>
+</span><span class='line'><span class="x">                  &lt;ul class=&quot;submenu&quot;&gt;</span>
+</span><span class='line'><span class="x">                    &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Sub-submenu Item&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                    &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Another Item&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                  &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">                &lt;/li&gt;</span>
+</span><span class='line'><span class="x">                &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Another submenu&lt;/a&gt;</span>
+</span><span class='line'><span class="x">                  &lt;ul class=&quot;submenu&quot;&gt;</span>
+</span><span class='line'><span class="x">                    &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Sub-submenu&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                    &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;An Item&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">                  &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">                &lt;/li&gt;</span>
+</span><span class='line'><span class="x">              &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">            &lt;/li&gt;</span>
+</span><span class='line'><span class="x">            &lt;li class=&quot;nav-link&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;Sign up&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">          &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">        &lt;/nav&gt;</span>
+</span><span class='line'><span class="x">      &lt;/div&gt;</span>
+</span><span class='line'><span class="x">    &lt;/header&gt;</span>
+</span><span class='line'><span class="x">    </span>
+</span><span class='line'><span class="x">    &lt;div id=&quot;main&quot; role=&quot;main&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="s2">&quot;partials/footer&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span>
+</span><span class='line'><span class="x">  &lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Whoa! That’s quite a chunk of code. Are you thinking the same as me? This looks nasty, right? Let’s put this into a partial.</p>
+
+<h5>source/layouts/layout.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="s2">&quot;partials/navbar&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span>
+</span><span class='line'><span class="x">    &lt;div id=&quot;main&quot; role=&quot;main&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="s2">&quot;partials/footer&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span>
+</span><span class='line'><span class="x">  &lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/partials/_navbar.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;header class=&quot;centered-navigation&quot; role=&quot;banner&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;div class=&quot;centered-navigation-wrapper&quot;&gt;</span>
+</span><span class='line'><span class="x">    &lt;a href=&quot;javascript:void(0)&quot; class=&quot;mobile-logo&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">&quot;matcha_nerdz_logo.png&quot;</span><span class="p">,</span> <span class="ss">alt</span><span class="p">:</span> <span class="s2">&quot;Logo image&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/a&gt;</span>
+</span><span class='line'><span class="x">    &lt;a href=&quot;javascript:void(0)&quot; id=&quot;js-centered-navigation-mobile-menu&quot; class=&quot;centered-navigation-mobile-menu&quot;&gt;MENU&lt;/a&gt;</span>
+</span><span class='line'><span class="x">    &lt;nav role=&quot;navigation&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;ul id=&quot;js-centered-navigation-menu&quot; class=&quot;centered-navigation-menu show&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;li class=&quot;nav-link&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Home&#39;</span><span class="p">,</span> <span class="s1">&#39;/matcha-nerdz&#39;</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">        &lt;li class=&quot;nav-link logo&quot;&gt;</span>
+</span><span class='line'><span class="x">          </span><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">&quot;matcha_nerdz_logo.png&quot;</span><span class="p">,</span> <span class="ss">alt</span><span class="p">:</span> <span class="s2">&quot;Logo image&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;/li&gt;</span>
+</span><span class='line'><span class="x">        &lt;li class=&quot;nav-link&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;About&#39;</span><span class="p">,</span> <span class="s1">&#39;/pages/about.html&#39;</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">    &lt;/nav&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;/header&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I’ve removed a bunch of stuff that I don’t need and only end up with my logo that I stored in <code>/images</code> and two links for home and about pages. For the two links I used the <code>link_to</code> helper method. It takes two arguments: The string you want users to click on and the location you want to link to. I’m sure people who have played a bit with Rails or Sinatra are familiar with this. Handy, but no big deal. The link for “Home” (/matcha-nerd) will break for your local host but it is working on GitHub Pages where we need the namespace.</p>
+
+<p>The avid reader might also have discovered that our about link links to a simple HTML page that I placed in a new directory named <code>pages</code>. I suggest you put HTML pages like contact, faq or whatever also in this directory. If you put these static pages in there you should have no problems customizing them to your needs. Just have some fun and apply what you’ve learned so far with these pages. From here on you are on your own with these but you now know everything you need. Samo, samo!</p>
+
+<p>A word about the image tags and the asset path on GitHub Pages. I decided to replace the plain <code>img</code> tags for the logo with a Middleman helper called <code>image_tag</code>. It’s not only pretty concise and readable, but also fixes an issue you will run into with the <code>img</code> tag when you build the site and deploy it to GitHub Pages. The url for the asset link on individual articles gets all screwed up and this is the simplest solution to fix that.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;/images/matcha_nerdz_logo.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;Logo image&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before using <code>image_tag</code>, the url for the logo looked like this: <code>http://your_username.github.io/images/matcha_nerdz_logo-hash_numbers.png</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">&quot;matcha_nerdz_logo.png&quot;</span><span class="p">,</span> <span class="ss">alt</span><span class="p">:</span> <span class="s2">&quot;Logo image&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This Middleman helper provided the url with the app name <code>matcha-nerdz</code>—it correctly namespaced the asset and gives GitHub Pages access to this image file (<code>http://your_username.github.io/matcha-nerdz/images/matcha_nerdz_logo-hash_numbers.png</code>).</p>
+
+<p>The styles I copied from Refills are in a new Sass partial of course.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;header_navbar&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_header_navbar.scss</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nc">.centered-navigation</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$base-border-radius</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$dark-gray</span><span class="o">:</span> <span class="mh">#333</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$large-screen</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">860</span><span class="p">)</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$base-font-color</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-padding</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-logo-height</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-background</span><span class="o">:</span> <span class="mh">#E7F1EC</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-color</span><span class="o">:</span> <span class="nv">$base-font-color</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-color-hover</span><span class="o">:</span> <span class="nv">$text-color</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-height</span><span class="o">:</span> <span class="mi">60</span><span class="kt">px</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-item-padding</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-submenu-padding</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$centered-navigation-item-nudge</span><span class="o">:</span> <span class="mi">2</span><span class="mf">.2</span><span class="kt">em</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$horizontal-bar-mode</span><span class="o">:</span> <span class="nv">$large-screen</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nv">$matcha-green</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$matcha-green</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">);</span>
+</span><span class='line'>  <span class="na">min-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span><span class='line'>  <span class="na">z-index</span><span class="o">:</span> <span class="mi">9999</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Mobile view</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.mobile-logo</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">max-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$centered-navigation-padding</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">img</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">max-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">padding</span><span class="o">:</span> <span class="mf">.8</span><span class="kt">em</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$horizontal-bar-mode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.centered-navigation-mobile-menu</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nv">$centered-navigation-color</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">display</span><span class="o">:</span> <span class="no">block</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">float</span><span class="o">:</span> <span class="no">right</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">line-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">padding-right</span><span class="o">:</span> <span class="nv">$centered-navigation-submenu-padding</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">text-transform</span><span class="o">:</span> <span class="no">uppercase</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span> <span class="p">(</span><span class="nv">$horizontal-bar-mode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:focus</span><span class="o">,</span>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$centered-navigation-color-hover</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Nav menu</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.centered-navigation-wrapper</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> outer-container</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> clearfix</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">z-index</span><span class="o">:</span> <span class="mi">999</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">ul</span><span class="nc">.centered-navigation-menu</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">-webkit-transform-style</span><span class="o">:</span> <span class="n">preserve-3d</span><span class="p">;</span> <span class="c1">// stop webkit flicker</span>
+</span><span class='line'>    <span class="na">clear</span><span class="o">:</span> <span class="no">both</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">display</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="no">auto</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">overflow</span><span class="o">:</span> <span class="no">visible</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">z-index</span><span class="o">:</span> <span class="mi">99999</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nc">.show</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">block</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span> <span class="p">(</span><span class="nv">$horizontal-bar-mode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">block</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">text-align</span><span class="o">:</span> <span class="no">center</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// The nav items</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.nav-link</span><span class="nd">:first-child</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$horizontal-bar-mode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">margin-left</span><span class="o">:</span> <span class="nv">$centered-navigation-item-nudge</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">padding-right</span><span class="o">:</span> <span class="mi">0</span><span class="kt">px</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">ul</span> <span class="nt">li</span><span class="nc">.nav-link</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$matcha-green</span><span class="o">,</span> <span class="mi">8</span><span class="kt">%</span><span class="p">);</span>
+</span><span class='line'>    <span class="na">display</span><span class="o">:</span> <span class="no">block</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">line-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">padding-right</span><span class="o">:</span> <span class="nv">$centered-navigation-submenu-padding</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">text-align</span><span class="o">:</span> <span class="no">right</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">z-index</span><span class="o">:</span> <span class="mi">9999</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">a</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$centered-navigation-color</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="o">-</span><span class="no">block</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">outline</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">&amp;</span><span class="nd">:focus</span><span class="o">,</span>
+</span><span class='line'>      <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+</span><span class='line'>        <span class="na">color</span><span class="o">:</span> <span class="nv">$centered-navigation-color-hover</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$horizontal-bar-mode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="no">transparent</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">line-height</span><span class="o">:</span> <span class="nv">$centered-navigation-height</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nt">a</span> <span class="p">{</span>
+</span><span class='line'>        <span class="na">padding-right</span><span class="o">:</span> <span class="nv">$centered-navigation-item-padding</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">li</span><span class="nc">.logo.nav-link</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">display</span><span class="o">:</span> <span class="no">none</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">line-height</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">@include</span><span class="nd"> media</span><span class="p">(</span><span class="nv">$large-screen</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nc">.logo</span> <span class="nt">img</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">margin-bottom</span><span class="o">:</span> <span class="o">-</span><span class="nv">$centered-navigation-logo-height</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">max-height</span><span class="o">:</span> <span class="nv">$centered-navigation-logo-height</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I put the CoffeeScript code from Refills into <code>all.coffee</code>. As soon as I had to add more code than that, I’d put it into its own designated place.</p>
+
+<h5>source/javascripts/all.coffee</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//= require jquery</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span> <span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">menuToggle</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-centered-navigation-mobile-menu&#39;</span><span class="p">).</span><span class="nx">unbind</span><span class="p">()</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-centered-navigation-menu&#39;</span><span class="p">).</span><span class="nx">removeClass</span> <span class="s1">&#39;show&#39;</span>
+</span><span class='line'>  <span class="nx">menuToggle</span><span class="p">.</span><span class="nx">on</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-centered-navigation-menu&#39;</span><span class="p">).</span><span class="nx">slideToggle</span> <span class="o">-&gt;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-centered-navigation-menu&#39;</span><span class="p">).</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:hidden&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-centered-navigation-menu&#39;</span><span class="p">).</span><span class="nx">removeAttr</span> <span class="s1">&#39;style&#39;</span>
+</span><span class='line'>      <span class="k">return</span>
+</span><span class='line'>    <span class="k">return</span>
+</span><span class='line'>  <span class="k">return</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This snippet is responsible for toggling the menu for smaller screens.</p>
+
+<h5>Screenshot Toggle Menu</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/coffeescript-menu-toggle.png"></p>
+
+<p>Because I deleted a bunch of stuff I didn’t need from the navbar markup—like the submenu—I was able to get rid of a significant chunk of the relevant styles in this file. Since I don’t know if you need a more elaborate navbar and wanna take the code right from these examples, I suggest you copy the original code if you have bigger plans for the navbar. Play with the Sass to fit your style, remove dead code and duplications. I simply adjusted the background color and link colors, played with the transparency of the logo, changed the border and moved on. Have fun and go crazy if you like. I just wanted to use a super simple navbar with the brand color and a centered logo. Turned out pretty good for this little work I’d say.</p>
+
+<h5>Screenshot Index Page</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/navbar-screenshot.png"></p>
+
+<h5>Screenshot Detail Page</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/detail-page-with-navbar.png"></p>
+
+<p>Time to package this into a git commit and for deploying the site.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Implements a header with navbar</span>
+</span><span class='line'><span class="s1">               Adds header partial to layout</span>
+</span><span class='line'><span class="s1">               Takes care of deployed asset url for logo</span>
+</span><span class='line'><span class="s1">               Imports Sass partial for navbar</span>
+</span><span class='line'><span class="s1">               Adds logo</span>
+</span><span class='line'><span class="s1">               Adds CoffeeScript code</span>
+</span><span class='line'><span class="s1">               Adjusts Refills styles</span>
+</span><span class='line'><span class="s1">               Adjusts Refills markup&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Title</h2>
+
+<p>The next change is just a small one, just a touch really. We need to update the title tag in our layout.</p>
+
+<h5>source/layouts/layout.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;title&gt;Matcha Nerdz</span><span class="cp">&lt;%=</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">current_article</span><span class="o">.</span><span class="n">title</span> <span class="k">unless</span> <span class="n">current_article</span><span class="o">.</span><span class="n">nil?</span> <span class="cp">%&gt;</span><span class="x">&lt;/title&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This gives us a dynamic title that always starts with our site’s name and attaches the article’s title if available.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adjusts site’s title&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pagination</h2>
+
+<p>When you look at the bottom of the index list of articles you’ll see something essential missing—navigating our list of posts.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/index-list-no-pagination.png"></p>
+
+<p>I’m not a fan of overly clever pagination links—bulky ones are also not winning any awards with me. Let’s keep it simple and provide two links for next and previous pages. Middleman makes this incredibly convenient. We just need to adjust our <code>config.rb</code> and tell the frontmatter of our index page to fine tune it.</p>
+
+<h5>config.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">blog</span><span class="o">.</span><span class="n">paginate</span> <span class="o">=</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First uncomment the line above. After that you just tell the index page how many articles you want to see. I think 10 posts per page are enough.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">per_page: 10</span>
+</span><span class='line'><span class="x">pageable: true</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">---</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The final step before we apply some styling is to place both links conveniently at the bottom of the list. First we need to get rid of these lines of code below that I commented out. They were placed at the very top of your index page.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--</span>
+</span><span class='line'><span class="c">&lt;% if paginate &amp;&amp; num_pages &gt; 1 %&gt;</span>
+</span><span class='line'><span class="c">  &lt;p&gt;Page &lt;%= page_number %&gt; of &lt;%= num_pages %&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">  &lt;% if prev_page %&gt;</span>
+</span><span class='line'><span class="c">    &lt;p&gt;&lt;%= link_to &#39;Previous page&#39;, prev_page %&gt;&lt;/p&gt;</span>
+</span><span class='line'><span class="c">  &lt;% end %&gt;</span>
+</span><span class='line'><span class="c">&lt;% end %&gt;</span>
+</span><span class='line'><span class="c">--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then place this at the very bottom of this page.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">paginate</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">prev_page</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;p class=&#39;pagination-link&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;&lt;&lt; Previous page&#39;</span><span class="p">,</span> <span class="n">prev_page</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">next_page</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;p class=&#39;pagination-link&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Next page &gt;&gt;&#39;</span><span class="p">,</span> <span class="n">next_page</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This gives us the navigational links we need side by side and supplies us with a class to tweak a few things. I decided to go with a partial for the Sass code because it didn’t fit either in the footer nor the index post styles—plus it deserves a partial of its own, especially should it grow more in size.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;pagination&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_pagination.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.pagination-link</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span><span class='line'>  <span class="k">&amp;</span><span class="nd">:first-of-type</span>
+</span><span class='line'>    <span class="na">float</span><span class="o">:</span> <span class="no">left</span>
+</span><span class='line'>    <span class="na">margin-right</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span><span class='line'>  <span class="nt">a</span>
+</span><span class='line'>    <span class="nd">+transition</span><span class="p">(</span><span class="no">color</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">s</span> <span class="n">ease-in-out</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.1</span><span class="kt">em</span>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:hover</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$matcha-green</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It’s nothing tricky I think. We shift the links a bit to the right, arrange them to float next to each other—default would be block behaviour being stacked on top of each other—and apply a little transitional effect when the user hovers over the link. That’s all we need right now. Let’s have a look.</p>
+
+<h5>Screenshot: Next Page</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/index-pagination-next.png"></p>
+
+<h5>Screenshot: Previous Page / Next Page</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_06_build/index-pagination-next-previous.png"></p>
+
+<p>Alrighty, time for another commit.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add -all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds Pagination to index list of posts</span>
+</span><span class='line'><span class="s1">               Adjusts config.rb</span>
+</span><span class='line'><span class="s1">               Adjusts markup on index page</span>
+</span><span class='line'><span class="s1">               Adds styles in _pagination Sass partial&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Final Thoughts</h2>
+
+<p>I guess that should suffice for version 01—also, I ran out of space a little over the last six articles. As a next step, you should play with media queries to make the layout responsive to various screen sizes. The typography could need some serious love as well. Pick a typface or two that best goes with the theme of your podcast—just don’t forget to keep it super readable. Also, should you decide to do a podcast for real, I can only congratulate you. It’s a great way to learn from experts and also to increase your network significantly. Doing something of value for the community is always a good idea and tends to pay off big time. One last tip, try to learn by doing and experiement as much as you can! Reading alone just doesn’t cut it—been there, done that! If you like to share the lessions learned by writing about it, you will deepen your understanding of the topic even more. Have fun!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-02T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/bourbon/'>bourbon</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/middleman/'>middleman</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/neat/'>neat</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refills/'>refills</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/thoughtbot/'>thoughtbot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2016/01/02/Middleman-Basics-06-Podcast-04/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2016/01/02/Middleman-Basics-06-Podcast-04/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/12/28/Middleman-Basics-05-Podcast-03/" title="Previous Post: Middleman Basics 05-Podcast Site (Part 03)">&laquo; Middleman Basics 05-Podcast Site (Part 03)</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/" title="Next Post: AntiPatterns Basics—Rails Views">AntiPatterns Basics—Rails Views &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

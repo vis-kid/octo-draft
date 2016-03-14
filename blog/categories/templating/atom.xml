@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Templating | Drafts Previewer]]></title>
+  <link href="http://vis-kid.github.io/octo-draft/blog/categories/templating/atom.xml" rel="self"/>
+  <link href="http://vis-kid.github.io/octo-draft/"/>
+  <updated>2016-03-14T22:45:33+01:00</updated>
+  <id>http://vis-kid.github.io/octo-draft/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Slim Basics 02]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/02/25/Slim-Basics-02/"/>
+    <updated>2016-02-25T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/02/25/Slim-Basics-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/Slim/slim-fishbowl-refined.png"></p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Outputting Code</li>
+<li>Text interpolation</li>
+<li>Control Code</li>
+<li>Inline HTML</li>
+<li>Verbatim Text</li>
+<li>Comments</li>
+<li>Custom Shortcuts</li>
+<li>Configuring Slim</li>
+</ul>
+
+
+<!---
++ Helpers
++ Safety
++ Logic-less Mode
++ Performance
++ Framework Support
++ Command Line Slim slimrb
++ Temple & Tilt
+-->
+
+
+<h3>Outputting Code</h3>
+
+<p>You have already seen a bit how to use Ruby in your templates. This section gives you all you need to make use of this. In the first article, we have been using Ruby already in our templates. Let me remind you what I mean:</p>
+
+<h4>Sim:</h4>
+
+<pre><code class="slim">
+html
+  head
+    title
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' =&gt; true
+    = javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true
+    = csrf_meta_tags
+</code></pre>
+
+<p>As you can see, inside this head tag, we already used a couple of methods from Rails to deal with styles and JavaScript stuff—nothing major. All you need to do to execute Ruby code is prepend it with an equals <code>=</code> sign. If your code needs to spread over multiple lines, just append a backslash <code>\</code> at the end of each line and keep going onto the next one. Should you end the line in a comma <code>,</code>, then you don’t need the backslash. Nice little touch if you ask me.</p>
+
+<p>Let’s have a look at another, more concrete example. Writing forms is often a pain in the butt—lots of boilerplate code, lots of repetition and all these dreaded <code>&lt;%= %&gt;</code> signs in ERB. This can get messy in no time. Could be nicer huh?</p>
+
+<p>ERB:</p>
+
+<pre><code class="erb">
+&lt;%= form_for @agent do |f| %&gt;
+
+  &lt;%= f.label      :name %&gt;
+  &lt;%= f.text_field :name %&gt;
+
+  &lt;%= f.label      :number %&gt;
+  &lt;%= f.text_field :number %&gt;
+
+  &lt;%= f.label      :licence_to_kill %&gt;
+  &lt;%= f.check_box  :licence_to_kill %&gt;
+
+  &lt;%= f.label      :gambler %&gt;
+  &lt;%= f.check_box  :gambler %&gt;
+
+  &lt;%= f.label      :womanizer %&gt;
+  &lt;%= f.check_box  :womanizer %&gt;
+
+  &lt;%= f.submit %&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>A lot of stuff to write for creating a new <code>@agent</code> object, no? Slim lets you handle this a lot more succinct. We just keep the equals sign and get rid of most other stuff. Tadaa!</p>
+
+<p>Slim:</p>
+
+<pre><code class="slim">
+= form_for @agent do |f|
+
+  = f.label      :name
+  = f.text_field :name
+
+  = f.label      :number
+  = f.text_field :number
+
+  = f.label      :licence_to_kill
+  = f.check_box  :licence_to_kill
+
+  = f.label      :gambler
+  = f.check_box  :gambler
+
+  = f.label      :womanizer
+  = f.check_box  :womanizer
+
+  = f.submit
+</code></pre>
+
+<p>You can clearly see why this project is called Slim. So much excess fat is gone. Don’t tell me you don’t like what you see, I know you’re digging it! Just an <code>=</code> sign and you can populate your markup with Ruby code—in this case from Rails of course. And when you compare it to the HTML rendered on the final page, it’s hard to ignore how compact Slim really is.</p>
+
+<p>HTML Output:</p>
+
+<pre><code class="html">&lt;form action="/" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;
+  &lt;input type="hidden" name="authenticity_token" value="+P2I801EkEVBlsMgDo9g9/XgwwQfCBd1eoOBkFmgAHE4bxYi9HGUjEjsNwNMnEadV2tbDtYvQhFb4s/SNMXYtw==" /&gt;
+
+  &lt;label for="agent_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="agent[name]" id="agent_name" /&gt;
+
+  &lt;label for="agent_number"&gt;Number&lt;/label&gt;
+  &lt;input type="text" name="agent[number]" id="agent_number" /&gt;
+
+  &lt;label for="agent_licence_to_kill"&gt;Licence to kill&lt;/label&gt;
+  &lt;input name="agent[licence_to_kill]" type="hidden" value="0" /&gt;
+  &lt;input type="checkbox" value="1" name="agent[licence_to_kill]" id="agent_licence_to_kill" /&gt;
+
+  &lt;label for="agent_gambler"&gt;Gambler&lt;/label&gt;
+  &lt;input name="agent[gambler]" type="hidden" value="0" /&gt;
+  &lt;input type="checkbox" value="1" name="agent[gambler]" id="agent_gambler" /&gt;
+
+  &lt;label for="agent_womanizer"&gt;Womanizer&lt;/label&gt;
+  &lt;input name="agent[womanizer]" type="hidden" value="0" /&gt;
+  &lt;input type="checkbox" value="1" name="agent[womanizer]" id="agent_womanizer" /&gt;
+
+  &lt;input type="submit" name="commit" value="Save Agent" /&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>Remember the initial question that the Slim core team is guided by: “What&rsquo;s the minimum required to make this work?” When you look at the final HTML output, I guess it’s fair to say that Slim has answered that question quite successfully—no complaints on my end. I wanna throw in a couple more small examples to give you more opportunity to get used to how this looks in Slim.</p>
+
+<p>This ERB snippet …</p>
+
+<pre><code class="erb">
+&lt;%= render "shared/agents", collection: @agents %&gt;
+</code></pre>
+
+<p>… becomes this in Slim:</p>
+
+<pre><code class="slim">
+= render "shared/agents", collection: @agents
+</code></pre>
+
+<p>ERB:</p>
+
+<p>``` erb</p>
+
+<h2>Agents</h2>
+
+
+<ul>
+  <% @agents.each do |agent| %>
+    <li class='agent'>
+      <div>Name: <%=            agent.name %></div>
+      <div>Number: <%=          agent.number %></div>
+      <div>Licence to kill: <%= agent.licence_to_kill %></div>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+Slim:
+</code></pre>
+
+<p>h2 Agents
+ul
+  - @agents.each do |agent|
+    li.agent
+      div
+        | Name:
+        = agent.name
+      div
+        | Number:
+        = agent.number
+      div
+        | Licence to kill:
+        = agent.licence_to_kill</p>
+
+<pre><code>
+You could also write this a bit more streamlined via interpolation. You don’t wanna go too crazy with that one though. This would look like this then:
+
+Slim:
+</code></pre>
+
+<p>h2 Agents
+ul
+  - @agents.each do |agent|
+    li.agent
+      div Name:            #{agent.name}
+      div Number:          #{agent.number}
+      div Licence to kill: #{agent.licence_to_kill}</p>
+
+<pre><code>
+### Text Interpolation
+
+I mentioned this before briefly but since it is a form of outputting Ruby code it belongs to this section as well. You can use standard text interpolation from Ruby in your Slim templates as well of course. 
+
+Slim:
+</code></pre>
+
+<p> h2 Welcome Mr. #{misix_agent.surname}! I expect you to die!</p>
+
+<p> h2 Welcome Mr. #{misix_agent.surname}! I expect you to die!</p>
+
+<pre><code>
+HTML:
+</code></pre>
+
+<h2>
+  Welcome Mr. Bond! I expect you to die!
+</h2>
+
+
+
+
+<h2>
+  Welcome Mr. \#{misix_agent.surname}! I expect you to die!
+</h2>
+
+
+<pre><code>
+As seen above, a simple leading backslash `\` escapes the interpolation.
+
+### Control Code
+
+One more for the road. Let’s say you want to use a couple of conditionals in your view. Similar to Haml, you signify Ruby code that is not supposed to be outputted onto the page by a simple dash ```-```. You have seen this in the example above where we used that to iterate over ```@agents``` without displaying that particular part of the code. Although you should try to stay away from all kinds of conditionals in your views where possible and try to find better OOP solutions for such cases—which is a story for another time—they would look something like this:
+
+Slim:
+</code></pre>
+
+<ul>
+<li>if current_user.role == &ldquo;admin&rdquo;
+p#admintxt | Welcome back my master!
+= link_to &ldquo;Edit Profile&rdquo;, edit_user_path(:current)
+= link_to &ldquo;Logout&rdquo;,       logout_path</li>
+<li>elsif current_user
+= link_to &ldquo;Edit Profile&rdquo;, edit_user_path(:current)
+= link_to &ldquo;Logout&rdquo;,       logout_path</li>
+<li>else
+= link_to &ldquo;Register&rdquo;,     new_user_path
+= link_to &ldquo;Login&rdquo;,        login_path</li>
+</ul>
+
+
+<pre><code>
+ERB:
+</code></pre>
+
+<p>&lt;% if current_user.role == &ldquo;admin&rdquo; %>
+  <p id="admintxt">Welcome back my master!</p>
+  &lt;%= link_to &ldquo;Edit Profile&rdquo;, edit_user_path(:current) %>
+  &lt;%= link_to &ldquo;Logout&rdquo;,       logout_path %>
+&lt;% elsif current_user %>
+  &lt;%= link_to &ldquo;Edit Profile&rdquo;, edit_user_path(:current) %>
+  &lt;%= link_to &ldquo;Logout&rdquo;,       logout_path %>
+&lt;% else %>
+  &lt;%= link_to &ldquo;Register&rdquo;,     new_user_path %>
+  &lt;%= link_to &ldquo;Login&rdquo;,        login_path %>
+&lt;% end %></p>
+
+<pre><code>
+If you want to output code without HTML escaping in place, just use two equals sign ```==```. That’s it!
+
+Before we move on, I definitely should take the time to mention this: As you are hopefully aware of, tons of view code—aka tons of Ruby code in our context—is a serious smell and should be minimized at all times. Just because Slim makes it maybe even more enticing to plaster your templates with tons of logic, does not mean that you should. Practice constraint in that department! Done right on the other hand, Slim makes it really elegant to inject Ruby where needed.
+
+## Inline HTML
+
+If you feel the need to write HTML in your Slim templates you have the option to. I haven’t used that feature nor would I care to use it but maybe during a transitional phase this could be helpful for newcomers. Let’s have a super quick look.
+
+Slim:
+</code></pre>
+
+<p>doctype html
+<html>
+  head
+    title = full_title(yield(:title))
+    = stylesheet_link_tag &lsquo;application&rsquo;, media: &lsquo;all&rsquo;, &lsquo;data-turbolinks-track&rsquo; => true
+    = javascript_include_tag &lsquo;application&rsquo;, &lsquo;data-turbolinks-track&rsquo; => true
+    = csrf_meta_tags
+  <body>
+    header.navbar
+      .logo
+        = link_to &ldquo;sample app&rdquo;, &lsquo;root_path&rsquo;, id: &ldquo;logo&rdquo;
+        <nav>
+          ul.navbar-right
+            li
+              = link_to &ldquo;Home&rdquo;,   &lsquo;root_path&rsquo;
+            li
+              = link_to &ldquo;Help&rdquo;,   &lsquo;help_path&rsquo;
+            li
+              = link_to &ldquo;Log in&rdquo;, &lsquo;login_path&rsquo;
+        </nav>
+    .main
+      = yield
+  </body>
+</html></p>
+
+<pre><code>
+When Slim encounters the left angle bracket ```&lt;```, it knows that you want to mix in some HTML. 
+
+## Verbatim Text (Word for Word)
+
+The pipe character ```|``` signals Slim that you want to have plain text—word for word—and just copies the line. In effect, this let’s you avoid any kind of processing. The documentation says that if you want to write verbatim text over multiple lines, you have to indent the text with each line break.
+
+Slim:
+</code></pre>
+
+<p>body
+  p
+    |
+      Slim is my new best friend. Slim is my new best friend.</p>
+
+<pre><code>
+
+HTML Output:
+</code></pre>
+
+<p><body>
+  <p>
+    Slim is my new best friend. Slim is my new best friend.
+  </p>
+</body></p>
+
+<pre><code>
+Screenshot:
+
+<img src="/images/Slim/verbatim-text-screenshot.png">
+
+If you put the text on the same line as the pipe character, you can set the left margin after the pipe plus one single space. Out of curiosity, I fooled a bit around with this and found the following results. Only the last example variation has a little obvious hiccup you should be aware of—it swallows the first word of the sentence. 
+
+Slim:
+</code></pre>
+
+<p>body
+  p
+    |
+      This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+            And so on&hellip;</p>
+
+<p>  p
+    | This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+            And so on&hellip;</p>
+
+<p>  p This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+            And so on&hellip;</p>
+
+<p>  p This line is on the left margin.
+    This line will have one space in front of it.
+    This line will have two spaces in front of it.
+    And so on&hellip;</p>
+
+<p>  p
+    This line is on the left margin.
+    This line will have one space in front of it.
+    This line will have two spaces in front of it.
+    And so on&hellip;</p>
+
+<pre><code>
+Screenshot:
+
+<img src="/images/Slim/multiple-verbatim-text-screenshot.png">
+
+The output how it’s rendered into your HTML markup differs a bit.
+</code></pre>
+
+<p><body>
+    <p>
+      This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+            And so on&hellip;
+    </p></p>
+
+<pre><code>&lt;p&gt;
+  This line is on the left margin.
+   This line will have one space in front of it.
+     This line will have two spaces in front of it.
+       And so on...
+&lt;/p&gt;
+&lt;p&gt;
+  This line is on the left margin.
+     This line will have one space in front of it.
+       This line will have two spaces in front of it.
+         And so on...
+&lt;/p&gt;
+&lt;p&gt;
+  This line is on the left margin.
+  This line will have one space in front of it.
+  This line will have two spaces in front of it.
+  And so on...
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;This&gt;line is on the left margin.&lt;/This&gt;&lt;This&gt;line will have one space in front of it.&lt;/This&gt;&lt;This&gt;line will have two spaces in front of it.&lt;/This&gt;&lt;And&gt;so on...&lt;/And&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p>  </body></p>
+
+<pre><code>
+## Comments
+
+Of course it’s necessary to comment out your code every once in a while. Don’t forget though that too many comments are a smell as well. Just try to keep it to an absolute minimum!
+A forward slash ```/``` is all you need to comment out any code.
+
+Slim:
+</code></pre>
+
+<p>body
+  /p
+    | This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+           And so on&hellip;</p>
+
+<pre><code>
+Boom! And now this paragraph is gone from the page. This comment leaves no trace in the final HTML markup. You just need to apply it to the parent selector and all its children will be commented out as well. So, even comments are slim and minimal.
+
+If on the other hand you want some HTML comment ```&lt;!--  --&gt;``` that shows up in the final output rendered, you just need to add an exclamation mark ```!``` after the slash.
+</code></pre>
+
+<p>body
+  /!p
+    | This line is on the left margin.
+       This line will have one space in front of it.
+         This line will have two spaces in front of it.
+           And so on&hellip;</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<p><body>
+  <!--p
+      | This line is on the left margin.
+        This line will have one space in front of it.
+          This line will have two spaces in front of it.
+            And so on...--></p>
+
+<pre><code>
+Neat!
+
+## Custom Shortcuts
+
+We have been using shortcuts all along. When you type a dot ```.``` or a hash symbol ```#``` you tell Slim that you want to use predefined shortcuts for classes and ids. That’s certainly a very nice default but what can you do to expand on that and create your own little snippety snippets. We can do this for tags and attributes alike. Welcome to the awesomeness of Slim!
+
+In Rails we just need to set up an initializer with the following pattern:
+
+#### config/initializers/slim.rb
+</code></pre>
+
+<p>Slim::Engine.set_options shortcut: {&lsquo;c&rsquo; => {tag: &lsquo;container&rsquo;}, &lsquo;#&rsquo; => {attr: &lsquo;id&rsquo;}, &lsquo;.&rsquo; => {attr: &lsquo;class&rsquo;} }</p>
+
+<pre><code>
+In Sinatra apps, you simply add the same configuration anywhere below the line where you `require 'slim'`.
+
+##### your_sinatra_app.rb
+</code></pre>
+
+<p>require &lsquo;sinatra&rsquo;
+require &lsquo;slim&rsquo;</p>
+
+<p>Slim::Engine.set_options shortcut: {&lsquo;c&rsquo; => {tag: &lsquo;container&rsquo;}, &lsquo;#&rsquo; => {attr: &lsquo;id&rsquo;}, &lsquo;.&rsquo; => {attr: &lsquo;class&rsquo;} }</p>
+
+<p>get(&lsquo;/&rsquo;) { slim :index }</p>
+
+<p><strong>END</strong></p>
+
+<p>@@ index
+doctype html
+html
+  head
+    title Slim Templates
+    body
+      h1 Boss Level Templates With Slim</p>
+
+<pre><code>
+You can set options on the Slim::Engine by providing a hash with the shortcut you need. In the example above, we instrucuted Slim to use ```c``` as a shortcut for a ```container``` tag. You would use it like this in your Slim files:
+
+Slim:
+</code></pre>
+
+<p>c.content Now you have a container tag with a .content class.</p>
+
+<pre><code>
+And the rendered HTML would look like this of course:
+
+HTML:
+</code></pre>
+
+<p><container class="content">
+  Now you have a container tag with a .content class.
+</container></p>
+
+<pre><code>
+Pretty nice huh? But you didn’t think that’s where the music stops, did you? We can take this further than that. Let me give you an example that is a bit more involved:
+
+#### config/initializers/slim.rb
+</code></pre>
+
+<p>Slim::Engine.set_options shortcut: {
+            &lsquo;#&rsquo; => {attr: &lsquo;id&rsquo;},
+            &lsquo;.&rsquo; => {attr: &lsquo;class&rsquo;},
+            &lsquo;c&rsquo; => {tag: &lsquo;container&rsquo;},
+            &lsquo;&amp;&rsquo; => {tag: &lsquo;input&rsquo;, attr: &lsquo;type&rsquo;},
+            &lsquo;@&rsquo; => {attr: &lsquo;role&rsquo;},
+            &lsquo;^&rsquo; => {attr: %w(data-role role)}
+           }</p>
+
+<pre><code>
+In this example I did not only create a custom tags but also provided handy custom attributes. Let’s dissect this step by step. Btw, I broke the options hash over several lines to keep it readable and to avoid having a long line of code that nobody likes to stumble upon. Reads much nicer, don’t you think?
+
+Via the ampersand symbol ```&amp;```, we can now create an input tag and we just need to feed it a type—which immediately follows the ampersand. Btw, we can use any symbol that makes sense to use. No need to use the same that I did. Be careful though and try to make uncompromising decisions in that department.
+
+Slim:
+</code></pre>
+
+<p>&amp;text name=&ldquo;user&rdquo;
+&amp;password name=&ldquo;pw&rdquo;
+&amp;submit</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<p><input name="user" type="text">
+<input name="pw" type="password">
+<input type="submit"></p>
+
+<pre><code>
+When you make changes to this initializer with your custom shortcuts you shouldn’t forget to restart your local server. Without that your changes won’t be reflected during preprocessing.
+
+Next, if I need a ```role``` attribute, I can now just prefix it with an ```@``` symbol. 
+
+Slim:
+</code></pre>
+
+<p>.person@admin Daniel Mendler</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<div class="person" role="admin">
+  Daniel Mendler
+</div>
+
+
+<pre><code>
+Refresher: The role attribute is a semantic approach to describe the role of the element in question—if you need to determine the purpose of the element.
+
+See, via the dot we get a ```class="person"``` class and the ```@admin``` gave us a ``` role="admin"```. Pretty handy dandy but we can take this one little step further and use an array to specify multiple attributes that should get created via one single shortcut.
+
+Slim:
+</code></pre>
+
+<p>.nifty<sup>hacker</sup> CrackDoctor</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<div class="nifty" data-role="hacker" role="hacker">
+  CrackDoctor
+</div>
+
+
+<pre><code>
+Because we associated an array of attributes for our ```^``` shortcut, Slim creates ```data-role``` and ```role``` attributes simultaneously via a single symbol. That can come in pretty handy. Imagine if you want to output an element similar to the following and can do it concise with shortcut and some Ruby code.
+
+HTML
+</code></pre>
+
+<p><source src="track1.mp3" type="audio/mpeg" data-duration="1min5secs" data-tempo="125bpm" data-artist="The Beatles" /></p>
+
+<pre><code>
+Writing all of this by hand seems not the best use of your time—we have code to do that job for us. Well, there you have it, that’s all you need to know to create your own set of awesome shortcuts—or to create a big mess when you don’t practice a bit of constraint. I would recommend to not go overboard with this—especially try to stay away from defining shortcuts that use symbols that Slim is already attached to. 
+
+Refresher: The data- attributes are used to have some private data on your page / application. Stuff that helps you filter content for example. They are custom attributes which can be used on all HTML elements. Using them for JavaScript purposes is another common practice. It is also very handy for testing elements on a page if you want to make sure that particular elements show up and you want to avoid that designers mess with your styles.
+
+## Configuring Slim
+
+Before you leave, I wanted to show you a little sneak peek into the vast configuration options and how you apply them. For Rails, you’d create an enviromnent file like `config/environments/development.rb` and specify the options you need. You simply place your configuration some place inside the `Rails.application.configure` block. 
+</code></pre>
+
+<p>Rails.application.configure do
+  Slim::Engine.set_options default_tag: &lsquo;p&rsquo;,
+                           tabsize: 2,
+                           attr_list_delims: {&lsquo;(&rsquo; => &lsquo;)&rsquo;,
+                                              &lsquo;[&rsquo; => &lsquo;]&rsquo;,
+                                              &lsquo;{&rsquo; => &lsquo;}&rsquo;,
+                                              &lsquo;«&rsquo; => &lsquo;»&rsquo;,
+                                              &lsquo;‹&rsquo; => &lsquo;›&rsquo;
+                                              }
+end</p>
+
+<pre><code>
+In this configuration I made sure the default tag that gets created if a tag name is omitted is a `&lt;p&gt;` tag—not a `div` tag, which is the standard setting. Also, I adjusted the tabsize to use 2 white spaces and finally added two more delimiters for wrapping attributes of tags. Now I can use `‹ ›` and `« »` as well for that. Not terribly useful but good for demonstration purposes. In the example below, you can see that all delimiters for attribute wrappers create the same output—also that `.some-class` or `#some-id` creates `&lt;p&gt;` tags per default.
+
+Slim:
+</code></pre>
+
+<p>body
+  #zeroth
+  a{href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page&rsquo;} Goto the home page</p>
+
+<p>  .first
+  a[href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page&rsquo;] Goto the home page</p>
+
+<p>  .second
+  a(href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page&rsquo;) Goto the home page</p>
+
+<p>  .third
+  a‹href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page'› Goto the home page</p>
+
+<p>  .fourth
+  a«href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page'» Goto the home page</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<p><body>
+    <p id="zeroth"></p>
+    <a href="http://slim-lang.com" title="Home page">Goto the home page</a></p>
+
+<pre><code>&lt;p class="first"&gt;&lt;/p&gt;
+&lt;a href="http://slim-lang.com" title="Home page"&gt;Goto the home page&lt;/a&gt;
+
+&lt;p class="second"&gt;&lt;/p&gt;
+&lt;a href="http://slim-lang.com" title="Home page"&gt;Goto the home page&lt;/a&gt;
+
+&lt;p class="third"&gt;&lt;/p&gt;
+&lt;a href="http://slim-lang.com" title="Home page"&gt;Goto the home page&lt;/a&gt;
+
+&lt;p class="fourth"&gt;&lt;/p&gt;
+&lt;a href="http://slim-lang.com" title="Home page"&gt;Goto the home page&lt;/a&gt;
+</code></pre>
+
+<p></body></p>
+
+<p>```</p>
+
+<p>Alternatively, you can also set this stuff in <code>config/initializers/slim.rb</code> as I showed you in the section about custom shortcuts. For Sinatra it’s the same drill as discussed in the shortcuts section as well. Just set your options somewhere below your <code>require 'slim'</code> statement and you are good to go. Take a look at the <a href="http://www.rubydoc.info/gems/slim/frames#Configuring_Slim">documentation</a> under “Available options” to read more about what is available for configuration. Slim gives you many options to play with.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>That’s basically it. There are a one or two more advanced topics that you should dig into if needed but I thought they are mostly not beginner-friendly nor heavily used on a day-to-day basis. I wanted to keep things simple and show you all you need for quickly switching to this awesome, awesome templating engine. Have fun, hope it’s now also one of your favorite new toys!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Slim Basics 01]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/02/08/Slim-Basics-01/"/>
+    <updated>2016-02-08T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/02/08/Slim-Basics-01</id>
+    <content type="html"><![CDATA[<p>Titles</p>
+
+<p>Boss-level Ruby templates with Slim</p>
+
+<p>Deluxe templating with Slim</p>
+
+<p><img src="/images/Slim/slim-fishbowl-refined.png"></p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Why Slim?</li>
+<li>What are Templates?</li>
+<li>What about ERB &amp; Haml?</li>
+<li>Getting Started</li>
+<li>Rails</li>
+<li>Sinatra</li>
+<li>Syntax</li>
+<li>HTML Tags</li>
+<li><p>Dynamic Content</p></li>
+<li><p>Line Indicators</p></li>
+<li>Helpers</li>
+<li>Safety</li>
+<li>Logic-less Mode</li>
+<li>Performance</li>
+<li>Framework Support</li>
+<li>Command Line Slim slimrb</li>
+<li>Temple &amp; Tilt</li>
+</ul>
+
+
+<h2>Why Slim?</h2>
+
+<p>If you live and breathe in Ruby land and have given Haml a shot before, you’ll probably already know a couple of the arguments I’m gonna make. I think it’s nevertheless a good idea to follow along because you might have already decided to use a more minimalistic templating engine and I’d like you to see the advantages Slim offers as well.</p>
+
+<p>Before we dive into why Slim is cool, I wanna answer real quick what Slim actually is and what it does for you. The documentation sums this up quite nicely: “Slim is a fast, lightweight templating engine with support for Rails 3 and 4”. You can also use it with Sinatra and even plain Rack. So, if you are a bit tired of using ERB for writing your templates or you are not super satisfied with what Haml has to offer, then Slim is exactly the right tree for barking up.</p>
+
+<p>In regards to its syntax, the people behind Slim were trying to find an answer to the following question: “What&rsquo;s the minimum required to make this work?” For writing the minimal amount of front-end code possible, this sure sounds like the right question to ask imho. Does Slim offer a perfect solution to all your templating concerns? Probably not, but quite frankly, it might just offer the best! Is it easy to learn? I think so, but it’s hard to know what other people consider easy. I’d say this though, it takes a bit to get used to but it’s definitely no rocket science. So no need to feel intimidated if you are a bit new to the coding side of things. Will you have a good time with it? Absolutely!</p>
+
+<p>So, why Slim? The answer is quite straightforward I think. Your markup should be as readable and beautiful as possible! You should have a good time working with it and the less time you need to spend wading through tons of tag matter the better. What is beautiful you might ask? Of course, that is not an answer I’ll try to tackle, but being minimal in that regard rarely hurts. What about becoming super cryptic because the templating engine tries to be super smart in being minimal? That is a fair concern and you’ll be happy to hear that the team behind Slim takes this very seriously. They want to remove as much as possible from plain old HTML and reveal only the essential parts—all without becoming too cryptic. They core team tries to go even a step beyond that, they are really concerned about the aesthetics of Slim code. Pretty good deal, don’t you think?</p>
+
+<p>Isn’t it much nicer if you can just glance at a template and to be able to easily digest what’s going on? Templates can become a very ‘crowded’ place—even if you make intelligent use of partials—and as a consequence, you want to reduce the amount of noise to the absolute minimum. Have you maybe tried the indented Sass (.sass) syntax? I hope you did, it’s just plain dope! If so, you probably will have a similar appreciation for what Slim has to offer. It’s also whitespace sensitive which leads to really succinct and readable code. Let’s take this piece of HTML / ERB code and compare it to Slim.</p>
+
+<pre><code class="html">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;&lt;%= full_title(yield(:title)) %&gt;&lt;/title&gt;
+    &lt;%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' =&gt; true %&gt;
+    &lt;%= javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true %&gt;
+    &lt;%= csrf_meta_tags %&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header class="navbar"&gt;
+      &lt;div class="logo"&gt;
+        &lt;%= link_to "sample app", 'root_path', id: "logo" %&gt;
+        &lt;nav&gt;
+          &lt;ul class="navbar-right"&gt;
+            &lt;li&gt;&lt;%= link_to "Home",   'root_path' %&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;%= link_to "Help",   'help_path' %&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;%= link_to "Log in", 'login_path' %&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/nav&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;div class="main"&gt;
+      &lt;%= yield %&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Let’s look at the Slim equivalent:</p>
+
+<pre><code class="slim">
+doctype html
+html
+  head
+    title = full_title(yield(:title))
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' =&gt; true
+    = javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true
+    = csrf_meta_tags
+  body
+    header.navbar
+      .logo
+        = link_to "sample app", 'root_path', id: "logo"
+        nav
+          ul.navbar-right
+            li
+              = link_to "Home",   'root_path'
+            li
+              = link_to "Help",   'help_path'
+            li
+              = link_to "Log in", 'login_path'
+    .main
+      = yield
+</code></pre>
+
+<p>The first thing people often recognize is “hey, no closing tags!” Cool? Sure, you are not used to the syntax yet so it might look a bit alien at first but I’m sure you can appreciate how succinct it reads. No left / right angle brackets, no need to write divs and minimalistic selectors—instead we can focus on the name the ids and classes have—it feels a lot less messy and more organized, don’t you think?</p>
+
+<p>For comparison, here is the Haml version. It’s really not meant as an opportunity to bash Haml, it just shows you how similar it is but also that Slim goes a step further with its choice of minimal syntax. The result is that it’s even more elegant than Haml I think. Why go so minimal but still make me type the <code>%</code> sign all over the place. My index finger has no special motivation to grab shift-5 all the time. Can you customize that behaviour? Pretty sure, at least I hope so! But the design seems a bit flawed in that regard and less spartan compared to Slim. I realize that this is also a matter of taste though, so I’ll leave it at that.</p>
+
+<h4>Haml</h4>
+
+<pre><code class="haml">
+!!!
+%html
+  %head
+    %title= full_title(yield(:title))
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' =&gt; true
+    = javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true
+    = csrf_meta_tags
+  %body
+    %header.navbar
+      .logo
+        = link_to "sample app", 'root_path', id: "logo"
+        %nav
+          %ul.navbar-right
+            %li= link_to "Home",   'root_path'
+            %li= link_to "Help",   'help_path'
+            %li= link_to "Log in", 'login_path'
+    .main
+      = yield
+</code></pre>
+
+<p>Before we jump into the meaty parts, let me be puffy for a moment and sum up what I think makes learning Slim a worthy investment of your time:</p>
+
+<ul>
+<li>It’s speedy.</li>
+<li>Super readable.</li>
+<li>It has a smart syntax.</li>
+<li>Its aesthetic is minimal.</li>
+<li>It is highly configurable</li>
+<li>It’s index finger friendly.</li>
+<li>It’s boss-level templating.</li>
+<li>It’s fun to write and looks dope.</li>
+<li>Automatic HTML escaping by default.</li>
+<li>Super nice Rails and Sinatra integration.</li>
+<li>Very minimal templates that are easy to maintain.</li>
+<li>Is extensive and allows you to write plugins and extensions.</li>
+<li>There is a logic-less mode for times when you want to output HTML but have no reason to include Ruby code.</li>
+<li>It has configurable shortcuts for tags—which is a pretty nice feature to customize the engine to your needs.</li>
+<li>And finally, because Slim’s syntax is guided by one very cool motto: “What&rsquo;s the minimum required to make this work”. This is very hard not to like.</li>
+</ul>
+
+
+<h2>What Are Templates?</h2>
+
+<p>In terms of programming experience, if you consider yourself to be more on the newbie side of things, I’ll try to give you a quick round trip before we start using Slim. When people talk about templates, they mostly mean plain HTML markup with dynamic code that is often used for flow control, object injection or partial template (partials) rendering. For example when a controller provides you with instance variables that can be used by the view via (instance)variable substitution to display attributes from that object. All this happens via the template processor of your choice—ERB, Haml, Slim and the likes—which combines all your web templates into a final web page. Templates can also be used to generate XML and RSS feeds as well as other forms of structured text files.</p>
+
+<p>With templates, you can define various “layouts” that are handling particular parts of your website as well as the the data that needs to be displayed systematically with the smallest amount of repetition. When you started playing with Rails, you surely have been using ERB for exactly these kinds of scenarios. ERB takes the plain text portions, hands them to the final document and only processes code that is marked as such. I’m not going into details how ERB works and suppose you have a basic understanding before you dive into Slim. I would not recommend to use Slim if you are not already familiar with Rails’ default way of templating since you will have a much easier time to play with Slim understanding how this works out of the box in Rails.</p>
+
+<p>Below is a basic ERB example of a template that displays a collection of missions that are associated with an <code>@agent</code> object. Directly below, it also uses a method from a Ruby Gem to paginate the <code>@missions</code> collection.</p>
+
+<pre><code class="erb">
+&lt;% if @agent.missions.any? %&gt;
+  &lt;h4&gt;Missions (&lt;%= @agent.missions.count %&gt;)&lt;/h4&gt;
+  &lt;ul class="missions"&gt;
+    &lt;%= render @missions %&gt;
+  &lt;/ul&gt;
+  &lt;%= will_paginate @missions %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>This is a small section of a template that shows nicely that it’s nothing more than a static HTML part that has some dynamic injections from some Ruby code. If we wouldn’t use templates like this, we’d have to manually write code for every new object that we want to see displayed on a page. Not sure about you, but I can’t imagine a bigger nightmare or waste of time than that. Templates give us a handy tool for making our view layer smart and dynamic without repeating ourselves. As you can also see from this example, templates let us use partial templates that we can render where needed. Here we would have a <code>_mission.html.erb</code> partial somewhere which helps us to iterate over a collection of <code>@mission</code> objects which in turn get listed inside our <code>.missions</code> class.</p>
+
+<p>As you can see, templates are nothing magic but are super handy to make developing web apps a lot more efficient and organized. I just wanted to make sure that we are all on the same page with this before diving into Slim.</p>
+
+<h2>What about ERB &amp; Haml?</h2>
+
+<p>If you like using these tools, it’s perfectly fine. Nothing wrong with that. The thing is, if you are looking for something smarter that is more minimalistic, it’s hard to find something that goes further than Slim. To me, it’s the most streamlined templating solution in Ruby land that I know of. They all work fine, it’s a matter of personal preference I guess.</p>
+
+<h2>Getting Started</h2>
+
+<h3>Slim With Rails</h3>
+
+<p>No surprise, there is a gem for that.</p>
+
+<h4>Gemfile</h4>
+
+<pre><code class="ruby">
+gem 'slim-rails'
+</code></pre>
+
+<h4>Shell</h4>
+
+<pre><code class="bash">
+bundle install
+</code></pre>
+
+<p>That’s it, we’re all set. Because you installed this gem, Slim will get loaded and initialized whenever your app loads. Also, for your convenience, when you generate controllers via <code>rails generate controller</code>, you will automatically get <code>.slim</code> view files for your view—<code>.html.erb</code> files no more. Works the same with scaffolds, but I hope you are not using them really!</p>
+
+<p>To demonstrate this behaviour for folks who are new to using Rails’ generators, I’ll create a controller for secret service operatives that has all the standard REST controller actions:</p>
+
+<h4>Shell</h4>
+
+<pre><code class="bash">
+rails generate controller SecretServiceOperatives index new create show edit update destroy
+</code></pre>
+
+<p>Among other stuff, you’ll get all the <code>.slim</code> files you need. Rails puts an extra <code>.html</code> in there as well—you can get rid of that if it bothers you of course. All that matters is that the slim file extension is already there and that it’s ready for preprocessing your Slim code. Yay!</p>
+
+<pre><code class="bash">
+...
+
+invoke  slim
+     create    app/views/secret_service_operatives
+     create    app/views/secret_service_operatives/index.html.slim
+     create    app/views/secret_service_operatives/new.html.slim
+     create    app/views/secret_service_operatives/create.html.slim
+     create    app/views/secret_service_operatives/show.html.slim
+     create    app/views/secret_service_operatives/edit.html.slim
+     create    app/views/secret_service_operatives/update.html.slim
+     create    app/views/secret_service_operatives/destroy.html.slim
+
+...
+</code></pre>
+
+<p>The next step would be to open your application layout and to replace boilerplate code with something Slim. Also, don’t forget to rename the <code>application.html.erb</code> file to <code>application.slim</code> (or <code>application.html.slim</code> if you want). We have already slimmed down a bit, even the file name has lost some weight.</p>
+
+<h4>app/views/layouts/application.slim</h4>
+
+<pre><code class="slim">
+doctype html
+html
+  head
+    title
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' =&gt; true
+    = javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true
+    = csrf_meta_tags
+  body
+    header.navbar
+      .logo
+        = link_to "Spy app", 'root_path', id: "logo"
+        nav
+          ul.navbar-right
+            li
+              = link_to "Home",    'root_path'
+            li
+              = link_to "Help",    'help_path'
+            li
+              = link_to "Sign up", 'sign_up_path'
+            li
+              = link_to "Log in",  'login_path'
+    .main
+      h1.welcome Welcome to Boss Level Slim Templates!
+      = yield
+</code></pre>
+
+<p>Nothing fancy, but a good start—and as easy as can be I think.</p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Slim/boss-leve-slim-application-layout-welcome.png"></p>
+
+<p>As a little side note, if you are ever curious which version of the gem you have installed, this little command will tell you—it’s handy for any gem as well of course:</p>
+
+<h4>Shell</h4>
+
+<pre><code class="bash">
+bundle show 'slim-rails' 
+</code></pre>
+
+<p>It tells you where it is stored and which version this gem currently has. The output looks like this:</p>
+
+<pre><code class="bash">
+/Library/Ruby/Gems/2.3.0/gems/slim-rails-3.0.1
+</code></pre>
+
+<h3>Slim With Sinatra</h3>
+
+<p>For the Sinatra enthusiasts among you, I wanted to mention how to get started as well. First we need to install the gem of course.</p>
+
+<h4>Shell</h4>
+
+<pre><code class="bash">
+gem install slim
+</code></pre>
+
+<p>And after that you are almost done. In your Sinatra app, you just need to require Slim and you are good to go.</p>
+
+<h4>some_sinatra_app.rb</h4>
+
+<pre><code class="ruby">
+require 'sinatra'
+require 'slim'
+
+get('/') { slim :index }
+
+__END__
+
+@@ index
+doctype html
+html
+  head
+    title Slim Templates
+    body
+      h1 Boss Level Ruby Templates With Slim
+</code></pre>
+
+<p>Here I used an inline template to write the Slim markup in the same file and told Sinatra that I want to use Slim for the index file when it makes a <code>get</code> request to the root path. I just needed to reference the inline template inside a curly braces block. What you see below the <code>@@ index</code>—which signifies the index template—is all whitespace sensitive Slim syntax.</p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Slim/sinatra-setup.png"></p>
+
+<p>Time to show you how to write some Slim.</p>
+
+<h2>Syntax</h2>
+
+<h3>HTML tags</h3>
+
+<h4>HTML &lt;!DOCTYPE> Declaration</h4>
+
+<p>Let’s start with the simplest one, the doctype declaration. As you probably know and already forgot, this must be declared on top of you HTML document—before the actual <code>&lt;html&gt;</code> tag. FYI, it’s not an HTML tag and instructs the browser about the version of the HTML page. Among the different versions for <code>&lt;!DOCTYPE&gt;</code>, there is only one for HTML5: <code>&lt;!DOCTYPE html&gt;</code>—thank god!—which is exactly what we get when we write <code>doctype html</code> or <code>doctype 5</code> in Slim.</p>
+
+<pre><code class="slim">
+doctype html
+html
+  head
+
+doctype 5
+html
+  head
+</code></pre>
+
+<h4>ID shortcut # and class shortcut .</h4>
+
+<p>Writing front-end code means a ton of classes and ever so few ids—I hope. To avoid writing these over and over again, Slim meets you more than halfway and let’s you short-circut the whole process bascically. Let me show you what I mean. The following Slim code:</p>
+
+<pre><code class="slim">
+#logo
+h1.header
+.evil-wrapper
+  h2#author-name
+  ul.books
+</code></pre>
+
+<p>gets compiled to this HTML output:</p>
+
+<p>``` html</p>
+
+<div id="logo"></div>
+
+
+<h1 class="header"></h1>
+
+
+<div class="evil-wrapper">
+  <h2 id="author-name"></h2>
+  <ul class="books"></ul>
+</div>
+
+
+<pre><code>
+As you cann see, the dot suggests to Slim that you want to use a class and the name that follows is what you want to name it. Same goes for ids—you just use the hash symbol (aka pound sign) which does the trick. Astute readers surely recognized that the versions without a leading tag trigger the creation of a div with the corresponding class or id—which can be seen for ```&lt;div id="logo"&gt;&lt;/div&gt;``` and ```&lt;div class="evil-wrapper"&gt;&lt;/div&gt;```. Pretty handy, don’t you think?
+
+You can also be more expressive in your Slim code if you want to. Nobody hinders you to write your good ol’ classes and ids by hand. If you somehow feel attached to that, go for it! I like the more succinct version because it also let’s me avoid typing quotes and repeated text all the time. Up to you, whatever makes you happy! The code below is a bit more verbose but renders the exact same HTML as above:
+
+#### Slim
+</code></pre>
+
+<p>div id=&lsquo;logo&rsquo;
+h1 class=&lsquo;header&rsquo;
+div class=&lsquo;evil-wrapper&rsquo;
+  h2 id=&lsquo;author-name&rsquo;
+  ul class=&lsquo;books&rsquo;</p>
+
+<pre><code>
+Now, isn’t that a thing of beauty? Imagine all these dreaded HTML tags that you don’t need to write yourself, plus getting rid of all the excess enclosing angle brackets. Sure, your code editor can do a lot of this work for you as well, but does your editor also read the code for you? Exactly! When you come back to read your code, you also want a succinct document that is super easy to digest visually. I think this simple examples shows best what a tool like Slim has to offer. It’s these little things that add up to a great tool and timesaver in the long run. Even if you only use it for exactly that functionality and ignore the other more advanced features for now, making the switch to Slim would already pay off big time imho.
+
+#### Inline Tags
+
+Let’s say you have multiple tags that you want to have inline for being more compact or whatever. So instead of breaking to a new line, you can chain them by separating these tags with a colon ```:```. Both examples below are rendering the exact same output.
+</code></pre>
+
+<p>ul
+  li.first
+    a href=&ldquo;<a href="http://vis-kid.github.io/octo-draft/a">http://vis-kid.github.io/octo-draft/a</a>&rdquo; A link
+  li
+    a href=&ldquo;<a href="http://vis-kid.github.io/octo-draft/b">http://vis-kid.github.io/octo-draft/b</a>&rdquo; B link</p>
+
+<p>ul
+  li.first: a href=&ldquo;<a href="http://vis-kid.github.io/octo-draft/a">http://vis-kid.github.io/octo-draft/a</a>&rdquo; A link
+  li: a href=&ldquo;<a href="http://vis-kid.github.io/octo-draft/b">http://vis-kid.github.io/octo-draft/b</a>&rdquo; B link</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<ul>
+  <li class="link">
+    <a href="http://vis-kid.github.io/octo-draft/a">A link</a>
+  </li>
+  <li>
+    <a href="http://vis-kid.github.io/octo-draft/b">B link</a>
+  </li>
+</ul>
+
+
+<pre><code>
+The second version is more minimal because of the inlined tags and would be my preference. After all, compact is good, no? I think this case shows nicely that Slim evenly balances between compact and cryptic. Yes, it takes a bit getting used to and in some cases additional attribute wrappers are helpful (see more about wrappers below). Call me crazy, but I’m pretty certain that you’ll read Slim like regular HTML markup in a jiffy.
+
+#### Text Content
+
+Writing text is as easy as you’d expect of course. Just add it on after your tags.
+
+Slim:
+</code></pre>
+
+<p>h1#welcome-header Your funky welcome message goes here!</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<h1 id="welcome-header">
+  Your funky welcome message goes here!
+</h1>
+
+
+<pre><code>
+Nothing more to add, easy as can be!
+
+#### Attributes
+
+HTML attributes, which provide additional info about the tags, can be included as follows:
+
+Slim:
+</code></pre>
+
+<p>a href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Slim Homepage&rsquo; Goto the Slim homepage</p>
+
+<p>img alt=&ldquo;James Bond posing together with M&rdquo; src=&ldquo;image.png&rdquo; height=&ldquo;90&rdquo; width=&ldquo;90&rdquo;/</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<p><a href="http://slim-lang.com" title="Slim Homepage">Goto the Slim homepage</a></p>
+
+<p><img alt="James Bond posing together with M" height="90" src="image.png" width="90" /></p>
+
+<pre><code>
+You can basically chain them on and Slim will separate it from the text content—if present. If you look closely, you can see that our ```img``` tag has a trailing slash which explicitly closes tags in Slim. For images or more convoluted tags surely useful. FYI, HTML5 does not require you to write the attribute names in lower case nor to use quotes around attribute values. It is nevertheless recommended standard practice by the W3C.
+
+#### Attribute Merging
+
+Btw, if you have multiple selectors like classes or ids per tag, you can also write this more succinctly by daisy-chaining them. These selectors will be automatically delimited by whitespace.
+
+Slim:
+</code></pre>
+
+<p>h2#big-header.agent-header.tagline Funky headline</p>
+
+<p>h3.small-header.agent#007.tagline Small funky headline</p>
+
+<pre><code>
+HTML Output
+</code></pre>
+
+<h2 class="agent-header tagline" id="big-header">
+  Funky headline
+</h2>
+
+
+<h3 class="small-header agent tagline" id="007">
+  Small funky headline
+</h3>
+
+
+<pre><code>
+Not that all these ids and classes mixed up like this represents best practices or anything, but it’s easy to see how Slim works in such a convoluted example. Pretty cool huh? Careful though, spreading these selectors across multiple lines won’t work without attribute wrappers (see next section).
+
+Another option would be to use an array with strings or just symbols to merge in attributes.
+
+Slim:
+</code></pre>
+
+<p>h2 class=[&ldquo;agent-header&rdquo;,&ldquo;tagline&rdquo;] Funky headline</p>
+
+<p>h3 class=:agent,:double_o_seven,:tagline Small funky headline</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<h2 class="agent-header tagline">
+  Funky headline
+</h2>
+
+
+
+
+<h3 class="agent double_o_seven tagline">
+  Small funky headline
+</h3>
+
+
+<pre><code>
+In my book, I’d call this one a good-to-know but it’s not something I try to actively use. Might be handy if you want to interpolate something I suppose.
+
+#### Attribute Wrappers
+
+Slim offers you wrappers to make your attributes easier to read. Might not be necessary all the time, but it’s handy to know if a tag with lots of attributes needs some taming. You can use any of the following delimiters to wrap attributes: ```{}```, ```[]``` and ```()```.
+
+Slim:
+</code></pre>
+
+<p>a{href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page&rsquo;} Goto the home page</p>
+
+<p>a{href=&ldquo;<a href="http://slim-lang.com/about.html">http://slim-lang.com/about.html</a>&rdquo; title=&lsquo;About page&rsquo;
+  class=&lsquo;link&rsquo; id=&lsquo;about&rsquo;} Goto the about page</p>
+
+<p>h2[id=&ldquo;big-header&rdquo; class=&ldquo;agent-header tagline&rdquo;] Funky headline</p>
+
+<p>h3(id=&ldquo;small-header&rdquo;
+   class=&ldquo;agent 007 tagline&rdquo;) Some other funky headline</p>
+
+<pre><code>
+HTML Output:
+</code></pre>
+
+<p><a href="http://slim-lang.com" title="Home page">Goto the home page</a></p>
+
+<p><a class="link" href="http://slim-lang.com/about.html" id="about" title="About page">Goto the about page</a></p>
+
+<h2 class="agent-header tagline" id="big-header">
+  Funky headline
+</h2>
+
+
+
+
+<h3 class="agent 007 tagline" id="small-header">
+  Some other funky headline
+</h3>
+
+
+<pre><code>
+If that’s easier for you to organize the markup, go for it! As illustrated by the second ```a``` and the ```h3``` tags, you can even spread attributes and selectors across multiple lines. Indentation seems to be enforced very forgivingly in regards whitespace sensitivity. My guess is though that not for long and you won’t need wrappers much. You‘ll get used to the barebones Slim syntax in no time and save them for special occasions—like you probably should.
+
+For inlined tags, wrappers might come in handy every once in a while. As you can also observe in the example below, you can use spaces with the delimiters to make it even more readable—just a side note.
+</code></pre>
+
+<p>ul
+  li.long-link: a{ href=&ldquo;<a href="http://slim-lang.com">http://slim-lang.com</a>&rdquo; title=&lsquo;Home page&rsquo; } Goto the home page
+  li.long-link.class.with-id: a[ href=&ldquo;<a href="http://slim-lang.com/about.html">http://slim-lang.com/about.html</a>&rdquo; title=&lsquo;About page&rsquo;
+                                 class=&lsquo;link&rsquo; id=&lsquo;about&rsquo; ] Goto the about page
+  li.c-link: a(href=&ldquo;/c&rdquo;) C link
+  li: a[href=&ldquo;/d&rdquo;] D link</p>
+
+<pre><code>
+HTML Output
+</code></pre>
+
+<ul>
+  <li class="long-link">
+    <a href="http://slim-lang.com" title="Home page">Goto the home page</a>
+  </li>
+  <li class="long-link class with-id">
+    <a class="link" href="http://slim-lang.com/about.html" id="about" title="About page">Goto the about page</a>
+  </li>
+  <li class="c-link">
+    <a href="http://vis-kid.github.io/octo-draft/c">C link</a>
+  </li>
+  <li>
+    <a href="http://vis-kid.github.io/octo-draft/d">D link</a>
+  </li>
+</ul>
+
+
+<pre><code>
+#### Attribute Interpolation
+
+Did somebody say interpolation? Within quoted attributes, you can use Ruby to interpolate code if needed. A simple example should be enough to illustrate this behaviour:
+
+Slim:
+</code></pre>
+
+<p>a href=&ldquo;<a href="http://#">http://#</a>{url}&rdquo; Goto #{url}</p>
+
+<pre><code>
+Again, not something you might use on a daily basis but it sure is good to know to have in your bag of tricks. The attribute values will be escaped by default btw. If you need that behaviour disabled, just use a ```==```.
+</code></pre>
+
+<p>a href==&ldquo;<a href="http://#">http://#</a>{url}&rdquo; Goto #{url}</p>
+
+<pre><code>
+You can use full-on Ruby to play with your attributes as well. Just throw an equals sign in there where you want some Ruby code to be executed and you are ready to go. In the second article, you’ll find more info about outputting Ruby code in your Slim templates.
+</code></pre>
+
+<p>ul
+  li id=&ldquo;agent_#{agent.id}&rdquo; class=agent.role
+    a href=(path_to_agent agent) =agent.name</p>
+
+<pre><code>
+That of course also means that you can use simple booleans the same way in your attributes as well.
+</code></pre>
+
+<p>input type=&ldquo;text&rdquo; disabled=false
+input type=&ldquo;text&rdquo; disabled=true
+input type=&ldquo;text&rdquo; disabled=nil</p>
+
+<p>```</p>
+
+<p>Groovy, let’s move on!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I hope you got a good sense why Slim is a good choice for all your templating needs in Ruby land. If you still prefer to use Haml or ERB at the moment you might grow an appetite for Slim over time though. I’m not saying it’s an aquired taste or anthing, just that it’s not something that many people pick up early in their careers—maybe because they haven’t yet felt the pain of writing all that excess markup over and over again. This article should provide you with the basics that you need to get started. Slim has more to offer of course—especially a few advanced features that you definitely want to take a look at. In the next article we’re gonna start with a more detailed section about outputting Ruby code into your templates—and much more of course. See you there!</p>
+
+<h2>Output</h2>
+
+<p>You have already seen a bit how to use Ruby in your templates. This section gives you all you need to make use of this &hellip;</p>
+
+<p>Before we take a break, we should definitely look into ways to bring Ruby into this equation. As you are hopefully aware of, tons of view code—aka tons of Ruby code in our context—is a serious smell and should be minimized at all times. Just because Slim makes it maybe even more enticing to plaster your templates with tons of logic does not mean that you should not practice constraint in that department. Done right on the other hand, Slim makes it really elegant to inject Ruby where needed.</p>
+]]></content>
+  </entry>
+  
+</feed>

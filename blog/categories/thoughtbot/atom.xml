@@ -1,0 +1,2611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Thoughtbot | Drafts Previewer]]></title>
+  <link href="http://vis-kid.github.io/octo-draft/blog/categories/thoughtbot/atom.xml" rel="self"/>
+  <link href="http://vis-kid.github.io/octo-draft/"/>
+  <updated>2016-03-14T22:45:33+01:00</updated>
+  <id>http://vis-kid.github.io/octo-draft/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 06-Podcast Site (Part 04)]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/01/02/Middleman-Basics-06-Podcast-04/"/>
+    <updated>2016-01-02T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/01/02/Middleman-Basics-06-Podcast-04</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Hero Section</li>
+<li>Navigation</li>
+<li>Title</li>
+<li>Pagination</li>
+</ul>
+
+
+<h2>Hero Section</h2>
+
+<p>Why don’t we add a small hero section on top of the index site? I want something that gives us an opportunity to brand the podcast site without going full-splashy-marketing-page-apeshit. I strongly trust in “less is more” and moreover, in “don’t insult your users by bombarding them with bs”. Let’s keep it nice and simple.</p>
+
+<p>In this last article we will make use of another part of the Bourbon family and implement a couple of patterns from <a href="http://refills.bourbon.io/">Refills</a>—which provides a pattern / components library (styled and unstyled) and is built with Bourbon and Neat. Why reinvent the wheel when we can now and then adjust existing ones to our needs. Btw, this project is also maintained by designers at <a href="https://thoughtbot.com/">thoughtbot</a>—so it’s in very good hands qualitywise.</p>
+
+<p>Go to <a href="http://refills.bourbon.io/">http://refills.bourbon.io/</a> and copy the markup for the “Hero Unit”. The provided markup is placed in our index file—right above the part where we iterate over our <code>page_articles</code>.</p>
+
+<h5>source/index.html.erb</h5>
+
+<p>``` html
+&hellip;</p>
+
+<div class="hero">
+  <div class="hero-inner">
+    <a href="" class="hero-logo"><img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png
+" alt="Logo Image"></a>
+    <div class="hero-copy">
+      <h1>Short description of Product</h1>
+      <p>A few reasons why this product is worth using, who it's for and why they need it.</p>  
+    </div>
+  </div>
+</div>
+
+
+
+
+<p><div class='posts'>
+  &lt;% page_articles.each_with_index do |article, i| %>
+    <h2 class='post-title'><span class='post-date'>&lt;%= article.date.strftime(&lsquo;%b %e&rsquo;) %></span> &lt;%= link_to article.title, article %></h2></p>
+
+<p>&hellip;</p>
+
+<pre><code>
+I copied the styles from Refills’ pattern section as well and placed them into a new file dedicated to this banner section. The provided styles are in the `.scss` syntax and so I go with the flow—see no need to convert this into `.sass` really.
+
+##### source/stylesheets/_hero_banner.scss
+</code></pre>
+
+<p>.hero {<br/>
+  $base-border-radius: 3px !default;
+  $action-color: #477DCA !default;
+  $large-screen: em(860) !default;
+  $hero-background-top: #7F99BE;
+  $hero-background-bottom: #20392B;
+  $hero-color: white;
+  $gradient-angle: 10deg;
+  $hero-image: &lsquo;<a href="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/mountains.png">https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/mountains.png</a>&rsquo;;</p>
+
+<p>  @include background(url($hero-image), linear-gradient($gradient-angle, $hero-background-bottom, $hero-background-top), no-repeat $hero-background-top scroll);
+  background-color: #324766;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 3em;</p>
+
+<p>  .hero-logo img {
+    height: 4em;
+    margin-bottom: 1em;
+  }</p>
+
+<p>  .hero-inner {
+    @include outer-container;
+    @include clearfix;
+    margin: auto;
+    padding: 3.5em;
+    text-align: center;</p>
+
+<pre><code>.hero-copy {
+  text-align: center;
+
+  h1 {
+    color: $hero-color;
+    font-size: 1.6em;
+    margin-bottom: 0.5em;
+
+    @include media($large-screen) {
+      font-size: 1.8em;
+    }
+  }
+
+  p {
+    color: $hero-color;
+    line-height: 1.4em;
+    margin: 0 auto 3em auto; 
+
+    @include media($large-screen) {
+      font-size: 1.1em;
+      max-width: 40%;
+    }
+  }
+}
+</code></pre>
+
+<p>  }
+}</p>
+
+<pre><code>
+We will adjust this in a second but let’s take a peek first:
+
+##### Screenshot
+
+<img src="/images/middleman/middleman_06_build/hero-unit-copy.png">
+
+Fits right in—that’s how I like it! Let’s tweak this to our needs by getting rid of the image and icon. But let’s start with the text.
+
+##### source/index.html.erb
+</code></pre>
+
+<p><div class="hero">
+  <div class="hero-inner">
+    <a href="" class="hero-logo"><img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png
+" alt="Logo Image"></a>
+    <div class="hero-copy">
+      <h1>MATCHA NERDZ</h1>
+      <p>Podcast for green tea connoisseurs</p><br/>
+    </div>
+  </div>
+</div></p>
+
+<pre><code>
+You can tweak this any way you like. I wanna make this quick and just increase the size of the `h1` for both large screens and smaller devices. The hero unit header is now `2em` and `3em` respectively—not too much. The padding on `.hero-inner` also needs to move a nudge.
+
+##### source/stylesheets
+</code></pre>
+
+<p>.hero-inner {
+  //padding: 3.5em;
+  padding-top: 1.2em;
+}</p>
+
+<p>.hero-copy {
+  text-align: center;</p>
+
+<p>  h1 {
+    color: $hero-color;
+    font-size: 2em;
+    margin-bottom: 0.5em;</p>
+
+<pre><code>@include media($large-screen) {
+  font-size: 3em;
+}
+</code></pre>
+
+<p>  }</p>
+
+<pre><code>
+Next let’s kill the logo placeholder. I find this things often a bit annoying.
+
+##### source/index.html.erb
+</code></pre>
+
+<p><div class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <h1>MATCHA NERDZ</h1>
+      <p>Podcast for green tea connoisseurs</p><br/>
+    </div>
+  </div>
+</div></p>
+
+<pre><code>
+That’s all we need really. Since we don’t use the hero logo, let’s get rid of their styles—dead weight.
+
+##### source/stylesheets/_hero_banner.scss
+</code></pre>
+
+<p>//.hero-logo img {
+//  height: 4em;
+//  margin-bottom: 1em;
+//}</p>
+
+<pre><code>
+The generic background image also has to go. I’ll show you fist how I want it to look and explain then how to get there.
+
+##### Screenshot
+
+<img src="/images/middleman/middleman_06_build/hero-unit-preview.png">
+
+Ignore the typography for now. You can adjust this later. I replaced the image and put a slight gradient on top of it. Since the type is white, I needed a bit more contrast for a better reading experience. If you choose an image that does not need an additional gradient, go for it!
+
+I adjusted the Refills code with a couple of changes. First, I added an image to `source/images` and saved this image in the variable `$hero-image`. Then I reused this variable in the `background` mixin from Bourbon and reorder the image and the `linear-gradient` (a Bourbon mixin as well). Because the gradient comes first, it is overlayed on top of the ```Matcha_Nerdz.png```.
+
+##### source/stylesheets/_hero_banner.scss
+</code></pre>
+
+<p>.hero {<br/>
+  $hero-image: &lsquo;../images/Matcha_Nerdz.png&rsquo;;</p>
+
+<p>  $hero-background-top: darken($matcha-green, 65%);
+  $hero-background-bottom: rgba(lighten($matcha-green, 10%), .3);</p>
+
+<p>  @include background(linear-gradient($gradient-angle, $hero-background-bottom, $hero-background-top), url($hero-image), no-repeat $hero-background-top scroll);</p>
+
+<p>  margin-bottom: 2em;</p>
+
+<p>  //background-color: #324766;
+  //background-size: cover;</p>
+
+<pre><code>
+For the gradient itself, I reused our `$matcha-green` that we stored in ```source/stylesheets/base/_variables.scss```. The top color is darkend by 65 percent with a Sass function the other one is lightened by 10 percent and also made transparent via another Sass function called `rgba`. We then reuse these variables in our `background` mixin. The `gradient-angle` stayed the same. I also added a small margin of `2em` to push the index list down a bit. The styles I commented out for you are dead weight and so I deleted them. 
+
+You can play with such a gradient directly in Photoshop as well of course. Wanted to show you how you can use them in Sass. Below is a screenshot that has no linear gradient added to the hero unit. Up to you what you prefer. As a little exercise, I’ll leave the cleanup of the styles we copied to you. If you find duplications or unused styles, I recommend you fix this before moving on.
+
+##### Screenshot
+
+<img src="/images/middleman/middleman_06_build/hero-unit-preview-no-gradient.png">
+
+Time for another commit and deploy.
+
+##### Shell
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Adds hero unit to index.html.erb
+               Adds hero image with gradient
+               Adds _hero_banner Sass partial
+               Imports Sass partial&rsquo;</p>
+
+<p>middleman deploy</p>
+
+<pre><code>
+##### Screenshot
+
+<img src="/images/middleman/middleman_06_build/hero-unit-preview-no-grid.png">
+
+Without the visual grid, it doesn’t look you have much work left to adjust this page for your podcasting needs. A few things I’d recommend to do is find a typeface that communicates your project distinctively without being too exotic and adjust the size and spacing of your text so that it fits your hero unit background image. Since this is part of your branding, I suggest you take your time and have some fun!
+
+## Navigation
+
+It’s a good time to add a navbar. We will also use a pattern from Refills and adapt it for our own needs. I chose the “Centered Navigation” which you will find under “Patterns”. For this one, we need to copy the HTML, SCSS and the CoffeeScript code. I’ll start first by adding the markup to our global `layout.erb` file
+
+### source/layouts/layout.erb
+</code></pre>
+
+<p>&lt;!doctype html>
+<html></p>
+
+<p>  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title>Blog Title&lt;%= &lsquo; - &rsquo; + current_article.title unless current_article.nil? %></title>
+    &lt;%= feed_tag :atom, &ldquo;#{blog.options.prefix.to_s}/feed.xml&rdquo;, title: &ldquo;Atom Feed&rdquo; %>
+    &lt;%= stylesheet_link_tag &ldquo;all&rdquo; %>
+    &lt;%= javascript_include_tag  &ldquo;all&rdquo; %>
+  </head></p>
+
+<p>  <body></p>
+
+<pre><code>&lt;header class="centered-navigation" role="banner"&gt;
+  &lt;div class="centered-navigation-wrapper"&gt;
+    &lt;a href="javascript:void(0)" class="mobile-logo"&gt;
+      &lt;img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_3_dark.png" alt="Logo image"&gt;
+    &lt;/a&gt;
+    &lt;a href="javascript:void(0)" id="js-centered-navigation-mobile-menu" class="centered-navigation-mobile-menu"&gt;MENU&lt;/a&gt;
+    &lt;nav role="navigation"&gt;
+      &lt;ul id="js-centered-navigation-menu" class="centered-navigation-menu show"&gt;
+        &lt;li class="nav-link"&gt;&lt;a href="javascript:void(0)"&gt;Products&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-link"&gt;&lt;a href="javascript:void(0)"&gt;About Us&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-link"&gt;&lt;a href="javascript:void(0)"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-link logo"&gt;
+          &lt;a href="javascript:void(0)" class="logo"&gt;
+            &lt;img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_3_dark.png" alt="Logo image"&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="nav-link"&gt;&lt;a href="javascript:void(0)"&gt;Testimonials&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-link more"&gt;&lt;a href="javascript:void(0)"&gt;More&lt;/a&gt;
+          &lt;ul class="submenu"&gt;
+            &lt;li&gt;&lt;a href="javascript:void(0)"&gt;Submenu Item&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="javascript:void(0)"&gt;Another Item&lt;/a&gt;&lt;/li&gt;
+            &lt;li class="more"&gt;&lt;a href="javascript:void(0)"&gt;Item with submenu&lt;/a&gt;
+              &lt;ul class="submenu"&gt;
+                &lt;li&gt;&lt;a href="javascript:void(0)"&gt;Sub-submenu Item&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="javascript:void(0)"&gt;Another Item&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class="more"&gt;&lt;a href="javascript:void(0)"&gt;Another submenu&lt;/a&gt;
+              &lt;ul class="submenu"&gt;
+                &lt;li&gt;&lt;a href="javascript:void(0)"&gt;Sub-submenu&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="javascript:void(0)"&gt;An Item&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li class="nav-link"&gt;&lt;a href="javascript:void(0)"&gt;Sign up&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div id="main" role="main"&gt;
+  &lt;%= yield %&gt;
+&lt;/div&gt;
+
+&lt;%= partial "partials/footer" %&gt;
+</code></pre>
+
+<p>  </body>
+</html></p>
+
+<pre><code>
+Whoa! That’s quite a chunk of code. Are you thinking the same as me? This looks nasty, right? Let’s put this into a partial.
+
+##### source/layouts/layout.erb
+</code></pre>
+
+<p>&hellip;</p>
+
+<p>  <body></p>
+
+<pre><code>&lt;%= partial "partials/navbar" %&gt;
+
+&lt;div id="main" role="main"&gt;
+  &lt;%= yield %&gt;
+&lt;/div&gt;
+
+&lt;%= partial "partials/footer" %&gt;
+</code></pre>
+
+<p>  </body>
+</html></p>
+
+<pre><code>
+##### source/partials/_navbar.erb
+</code></pre>
+
+<p><header class="centered-navigation" role="banner">
+  <div class="centered-navigation-wrapper">
+    <a href="javascript:void(0)" class="mobile-logo">
+      &lt;%= image_tag &ldquo;matcha_nerdz_logo.png&rdquo;, alt: &ldquo;Logo image&rdquo; %>
+    </a>
+    <a href="javascript:void(0)" id="js-centered-navigation-mobile-menu" class="centered-navigation-mobile-menu">MENU</a>
+    <nav role="navigation">
+      <ul id="js-centered-navigation-menu" class="centered-navigation-menu show">
+        <li class="nav-link">&lt;%= link_to &lsquo;Home&rsquo;, &lsquo;/matcha-nerdz&rsquo; %></li>
+        <li class="nav-link logo">
+          &lt;%= image_tag &ldquo;matcha_nerdz_logo.png&rdquo;, alt: &ldquo;Logo image&rdquo; %>
+        </li>
+        <li class="nav-link">&lt;%= link_to &lsquo;About&rsquo;, &lsquo;/pages/about.html&rsquo; %></li>
+      </ul>
+    </nav>
+  </div>
+</header></p>
+
+<pre><code>
+I’ve removed a bunch of stuff that I don’t need and only end up with my logo that I stored in `/images` and two links for home and about pages. For the two links I used the ```link_to``` helper method. It takes two arguments: The string you want users to click on and the location you want to link to. I’m sure people who have played a bit with Rails or Sinatra are familiar with this. Handy, but no big deal. The link for “Home” (/matcha-nerd) will break for your local host but it is working on GitHub Pages where we need the namespace. 
+
+The avid reader might also have discovered that our about link links to a simple HTML page that I placed in a new directory named `pages`. I suggest you put HTML pages like contact, faq or whatever also in this directory. If you put these static pages in there you should have no problems customizing them to your needs. Just have some fun and apply what you’ve learned so far with these pages. From here on you are on your own with these but you now know everything you need. Samo, samo!
+
+A word about the image tags and the asset path on GitHub Pages. I decided to replace the plain `img` tags for the logo with a Middleman helper called ```image_tag```. It’s not only pretty concise and readable, but also fixes an issue you will run into with the `img` tag when you build the site and deploy it to GitHub Pages. The url for the asset link on individual articles gets all screwed up and this is the simplest solution to fix that.
+</code></pre>
+
+<p><img src="http://vis-kid.github.io/octo-draft/images/matcha_nerdz_logo.png" alt="Logo image"></p>
+
+<pre><code>
+Before using ```image_tag```, the url for the logo looked like this: ```http://your_username.github.io/images/matcha_nerdz_logo-hash_numbers.png```
+</code></pre>
+
+<p>&lt;%= image_tag &ldquo;matcha_nerdz_logo.png&rdquo;, alt: &ldquo;Logo image&rdquo; %></p>
+
+<pre><code>
+This Middleman helper provided the url with the app name `matcha-nerdz`—it correctly namespaced the asset and gives GitHub Pages access to this image file (```http://your_username.github.io/matcha-nerdz/images/matcha_nerdz_logo-hash_numbers.png```).
+
+The styles I copied from Refills are in a new Sass partial of course.
+
+##### source/stylesheets/all.sass
+</code></pre>
+
+<p>@import &lsquo;header_navbar&rsquo;</p>
+
+<pre><code>
+##### source/stylesheets/_header_navbar.scss
+</code></pre>
+
+<p>.centered-navigation {
+  $base-border-radius: 3px !default;
+  $dark-gray: #333 !default;
+  $large-screen: em(860) !default;
+  $base-font-color: white;
+  $centered-navigation-padding: 1em;
+  $centered-navigation-logo-height: 2em;
+  $centered-navigation-background: #E7F1EC;
+  $centered-navigation-color: $base-font-color;
+  $centered-navigation-color-hover: $text-color;
+  $centered-navigation-height: 60px;
+  $centered-navigation-item-padding: 1em;
+  $centered-navigation-submenu-padding: 1em;
+  $centered-navigation-item-nudge: 2.2em;
+  $horizontal-bar-mode: $large-screen;
+  background-color: $matcha-green;
+  border-bottom: 1px solid darken($matcha-green, 5%);
+  min-height: $centered-navigation-height;
+  width: 100%;
+  z-index: 9999;</p>
+
+<p>  // Mobile view</p>
+
+<p>  .mobile-logo {
+    display: inline;
+    float: left;
+    max-height: $centered-navigation-height;
+    padding-left: $centered-navigation-padding;</p>
+
+<pre><code>img {
+  max-height: $centered-navigation-height;
+  padding: .8em 0;
+}
+
+@include media($horizontal-bar-mode) {
+  display: none;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  .centered-navigation-mobile-menu {
+    color: $centered-navigation-color;
+    display: block;
+    float: right;
+    line-height: $centered-navigation-height;
+    margin: 0;
+    padding-right: $centered-navigation-submenu-padding;
+    text-decoration: none;
+    text-transform: uppercase;</p>
+
+<pre><code>@include media ($horizontal-bar-mode) {
+  display: none;
+}
+
+&amp;:focus,
+&amp;:hover {
+  color: $centered-navigation-color-hover;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  // Nav menu</p>
+
+<p>  .centered-navigation-wrapper {
+    @include outer-container;
+    @include clearfix;
+    position: relative;
+    z-index: 999;
+  }</p>
+
+<p>  ul.centered-navigation-menu {
+    -webkit-transform-style: preserve-3d; // stop webkit flicker
+    clear: both;
+    display: none;
+    margin: 0 auto;
+    overflow: visible;
+    padding: 0;
+    width: 100%;
+    z-index: 99999;</p>
+
+<pre><code>&amp;.show {
+  display: block;
+}
+
+@include media ($horizontal-bar-mode) {
+  display: block;
+  text-align: center;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  // The nav items</p>
+
+<p>  .nav-link:first-child {
+    @include media($horizontal-bar-mode) {
+      margin-left: $centered-navigation-item-nudge;
+      padding-right: 0px;
+    }
+  }</p>
+
+<p>  ul li.nav-link {
+    background: lighten($matcha-green, 8%);
+    display: block;
+    line-height: $centered-navigation-height;
+    overflow: hidden;
+    padding-right: $centered-navigation-submenu-padding;
+    text-align: right;
+    width: 100%;
+    z-index: 9999;</p>
+
+<pre><code>a {
+  color: $centered-navigation-color;
+  display: inline-block;
+  outline: none;
+  text-decoration: none;
+
+  &amp;:focus,
+  &amp;:hover {
+    color: $centered-navigation-color-hover;
+  }
+}
+
+@include media($horizontal-bar-mode) {
+  background: transparent;
+  display: inline;
+  line-height: $centered-navigation-height;
+
+  a {
+    padding-right: $centered-navigation-item-padding;
+  }
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  li.logo.nav-link {
+    display: none;
+    line-height: 0;</p>
+
+<pre><code>@include media($large-screen) {
+  display: inline;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  .logo img {
+    margin-bottom: -$centered-navigation-logo-height / 3;
+    max-height: $centered-navigation-logo-height;
+  }
+}</p>
+
+<pre><code>
+I put the CoffeeScript code from Refills into ```all.coffee```. As soon as I had to add more code than that, I’d put it into its own designated place.
+
+##### source/javascripts/all.coffee
+</code></pre>
+
+<p>//= require jquery</p>
+
+<p>$(document).ready ->
+  menuToggle = $(&lsquo;#js-centered-navigation-mobile-menu&rsquo;).unbind()
+  $(&lsquo;#js-centered-navigation-menu&rsquo;).removeClass &lsquo;show&rsquo;
+  menuToggle.on &lsquo;click&rsquo;, (e) ->
+    e.preventDefault()
+    $(&lsquo;#js-centered-navigation-menu&rsquo;).slideToggle ->
+      if $(&lsquo;#js-centered-navigation-menu&rsquo;).is(&lsquo;:hidden&rsquo;)
+        $(&lsquo;#js-centered-navigation-menu&rsquo;).removeAttr &lsquo;style&rsquo;
+      return
+    return
+  return</p>
+
+<pre><code>
+This snippet is responsible for toggling the menu for smaller screens.
+
+##### Screenshot Toggle Menu
+
+<img src="/images/middleman/middleman_06_build/coffeescript-menu-toggle.png">
+
+
+Because I deleted a bunch of stuff I didn’t need from the navbar markup—like the submenu—I was able to get rid of a significant chunk of the relevant styles in this file. Since I don’t know if you need a more elaborate navbar and wanna take the code right from these examples, I suggest you copy the original code if you have bigger plans for the navbar. Play with the Sass to fit your style, remove dead code and duplications. I simply adjusted the background color and link colors, played with the transparency of the logo, changed the border and moved on. Have fun and go crazy if you like. I just wanted to use a super simple navbar with the brand color and a centered logo. Turned out pretty good for this little work I’d say.
+
+##### Screenshot Index Page
+
+<img src="/images/middleman/middleman_06_build/navbar-screenshot.png">
+
+##### Screenshot Detail Page
+
+<img src="/images/middleman/middleman_06_build/detail-page-with-navbar.png">
+
+Time to package this into a git commit and for deploying the site.
+
+##### Shell
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Implements a header with navbar
+               Adds header partial to layout
+               Takes care of deployed asset url for logo
+               Imports Sass partial for navbar
+               Adds logo
+               Adds CoffeeScript code
+               Adjusts Refills styles
+               Adjusts Refills markup&rsquo;</p>
+
+<p>middleman deploy</p>
+
+<pre><code>
+## Title
+
+The next change is just a small one, just a touch really. We need to update the title tag in our layout.
+
+##### source/layouts/layout.erb
+</code></pre>
+
+<p><title>Matcha Nerdz&lt;%= &lsquo; - &rsquo; + current_article.title unless current_article.nil? %></title></p>
+
+<pre><code>
+This gives us a dynamic title that always starts with our site’s name and attaches the article’s title if available.
+
+##### Shell
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Adjusts site’s title&rsquo;</p>
+
+<p>middleman deploy</p>
+
+<pre><code>
+## Pagination
+
+When you look at the bottom of the index list of articles you’ll see something essential missing—navigating our list of posts.
+
+##### Screenshot
+
+<img src="/images/middleman/middleman_06_build/index-list-no-pagination.png">
+
+I’m not a fan of overly clever pagination links—bulky ones are also not winning any awards with me. Let’s keep it simple and provide two links for next and previous pages. Middleman makes this incredibly convenient. We just need to adjust our ```config.rb``` and tell the frontmatter of our index page to fine tune it.
+
+##### config.rb
+</code></pre>
+
+<p>blog.paginate = true</p>
+
+<pre><code>
+First uncomment the line above. After that you just tell the index page how many articles you want to see. I think 10 posts per page are enough.
+
+##### source/index.html.erb
+</code></pre>
+
+<hr />
+
+<p>per_page: 10
+pageable: true</p>
+
+<hr />
+
+<pre><code>
+The final step before we apply some styling is to place both links conveniently at the bottom of the list. First we need to get rid of these lines of code below that I commented out. They were placed at the very top of your index page.
+
+##### source/index.html.erb
+</code></pre>
+
+<p><!--
+<% if paginate && num_pages > 1 %>
+  <p>Page &lt;%= page_number %> of &lt;%= num_pages %></p></p>
+
+<p>  &lt;% if prev_page %>
+    <p>&lt;%= link_to &lsquo;Previous page&rsquo;, prev_page %></p>
+  &lt;% end %>
+&lt;% end %>
+&ndash;></p>
+
+<pre><code>And then place this at the very bottom of this page.
+</code></pre>
+
+<p>&lt;% if paginate %></p>
+
+<p>  &lt;% if prev_page %>
+    <p class='pagination-link'>&lt;%= link_to &lsquo;&lt;&lt; Previous page&rsquo;, prev_page %></p>
+  &lt;% end %></p>
+
+<p>  &lt;% if next_page %>
+    <p class='pagination-link'>&lt;%= link_to &lsquo;Next page >>&rsquo;, next_page %></p>
+  &lt;% end %></p>
+
+<p>&lt;% end %></p>
+
+<pre><code>
+This gives us the navigational links we need side by side and supplies us with a class to tweak a few things. I decided to go with a partial for the Sass code because it didn’t fit either in the footer nor the index post styles—plus it deserves a partial of its own, especially should it grow more in size.
+
+##### source/stylesheets/all.sass
+</code></pre>
+
+<p>@import &lsquo;pagination&rsquo;</p>
+
+<pre><code>
+##### source/stylesheets/_pagination.sass
+</code></pre>
+
+<p>.pagination-link
+  +shift(2)
+  margin-bottom: 4em
+  &amp;:first-of-type
+    float: left
+    margin-right: 4em
+  a
+    +transition(color 0.25s ease-in-out)
+    color: $text-color
+    font-size: 1.1em
+    &amp;:hover
+      color: $matcha-green</p>
+
+<pre><code>
+It’s nothing tricky I think. We shift the links a bit to the right, arrange them to float next to each other—default would be block behaviour being stacked on top of each other—and apply a little transitional effect when the user hovers over the link. That’s all we need right now. Let’s have a look.
+
+##### Screenshot: Next Page
+
+<img src="/images/middleman/middleman_06_build/index-pagination-next.png">
+
+##### Screenshot: Previous Page / Next Page
+
+<img src="/images/middleman/middleman_06_build/index-pagination-next-previous.png">
+
+Alrighty, time for another commit.
+
+##### Shell
+</code></pre>
+
+<p>git add -all
+git commit -m &lsquo;Adds Pagination to index list of posts
+               Adjusts config.rb
+               Adjusts markup on index page
+               Adds styles in _pagination Sass partial&rsquo;</p>
+
+<p>middleman deploy</p>
+
+<p>```</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I guess that should suffice for version 01—also, I ran out of space a little over the last six articles. As a next step, you should play with media queries to make the layout responsive to various screen sizes. The typography could need some serious love as well. Pick a typface or two that best goes with the theme of your podcast—just don’t forget to keep it super readable. Also, should you decide to do a podcast for real, I can only congratulate you. It’s a great way to learn from experts and also to increase your network significantly. Doing something of value for the community is always a good idea and tends to pay off big time. One last tip, try to learn by doing and experiement as much as you can! Reading alone just doesn’t cut it—been there, done that! If you like to share the lessions learned by writing about it, you will deepen your understanding of the topic even more. Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 05-Podcast Site (Part 03)]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/12/28/Middleman-Basics-05-Podcast-03/"/>
+    <updated>2015-12-28T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/12/28/Middleman-Basics-05-Podcast-03</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Posts Detail Page</li>
+<li>Style Duplications</li>
+<li>Relative Links</li>
+<li>Index List Player</li>
+<li>Why SoundCloud? (Optional)</li>
+</ul>
+
+
+<h2>Posts Detail Page</h2>
+
+<p>I think we should shift our attention and give our details page a little bit of basic love before we adjust the app to display our podcast episodes. We are not entirely done with the index page, if we have some room left in this tutorial I’ll probably add a couple of media queries to deal with different screen resolutions. For now I’d say let’s move on though. What’s the status quo?</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/detail_page_initial_state.png"></p>
+
+<p>Yikes, doesn’t look too good! Our text is all over the place. Let’s fix that one first. Think it’s a good idea to activate the visual grid again.</p>
+
+<h5>source/stylesheets/base/_grid-settings.scss</h5>
+
+<pre><code class="scss">
+$visual-grid: true; 
+</code></pre>
+
+<p>We need to create a separate layout for our detail pages of our posts. The layout will be flexible so that you can use them for pure blog posts and for posting podcast episodes as well—a little conditional will help us out with that. More on that later though. Let’s open <code>config.rb</code> and add this line.</p>
+
+<h5>config.rb</h5>
+
+<pre><code class="ruby">
+activate :blog do |blog|
+  blog.layout = "layouts/blog-layout"
+end
+</code></pre>
+
+<p>This will tell Middleman that we have a separate layout for detail pages and that it can be found in <code>layouts/blog-layout</code>. Next we need to create <code>layouts/blog-layout.erb</code>. Remember that the <code>.erb</code> is necessary without the <code>.html</code> extension to make this work properly.</p>
+
+<h5>layouts/blog-layout.erb</h5>
+
+<pre><code class="erb">
+&lt;% wrap_layout :layout do %&gt;
+
+  &lt;article class='article-detail'&gt;
+
+    &lt;h2 class='detail-post-title'&gt;&lt;%= current_article.title %&gt;&lt;/h2&gt;
+    &lt;h3 class='detail-post-date'&gt;&lt;%= current_article.date.strftime('%b %e') %&gt;&lt;/h3&gt;
+
+    &lt;% if current_page.data.soundcloud_id %&gt;
+      &lt;section class='soundclould-player-big'&gt;
+        &lt;iframe 
+          width="100%" 
+          height="450" 
+          scrolling="no" 
+          frameborder="no" 
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/&lt;%= current_page.data.soundcloud_id %&gt;&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&amp;amp;visual=true"&gt;
+        &lt;/iframe&gt;
+      &lt;/section&gt;
+    &lt;% end %&gt;
+
+    &lt;%= current_article.body %&gt;
+
+  &lt;/article&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>So let’s talk about what’s going on here. First of all, we need to wrap this <code>blog-layout</code> inside our general <code>layout</code>. Or, put differently, we wrap our application layout around the blog-layout.</p>
+
+<pre><code class="erb">
+&lt;% wrap_layout :layout do %&gt;
+
+  ...
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>Why? Simply because we want to reuse a lot of the stuff from the original layout and not duplicate things like the <code>footer</code> partial or the asset links in <code>head</code>. I’m sure newbies will wrap their head around this quickly. Just give it a minute or two to sink in if this looks weird to you at first. The layout we used previously was more of a global thing. Now we need a bit more specificity to fit our needs.</p>
+
+<p>Inside the <code>article</code> tag container, we manually build what we need to template our post. It has a title, a date, an optional SoundCloud embedded widget and of course the article body itself. Inside our layouts, we have access to each individual <code>BlogArticle</code>. We can use <code>current_article</code> to get the info for each article to build up our custom template. <code>title</code>, <code>date</code> and <code>body</code> are just methods to extract the attributes from the individual article. We also used <code>strftime</code> to format the date like we did previously on the index page.</p>
+
+<pre><code class="erb">
+&lt;%= current_article.title %&gt;
+&lt;%= current_article.date.strftime('%b %e') %&gt;
+&lt;%= current_article.body %&gt;
+</code></pre>
+
+<p>As already mentioned, a simple conditional is in charge of handling data that’s provided optionally for each individual post via its frontmatter—which is delimited by three dashes. Here we are looking out if the page has an id of a SoundCloud track and display the widget if so.</p>
+
+<pre><code class="erb">
+&lt;% if current_page.data.soundcloud_id %&gt;
+
+  ...
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>In case you need a refresher, we get access to the data via the <code>current_page</code> object and ask its <code>data</code> for the value we stored in the frontmatter via its key. In our example, the key we need is <code>soundcloud_id</code>. If our template finds this key via the conditional, it displays the widget and interpolates the SoundCloud id for that track to find the right one. If it’s just a plain blog post, we don’t need to provide the <code>soundcloud_id</code> in the frontmatter and the SoundCloud widget won’t get embedded. Doesn’t get any more simple than that.</p>
+
+<h5>Example frontmatter for a podcast post with a SoundCloud widget</h5>
+
+<pre><code class="erb">
+---                                                                                                                                 
+title: My super awesome eleventh long assed titled post that breaks into another line                                               
+date: 2015-11-30 22:14 UTC                                                                                                          
+soundcloud_id: 138095821                                                                                                            
+tags:                                                                                                                               
+---                                                                                                                                 
+Your awesome podcast episode description …
+
+&lt;%= lorem.sentences 10 %&gt; 
+
+– Question #01
+
+– Question #02
+
+...
+</code></pre>
+
+<p>When you click on “share” on any of the SoundCloud tracks, you get the option to embed an <code>iframe</code> for that track and just need to copy paste it somewhere in your code. We use this iframe as a basis and use the id for the track we need to interpolate it into the url. There are two options, a big and a small widget—I chose the big one. The other has the advantage of being a bit more customizeable—you can adjust the color for the play button for example. Up to you…</p>
+
+<pre><code class="erb">
+&lt;section class='soundclould-player-big'&gt;
+  &lt;iframe 
+    width="100%" 
+    height="450" 
+    scrolling="no" 
+    frameborder="no" 
+    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/&lt;%= current_page.data.soundcloud_id %&gt;&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&amp;amp;visual=true"&gt;
+  &lt;/iframe&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>The magic happens at this part.</p>
+
+<pre><code class="erb">
+...api.soundcloud.com/tracks/&lt;%= current_page.data.soundcloud_id %&gt;&amp;amp;auto_play=...
+</code></pre>
+
+<p>After we asked if this data is available to us via the conditional, we use the fronmatter data to inject the id to display the track we want. Pretty neat and as straightforward as it gets. Let’s have another look how things turned out so far:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/detail_page_widget_no_styles.png"></p>
+
+<p>Makes you wanna throw up huh? Me too. Maybe not if you just arrived from the 90s via a time machine—didn’t think so. On the bright side, we have all the structure and data we need. And see, because we nested the <code>blog-layout</code> inside the <code>layout</code> layout, we get the benefit of having the footer already there at the bottom. No need to duplicate things—cool! With just a little bit of styling, we might turn things around and make this look a bit more decent.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<pre><code class="sass">
+@import 'posts_detail'
+</code></pre>
+
+<h5>source/stylesheets/_posts_detail.sass</h5>
+
+<pre><code class="sass">
+#main
+  +outer-container
+
+article.article-detail
+  +shift(2)
+  +span-columns(8)
+
+.detail-post-title
+  color: $matcha-green
+  font-size: 1.7em
+  margin-top: 40px
+
+.detail-post-date
+  font-size: 1.1em
+  color: $text-color
+
+.article-detail p
+  font-size: 1.05em
+  margin-bottom: 4em
+  color: $text-color
+  line-height: 1.35em
+
+.soundclould-player-big
+  margin-bottom: 50px
+</code></pre>
+
+<p>Let’s have another quick peak.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/detail_page_widget_with_styles.png"></p>
+
+<p>Well, it’s getting there. Let’s commit for now, and do some housekeeping after that.</p>
+
+<h5>Shell</h5>
+
+<pre><code class="bash">git add --all
+git commit -m '1st attempt at post detail page w/ podcast option
+               Adds blog-layout
+               Adjusts config for blog-layout
+               Adds styles for detail page
+               Adds Sass partial
+               Imports Sass partial
+               Updates blog post’s frontmatter'
+</code></pre>
+
+<h2>Style Duplications</h2>
+
+<p>The avid reader might have already spotted what we should clean up next. There is a bit of duplication in <code>_posts_detail.sass</code> and <code>_index_posts.sass</code>. I’d like to extract the duplicated styles into a separate Sass file called <code>_blog_post_extractions.sass</code>. I’m experimenting with this technique lately—an idea that I got from Object Oriented Programming. Things like BEM or SMACSS can be great, especially for bigger projects with bigger teams if they have settled for following conventions, but for smaller projects I’m always looking for frictionless, dead simple solutions. I’ll give this a try until the next new shiny thing convinces me of a better approach.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<pre><code class="sass">
+@import 'bourbon'
+@import 'base/base'
+@import 'neat'
+
+@import 'blog_post_extractions'
+
+@import 'footer'
+@import 'index_posts'
+@import 'posts_detail'
+</code></pre>
+
+<h5>source/stylesheets/_blog_post_extractions.sass</h5>
+
+<pre><code class="sass">
+#main, .posts
+  +outer-container
+
+.posts p, .post-title, article.article-detail
+  +shift(2)
+  +span-columns(8)
+
+.post-title a, .detail-post-title
+  color: $matcha-green
+
+.post-title, .detail-post-title
+  font-size: 1.7em
+
+.posts p, .article-detail p
+  font-size: 1.05em
+  line-height: 1.35em
+
+.posts p, .article-detail p, .detail-post-date, .post-date
+  color: $text-color
+
+.posts p, .article-detail p
+  margin-bottom: 4em
+</code></pre>
+
+<p>If you compare the above with the original files, you can see that we got rid of a nice chunk of duplication. It is also easy to understand and find because I import such extracted files right on top in <code>all.sass</code>. It’s easy to spot these extractions for people new to the code base. In this case, I use these files to collect extracted styles that apply to blog posts. A similar approach could work for duplications across different appearances of sidebars, devices or similar—there should be a common thread though.</p>
+
+<h5>source/stylesheets/_index_posts.sass</h5>
+
+<pre><code class="sass">
+.post-title
+  a
+    +transition(color .4s ease-in-out)
+    &amp;:hover
+      color: $text-color
+
+.post-date
+  font-size: 0.7em
+  margin:
+    left: em(-80px)
+    right: em(20px)
+</code></pre>
+
+<h5>source/stylesheets/_posts_detail.sass</h5>
+
+<pre><code class="sass">
+.detail-post-title
+  margin-top: 40px
+
+.detail-post-date
+  font-size: 1.1em
+
+.soundclould-player-big
+  margin-bottom: 50px
+</code></pre>
+
+<p>The previous files are now a lot smaller, nice and tidy—exactly how I like them. Files are cheap so I don’t care if I have lots of them that all do their specific little job. A separation of concerns kinda thing. It’s not a perfect solution, but it’s so dead simple for small stuff that I like experimenting more with that approach. I’m not sure how much scaleable this is though. For a small podcast site it should be O.K. though I feel.</p>
+
+<p>Over time, one of my favorite parts of working with any code is sitting down to find duplication and erradicate it as much as possible. Not only in OOP, any form of duplication is enemy number one in killing projects—or in nastyfying them over time at least. I encourage you to learn all kinds of approaches to deal with that and also—even more importantly— to find your own strategies that work best for you and your team. This part of frontend development is a lot less guarded by programming principles, design patterns and so forth and therefore a lot more “Alice in Wonderland wandering down rabbit holes”-like and since a lot of people are cooking their own secret sauce, it can leave new team members or colleagues tripping out of their minds. Anyway…</p>
+
+<p>We should also comment out our visual grid in <code>source/stylesheets/base/_grid-settings.scss</code> and see how it looks:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/detail_page_widget_with_styles-no-grid.png"></p>
+
+<p>Same as before but with much cleaner styles. Me likey! Time to commit and for deploying our changes.</p>
+
+<h5>Shell</h5>
+
+<pre><code class="bash">
+git add --all
+git commit -m 'Extracts styles into _blog_post_extractions
+               Extracts duplications from
+                 _index_posts.sass
+                 _posts_detail.sass
+               Imports styles' 
+
+middleman deploy
+</code></pre>
+
+<p>Let’s go to our GitHub Pages page and check if everything works as expected. Ups! On the first glance it looks fine, but if we try to go to the detail page from index, we get a <code>404</code> error message. GitHub can’t find what we need.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/404.png"></p>
+
+<h2>Relative Links</h2>
+
+<p>If you have looked closely, you might have seen that we are missing some info in our url. Now it says something like <code>http://your_username.github.io/2015/11/30/my-super-awesome-post.html</code>. What it should say is something like <code>http://your_username.github.io/matcha-nerdz/2015/11/30/my-super-awesome-post.html</code>. The <code>matcha-nerdz</code> part was completely missing. Don’t worry, this is an easy fix though. We need to activate relative links in our config file.</p>
+
+<h5>config.rb</h5>
+
+<pre><code class="ruby">
+set :relative_links, true  
+</code></pre>
+
+<p>Having absolute links on GitHub Pages will point in the wrong direction. With this little change, your links are namespaced relative to your app’s root. As you can see from this little example, deploying early and often is nice to catch things like that. Finding these things out of context when you are already working on something completely different and you have to dig deep where bugs might come from can mess with your flow tremendously.</p>
+
+<h5>Shell</h5>
+
+<pre><code class="bash">git commit --all
+git commit -m 'Set relative_links in config.rb'
+
+middleman deploy
+</code></pre>
+
+<p>Everything should work fine now. The typography is not perfect yet but I’d like to move on and you can fine tune these things once the site is set up the way we need it. Let’s have a look:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/middleman/middleman_05_build/index-list-long-no-podcast.png"></p>
+
+<h2>Index List Player</h2>
+
+<p>As you can see, were are missing the audio widget and the length of the displayed post is not ideal for an index list. Let’s fix that next. I want to use the smaller SoundCloud player to display the podcast episode in the index list. Therefore it does not make sense to extract a partial for the player for both the index and the detail page—each page needs their own widget. If you like to use only one of the players for both layouts you should definitely extract a partial for it. I’ll leave that step to you since you already learned how this is done.</p>
+
+<h5>source/index.html.erb</h5>
+
+<p>``` erb</p>
+
+<p>&hellip;</p>
+
+<div class='posts'>
+  <% page_articles.each_with_index do |article, i| %>
+    <h2 class='post-title'><span class='post-date'><%= article.date.strftime('%b %e') %></span> <%= link_to article.title, article %></h2>
+
+    <% if article.data.soundcloud_id %>
+    <section class='soundclould-player-small'>  
+      <iframe 
+        width="100%"
+        height="166" 
+        scrolling="no" 
+        frameborder="no" 
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/<%= article.data.soundcloud_id %>&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+    <% end %>
+    </section>
+
+    <%= article.body %>
+  <% end %>
+</div>
+
+
+<p>&hellip;</p>
+
+<pre><code>
+The code example is focused on the section where we iterate over ```page_articles```. I added a conditional that only displays the audio widget if the article has a ```sound_cloud_id``` in the frontmatter of the article—which we access via its data attribute. It’s very similar to the way we solved this previously. In this case we used the block parameter `article` to access the info we need.
+
+##### Screenshot
+
+<img src="/images/middleman/middleman_05_build/index-list-long-with-small-podcast.png">
+
+Next I wanna shorten the displayed text as well before we apply a few styles. In the index list, we only want to see something like a 300 character summary—not too much but definitely also not too little text. Experiment on your own and see what works best for your needs.
+
+First we need to add the gem `Nokogiri` to our `Gemfile`, bundle it and adjust `source/index.html.erb` a bit.
+
+##### Gemfile
+</code></pre>
+
+<p>gem &lsquo;nokogiri&rsquo;</p>
+
+<pre><code>
+##### Shell
+</code></pre>
+
+<p>bundle install</p>
+
+<pre><code>
+In index we need to change only one line. I left a comment for what needs to be replaced. We use the summary method and supply it with the number of characters we want to see per article in the index list.
+
+##### source/index.html.erb
+</code></pre>
+
+<p>&lt;%# article.body %>
+&lt;%= article.summary(300) %></p>
+
+<pre><code>
+##### source/stylesheets/_index_posts.sass
+
+And we should add the styles for the small SC player on `.soundcloud-player-small` to our extracted file.
+
+##### source/stylesheets/_blog_post_extractions.sass
+</code></pre>
+
+<p>.posts p, .post-title, article.article-detail, .soundclould-player-small
+  +shift(2)
+  +span-columns(8)</p>
+
+<pre><code>
+Nudge the spacing a bit and we’re dont.
+</code></pre>
+
+<p>.soundclould-player-small
+  margin-bottom: 1em</p>
+
+<pre><code>
+##### Screenshot
+
+<img src="/images/middleman/middleman_05_build/index-list-long-with-small-podcast-summary.png">
+
+Alright, getting there. Now we have an index list that displays both text-only and podcast episode articles—uncomplicated, without any fuzz. If you have a bit better dummy text, this should look quite decent by now. Let’s commit!
+
+##### Shell
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Adds Article Summary &amp; Small Widget to Index
+               Adds styles for index list SC widget
+               Adds Nokogiri
+               Adds optional SC widget to index
+               Adds 300 character summary&rsquo;</p>
+
+<p>middleman deploy</p>
+
+<p>```</p>
+
+<h2>Break</h2>
+
+<p>I think you earned yourself a cool beverage at this point and we can leave it at that for now. In the next and final article we’ll tweak it a bit further and also add a little something for navigating the site.</p>
+
+<h2>Why SoundCloud? (Optional)</h2>
+
+<p>“Why host the podcast on SoundCloud?”, you might ask. Well, my reasoning was simple: First of all, it will quite certainly be around for a long time—something that you can’t necessarily expect from a lot of projects that offer to host your podcast audio files. I don’t wanna get myself in the situation of dealing with migrating tons of already published audio tracks to another service just because someone got acquihired or went bust. Second, it’s dead cheap to host a ton of tracks and they even have a free option for folks who publish tracks only occasionally. The player and its options are alright too—hadn’t any reason to complain about speed or anything so far. The stats are useful as well and there are already people on the platform who are into podcasts and stuff—which is good for the discovery factor. Don’t get me wrong, there are plenty of reasons why I wanted to hug somebody gently around the neck when dealing with uploading and silly UX things, but compared to the downsides of bigger headaches with other hosting options, SoundCloud seemed like the most reasonable choice overall. Lastly, I don’t like the custom sites these podcast sites offer. They look super generic and I like to build my own stuff that fits my needs and let’s me also create my own visual identity. This is just my own personal opinion and I’m not affiliated to SC in any way—atm at least. Don’t plan on changing that also.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 04-Podcast Site (Part 02)]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Middleman-Basics-04-Podcast-02/"/>
+    <updated>2015-11-28T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/28/Middleman-Basics-04-Podcast-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Posts Index</li>
+<li>Footer</li>
+<li><p>Color</p></li>
+<li><h3>Posts Index</h3></li>
+</ul>
+
+
+<p>Where were we? Right now our site doesn’t look too sexy.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/images/middleman/middleman_04_build/before_neat_outer-container.png"></p>
+
+<p>Currently our posts are not aligned to anything other than the left side and we’re in need of a grid to fix this mess. Our beloved Bourbon Neat to the rescue! First we’ll add a class <strong>.posts</strong> as a wrapper for our posts and make it an <strong>outer-container</strong> that centers the content on the page.</p>
+
+<p><strong>source/index.html.erb</strong></p>
+
+<p>``` erb</p>
+
+<div class='posts'>
+  <% page_articles.each_with_index do |article, i| %>
+    <h2><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></h2>
+    <!-- use article.summary(250) if you have Nokogiri available to show just
+         the first 250 characters -->
+    <%= article.body %>
+  <% end %>
+</div>
+
+
+<pre><code>
+Then we need to create a new Sass partial for our index styles and apply some magic.
+
+**source/stylesheets/all.sass**
+</code></pre>
+
+<p>@import &lsquo;index_posts&rsquo;</p>
+
+<pre><code>
+**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.posts
+  +outer-container</p>
+
+<pre><code>
+I also added a background color to make our outer container easily visible—for now.
+
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/after_neat_outer-container.png">
+
+**Git**
+</code></pre>
+
+<p>git add -all
+git commit -m &lsquo;Adds Sass partial for index posts
+               Centers content&rsquo;</p>
+
+<pre><code>
+Recent articles, tags, and calendar stuff is in **layout.erb** and doesn’t concern us atm. We’ll leave it as is for now. Let’s focus instead of making this index list of posts pop. Let’s give the **h2** title a class **post-title** and let title and paragraphs of body copy span for 8 (out of twelve) columns across the page. The posts need to shift two columns over as well because we want to avoid having our copy running across the whole page and thereby exceeding a healthy line width (measure) for reading of 45-75 characters.
+
+**source/index.html.erb**
+</code></pre>
+
+<div class='posts'>
+  <% page_articles.each_with_index do |article, i| %>
+    <h2 class='post-title'><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></h2>
+    <!-- use article.summary(250) if you have Nokogiri available to show just
+         the first 250 characters -->
+    <%= article.body %>
+  <% end %>
+</div>
+
+
+<pre><code>
+**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.post-title, .posts p
+  +shift(2)
+  +span-columns(8)</p>
+
+<pre><code>
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/after_shift_span-columns.png">
+
+Now we’re talking. Our content is aligned and nicely centered on the page. What we’re missing though is any form of visual hierarchy. Our **h2** titles are not much bigger than the content of our posts. To provide a better reading experience, we want to make sure titles and their corresponding text have better visual contrast than that.
+
+We need better text to work with first. Let’s make use of a Middleman helper for dummy text. Let’s add an **erb** extension to our blogposts and add the following to our test posts. Btw, we need the **.erb** extension only because we want to run some ruby code between this construct `&lt;%= %&gt;`.
+
+**source/posts/2012-01-01-example-article.html.markdown.erb**
+</code></pre>
+
+<p>This is an example article. You probably want to delete it and write your own articles!
+&lt;%= lorem.sentences 5 %></p>
+
+<pre><code>
+I’ll show you in a minute what what got here, but first a few more styles.
+
+**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.post-title
+  font-size: 1.7em</p>
+
+<p>.posts p
+  font-size: 1.05em
+  margin-bottom: 4em</p>
+
+<pre><code>
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/after_title_p_font-sized.png">
+
+A bit easier on the eyes isn’t it? We have adjusted the headers and paragraphs to a reasonable. A little extra margin in between posts makes all the difference. In terms of hierachy, its a good start.
+
+**Git**
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Adjusts size for title and body text
+               Adds dummy text
+               Adds .erb extension to dummy posts&rsquo;</p>
+
+<pre><code>
++ ### Footer
+
+I think we should take care of these ghastly floating elements on the bottom first. Let’s pack “Recent Articles” and “Tags” in a footer and get rid of “By Year”. The relevant markup is part of the global layout in **source/layouts/layout.erb**. Find the code in the **aside** tag below **yield** and adapt it like this:
+
+**source/layouts/layout.erb**
+</code></pre>
+
+<p><footer></p>
+
+<p>  <div class='recent-posts'>
+    <h3>Recent Posts</h3>
+    <ol>
+      &lt;% blog.articles[0&hellip;10].each do |article| %>
+        <li>&lt;%= link_to article.title, article %> <span>&lt;%= article.date.strftime(&lsquo;%b %e&rsquo;) %></span></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p>  <div class='footer-tags'>
+    <h3>Tags</h3>
+    <ol>
+      &lt;% blog.tags.each do |tag, articles| %>
+        <li>&lt;%= link_to &ldquo;#{tag} (#{articles.size})&rdquo;, tag_path(tag) %></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p></footer></p>
+
+<pre><code>
+The above default business of just looping through our posts and tags that comes with Middleman is fine. I want to have it a bit smarter though and introduce shuffling to both recent posts and tags. That way, the user doesn’t only see the last ten articles or a huge list of tags but a randomized version of both that is always ten items long. They also don’t consume a whole lot of space and let me align both items consistently in the footer. I renamed the **h3** for posts as well.
+
+**source/layouts/layout.erb**
+</code></pre>
+
+<p><footer></p>
+
+<p>  <div class='recent-posts'>
+    <h3>Random Posts</h3>
+    <ol>
+      &lt;% blog.articles.shuffle[0&hellip;10].each do |article| %>
+        <li>&lt;%= link_to article.title, article %> <span>&lt;%= article.date.strftime(&lsquo;%b %e&rsquo;) %></span></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p>  <div class='footer-tags'>
+    <h3>Tags</h3>
+    <ol>
+      &lt;% blog.tags.to_a.shuffle[0&hellip;10].each do |tag, articles| %>
+        <li>&lt;%= link_to &ldquo;#{tag} (#{articles.size})&rdquo;, tag_path(tag) %></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p></footer></p>
+
+<pre><code>
+I think we improved the user experience quite a bit through that little enhancement. Ruby made our job super easy. Now this markup only needs a little push for better alignment. We create a new Sass partial for just the footer.
+
+**source/stylesheets/all.sass**
+</code></pre>
+
+<p>@import &lsquo;footer&rsquo;</p>
+
+<pre><code>
+**source/stylesheets/_footer.sass**
+</code></pre>
+
+<p>footer
+  +outer-container
+  border-top: 1px solid $base-border-color
+  padding:
+    top: 4em
+    bottom: 4em</p>
+
+<p>.recent-posts
+  +shift(2)
+  +span-columns(6)</p>
+
+<p>.footer-tags
+  +span-columns(2)</p>
+
+<p>.recent-posts, .footer-tags
+  h3
+    font-size: 1.7em
+  li
+    font-size: 1.05em</p>
+
+<pre><code>
+In order to have some tangible test data, I added a couple more example posts via the middleman generator and gave it some dummy lorem text.
+
+**Shell**
+</code></pre>
+
+<p>middleman article &lsquo;Your fancy title&rsquo;</p>
+
+<pre><code>I should probably mention that I also needed to add an **.erb** extension to these new posts for the dummy lorem text generator. The frontmatter contains a couple more tags to play with as well.
+
+**source/posts/2015-12-01-your-fancy-title.html.markdown.erb"**
+</code></pre>
+
+<hr />
+
+<p>title: Example Post
+date: 2015-12-01</p>
+
+<h2>tags: example, bourbon, neat, middleman</h2>
+
+<p>This is an example article. You probably want to delete it and write your own articles!
+&lt;%= lorem.sentences 5 %></p>
+
+<pre><code>
+The goal was to have at least ten posts and tags to see if everything aligns properly. Let’s see what we got here:
+
+**Screenshot with dummy background**
+
+<img src="/images/middleman/middleman_04_build/footer-shuffled-10-items-span-columns.png">
+
+Ok, now the background colors have fullfilled their duty for now. Let’s kill them and check if we’re happy with the actual result:
+
+**Screenshot without dummy background**
+
+<img src="/images/middleman/middleman_04_build/footer-shuffled-10-items-span-columns-without-bg.png">
+
+I think it looks decent and we can leave it like that for now. Time to commit our changes.
+
+**Git**
+</code></pre>
+
+<p>git add  ../layouts/layout.erb
+gco -m &lsquo;Adapts layout and adds footer&rsquo;</p>
+
+<p>git add ../stylesheets/_footer.sass ../stylesheets/all.sass
+git commit -m &lsquo;Adds styles for footer and imports Sass partial&rsquo;</p>
+
+<p>git add ../posts/*.markdown.erb
+git commit -m &lsquo;Adds a bunch of dummy posts with:
+              dummy lorem text
+              dummy tags&rsquo;</p>
+
+<pre><code>
+Before we move on, we should deploy to GitHub Pages, check our progress and make sure we’re not running into any surprises.
+
+**Shell**
+</code></pre>
+
+<p>middleman deploy</p>
+
+<pre><code>
+Open your browser and go to `yourusername.github.io/your_project_name` and see if you’re happy with your site so far.
+
+What should we do next? You’re right, the footer screams in bigh letters EXTRACTION! We’re gonna take the **footer**, create a new folder for partials and put the markup in there. In turn, we need to render that partial from **layout.erb**.
+
+**source/layouts/layout.erb**
+</code></pre>
+
+<p><body></p>
+
+<p>  <div id="main" role="main">
+    &lt;%= yield %>
+  </div></p>
+
+<p>  &lt;%= partial &ldquo;partials/footer&rdquo; %></p>
+
+<p></body></p>
+
+<pre><code>
+**source/partials/_footer.erb**
+</code></pre>
+
+<p><footer></p>
+
+<p>  <div class='recent-posts'>
+    <h3>Random Posts</h3>
+    <ol>
+      &lt;% blog.articles.shuffle[0&hellip;10].each do |article| %>
+        <li>&lt;%= link_to article.title, article %></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p>  <div class='footer-tags'>
+    <h3>Tags</h3>
+    <ol>
+      &lt;% blog.tags.to_a.shuffle[0&hellip;10].each do |tag, articles| %>
+        <li>&lt;%= link_to &ldquo;#{tag}&rdquo;, tag_path(tag) %></li>
+      &lt;% end %>
+    </ol>
+  </div></p>
+
+<p></footer></p>
+
+<pre><code>
+I suppose you paid close attention and saw that I got rid of the date for the list of articles in the footer. I did this for two reasons. First of all, we’re gonna save a bit more space so that we don’t easily run in the scenario that the alignment with the tags breaks when the title for the post is a bit longer. Secondly, I thought it is a bit distracting and doesn’t add too much.
+
+This list of randomzied articles in the footer is a handy way to introduce new stuff to the audience. The date doesn’t play a big role in that. The same goes for the number of articles for the tag links. They waste space without adding too much value. Also, if you don’t have too many articles for a certain tag, it doesn’t look empty right away. I’d rather have more space for a stable layout. It also feels a bit more clean, but that is clearly very subjective.
+
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/footer-posts-without-date-tagnumbers.png">
+
+**Git**
+</code></pre>
+
+<p>git add &ndash;all
+git commit -m &lsquo;Extracts footer into partial
+               Removes date from post links in footer
+               Removes number of articles for tags in footer
+                 Didn’t provide enough value to sacrifice space&rsquo;</p>
+
+<pre><code>
+While we’re at it. Let’s take care of the date in our index titles. I think their size is way too prominent which does not improve our visual hierarchy and I don’t like having it at the end of the title. I’d rather stick it on the other side and use it as a visual anchor that doesn’t jump around with varying title lengths.
+
+**source/index.html.erb**
+</code></pre>
+
+<div class='posts'>
+  <% page_articles.each_with_index do |article, i| %>
+    <h2 class='post-title'><span class='post-date'><%= article.date.strftime('%b %e') %></span> <%= link_to article.title, article %></h2>
+    <%= article.body %>
+  <% end %>
+</div>
+
+
+<pre><code>
+**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.post-date
+  font-size: 0.7em
+  margin:
+    left: em(-80px)
+    right: em(20px)</p>
+
+<pre><code>
+The title of the post is reordered and starts with the span hat contains the date. I left a little whitespace between the span with the date and the title itself because if I align the date with the article body text for smaller screens then I have a natural one character space between the date and the title—and don’t need to use Sass unnecessarily.
+
+The Sass code is straightforward. The negative margins help me to visually anchor the date to the left of the title and I used a Bourbon function to convert their pixel values into ems. Simple but I like the hierarchy we achieved. The eyes have something to jump to via the dates and the rest has enough whitespace so that we can stay away from using borders to divide our posts. Me, happy!
+
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/post-title-smaller-anchors.png">
+
+**Git**
+</code></pre>
+
+<p>git add ../index.html.erb ../stylesheets/_index_posts.sass
+git commit -m &lsquo;Changes order for date and post title on index page
+               Styles date to create visual anchor&rsquo;</p>
+
+<pre><code>
+**Shell**
+</code></pre>
+
+<p>middleman deploy</p>
+
+<pre><code>
+
++ ### Color
+
+Let’s bring this thing to life a bit—but not too much. Less is more! I went to [COLOURlovers](http://www.colourlovers.com/) and played with a couple of color palettes. Sites with various palletes can help to give you ideas where you wanna go. Watch out for solutions that can enhance your visual hierarchy but stay away from colors that are screamishly loud. I realize that this is vague since colors can be very subjective and culturally loaded but that’s how I approach it atm anyway. 
+
+Overall, it’s not an easy topic and I wish web peeps would pay more attention to it. You certainly shouldn’t just poke around on a color wheel when you lack the experience. If you’re new to this, educate yourself and don’t just pick a color because you feel like it or because it looks cool or something. A reasonable use of color can be very powerful—on the other hand, it can look very comical very quickly as well.
+
+**source/stylesheets/base/_variables.scss**
+</code></pre>
+
+<p>$matcha-green: #78B69D;
+$text-color: darken($medium-gray, 20%);</p>
+
+<pre><code>
+Back to business, after playing with some ideas, I added two new global colors to my Sass variables file from Bitters. **$matcha-green** is now the color I wanna use for my identity and placed in this file I can reuse this variable wherever I please. Should I change my mind about what green I want, I will need to change it only in once place! Also, I wasn’t too happy with the default color for text. Using a Sass function I darkened one of the preset colors from Bitters by 20 percent and stored that as **$text-color**. Post titles on hover, as well as dates and body copy got the new text color. The default was too dark imho.
+
+**source/stylesheets/base_typography.scss**
+</code></pre>
+
+<p>// transition: color $base-duration $base-timing;</p>
+
+<pre><code>**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.post-title
+  font-size: 1.7em
+  a
+    +transition(color .4s ease-in-out)
+    color: $matcha-green
+    &amp;:hover
+      color: $text-color</p>
+
+<p>.post-date
+  color: $text-color</p>
+
+<p>.posts p
+  color: $text-color</p>
+
+<pre><code>
+I also added a slight transition through a Bourbon mixin for hovering over **.post-title**. This changes from **$matcha-green** to **$text-color** over **.4** seconds. Check my articles about Bourbon Mixins if you wanna know more. In case you wonder about the **ease-in-out** part, it’s one of 32 ways to time transitional behaviour. ($ease-in-out, as a **$**variable, like in the documentation will through an error) It’s a small enhancement but looks a lot better than browser defaults. To make this work I also had to uncomment the default transition behaviour from Bitters first in **base_typography.scss**. 
+
+**source/stylesheets/_footer.sass**
+</code></pre>
+
+<p>footer
+  border-top: 1px solid rgba($text-color, .3)</p>
+
+<p>.recent-posts, .footer-tags
+  color: darken($medium-gray, 20%)
+  a
+    +transition(all .1s ease-in-out)
+    color: $text-color
+    &amp;:hover
+      color: $matcha-green
+      border-bottom: 2px solid $matcha-green</p>
+
+<pre><code>
+Lastly, I adapted the colors for the footer as well. This gives us a coherent appearance and hopefully a bit understatement. The transitional behavior needed to be sped up for the links in the footer. Since they are grouped so tight together I felt it wold be better if they are a bit snappier and underlined as well. 
+
+In terms of color, I did the oposite as with the titles in the index list. Since the footer list doesn’t need to be as present on the page—especially with so little distance between them—I gave them the default gray text color and only use the **$matcha-green** when hovering. In this example we “only” use whitespace and the sizing of type to achieve hierarchy.
+
+Oh, and the border above the footer needed a bit opacity via the Sass **rgba** function. I figured that 30 percent opacity is just enough to do its job without sticking out that much.
+
+Not too shabby looking for such a small amount of code. Exactly how I like it—the less “code” you write the less bugs you bite!
+
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/after-color-changes-index.png">
+
+**Git**
+</code></pre>
+
+<p>git add &ndash;all</p>
+
+<p>git commit -m &lsquo;First attempt at tuning colors
+               Adds new brand color as $matcha-green
+               Adds new $text-color:
+                 Body copy
+                 Post titles hover
+                 Footer headers
+               Takes care of hover transitions
+                 Comments out Bitters default transition&rsquo;</p>
+
+<pre><code>
+One more little thing that bugs me is the line height of the body copy. Let’s tweak that too.
+
+**source/stylesheets/_index_posts.sass**
+</code></pre>
+
+<p>.posts p
+  line-height: 1.35em</p>
+
+<pre><code>
+**Screenshot**
+
+<img src="/images/middleman/middleman_04_build/index-body-copy-line-height.png">
+
+**Git**
+</code></pre>
+
+<p>git add ../source/stylesheets/_index_posts.sass
+git commit -m &lsquo;Adjusts line-height for body copy on index&rsquo;</p>
+
+<pre><code>
+**Shell**
+</code></pre>
+
+<p>middleman deploy</p>
+
+<p>```</p>
+
+<ul>
+<li><h3>Break</h3></li>
+</ul>
+
+
+<p>Good job so far! Time for another break. In the next article we’re gonna add a navbar and a “hero unit” on top—maybe more. See you there! Get yourself a snack and chill for a bit!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 03-Podcast Site (Part 01)]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/22/Middleman-03-Podcast-01/"/>
+    <updated>2015-11-22T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/22/Middleman-03-Podcast-01</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Roadmap</li>
+<li>Basic Blog Setup</li>
+<li>LiveReload</li>
+<li>Organizing Posts</li>
+<li>GitHub Pages Deployment</li>
+<li>Smarter Assets</li>
+<li>Bourbon Setup</li>
+<li><p>Normalize &amp; jQuery</p></li>
+<li><h3>Roadmap</h3></li>
+</ul>
+
+
+<p>Let’s start with a little heads up where this is going. Over the next couple of articles I’m gonna build a small static site for a fictitious podcast called “Matcha Nerdz”—a podcast for people who wanna dive into all things powdered green tea. It will have the following pages:</p>
+
+<ul>
+<li>A page for each tag</li>
+<li>A detail page for every episode</li>
+<li>An index page for previous podcasts</li>
+</ul>
+
+
+<p>We will use Middleman for generating the static site and the Bourbon suite for all things styling. I expect / hope that you have taken a look at my articles about Bourbon, Neat and Middleman before you came here. If not, see you in a bit—unless you feel you are already prepared enough of course. I will explain what’s going on along the way but I will not cover the basics as I did previously.</p>
+
+<p>For all things styling, I heavily rely on Bourbon for quite a while. Also I really dig the indented Sass syntax—I never really got why people are keen to write all that extra junk with the <strong>.scss</strong> syntax. The <strong>.sass</strong> syntax is the only (probably) unfamiliar bit I wanna throw at newbies because it’s really worth it and I’d kick myself writing it “sassyly”. Originally I wanted to use Slim instead of HTML and ERB but I decided against that since I don’t want to introduce too many unknowns for newbies. I want to do something similar with Slim though in the future—mainly because I feel it’s the best solution to write concise and intelligent markup out there at the moment. So raincheck. Why not Haml? Simple, Slim is more awesome!</p>
+
+<ul>
+<li><h3>Basic Blog Setup</h3></li>
+</ul>
+
+
+<p>Let’s initiate a new app for our podcast site:</p>
+
+<p><strong>Shell:</strong></p>
+
+<pre><code class="bash">middleman init matcha_nerdz
+</code></pre>
+
+<p>and of course</p>
+
+<pre><code class="bash">cd matcha_nerdz
+</code></pre>
+
+<p><strong>Git:</strong></p>
+
+<pre><code class="bash">git init      
+# =&gt; to initiate new Git repo
+
+git add --all 
+# =&gt; adds all the files for staging
+
+git commit -m 'Initital commit' 
+# =&gt; commits changes
+</code></pre>
+
+<p>Now we add the blog template to the mix. The blog template is a good basis for our podcast site. Later we will adjust the articles to display podcast audio tracks from SoundCloud. For now, it’s just a blog though:</p>
+
+<p><strong>Gemfile</strong></p>
+
+<pre><code class="ruby">gem "middleman-blog"
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">bundle
+# or
+bundle exec middleman
+</code></pre>
+
+<pre><code class="bash">middleman init --template=blog
+</code></pre>
+
+<p>This will update your <strong>matcha_nerdz</strong> folder. <strong>.config.rb</strong> and your index template get a little update as well. On top of that you get new templates for your feed, tags page, calendar page, an example article and a new layout. Check the output from the terminal:</p>
+
+<pre><code class="bash">identical  .gitignore
+   update  config.rb
+    exist  source
+   create  source/2012-01-01-example-article.html.markdown
+   create  source/calendar.html.erb
+   create  source/feed.xml.builder
+   update  source/index.html.erb
+   create  source/layout.erb
+   create  source/tag.html.erb
+    exist  source/stylesheets
+    exist  source/javascripts
+    exist  source/images
+</code></pre>
+
+<p><strong>Git:</strong></p>
+
+<pre><code class="bash">git add --all
+git commit -m 'Adds blog template'
+</code></pre>
+
+<p>What you can do now is create new articles via the command line. Pretty handy if you ask me if you can spare yourself typing all these dates and stuff.</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">middleman article 'My new fancy second article'
+#=&gt; create  source/2015-11-22-my-wonderful-second-article.html.markdown
+</code></pre>
+
+<p>This creates a new markdown article under <strong>/source</strong>. Not optimal storage-wise but we’ll get there. Fire up your server to see your first example blog article:</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash ">middleman
+#or
+middleman server
+</code></pre>
+
+<p>Next we need have some housekeeping to do. The blog template created a new layout under <strong>source/layout.erb</strong>. We wanna delete the orginal one in <strong>source/layouts/layout.erb</strong> and move the new one in there:</p>
+
+<p><strong>Shell:</strong></p>
+
+<pre><code class="bash">rm source/layouts/layout.erb
+mv source/layout.erb source/layouts/
+</code></pre>
+
+<p>We also need to update the new <strong>layout.erb</strong> with stuff that was deleted in the layout file. Add this to your <strong>head</strong> tag:</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<pre><code class="erb">&lt;meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"&gt;
+&lt;%= stylesheet_link_tag "normalize", "all" %&gt;
+&lt;%= javascript_include_tag  "all" %&gt;
+</code></pre>
+
+<p>Most importantly, this makes sure that your JS and style assets are avaiable.</p>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">git rm source/layout.erb
+git add --all
+git commit -m 'Moves new layout into /layouts
+               Adds asset links
+               Removes old layout'
+</code></pre>
+
+<h3>LiveReload</h3>
+
+<p>To make our lives a tad more convenient we’ll add LiveReload to the mix. We need the gem and then activate it in your <strong>config.rb</strong> file:</p>
+
+<p><strong>Gemfile</strong></p>
+
+<pre><code class="ruby">gem 'middleman-livereload'
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">bundle
+</code></pre>
+
+<p><strong>config.rb</strong></p>
+
+<pre><code class="ruby">#uncomment
+activate :livereload
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">git add --all
+git commit -m 'Activates LiveReload'
+</code></pre>
+
+<p>With this activated, restart your server and your page refreshes automatically whenever you change content on the page, styles or behaviour. Life saver, trust me!</p>
+
+<h3>Attention!</h3>
+
+<p>Word of caution. If you have another local server running, LiveReload may not play ball. So you’d need to kill that other server for now. Weird bug to hunt down if you don’t expect ports being already taken. Also, sometimes killing the Wi-Fi and restarting the server solved local host issues. But to be honest I don’t remember if I ran into that issue in the past with Middleman or Jekyll. Anyway, keep it in mind.</p>
+
+<h3>Organizing Posts</h3>
+
+<p>When you look where articles are stored right now, you’ll quickly realize that this organization directly under <strong>/source</strong> becomes very quickly very tedious. Couple of articles and you drown in posts. No need to be that messy. What we can do is create a dirctory under /source for all your posts, move your article(s) in there and let Middleman know where to find them.</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">mkdir source/posts
+mv source/2012-01-01-example-article.html.markdown source/posts/
+</code></pre>
+
+<p>Then we add <strong>/posts</strong> as a source for your blog articles:</p>
+
+<p><strong>config.rb</strong></p>
+
+<pre><code class="ruby">blog.sources = "posts/:year-:title.html"
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">git rm source/2012-01-01-example-article.html.markdown
+# Removes moved file from repo
+
+git add --all
+gco -m 'Adds new folder for posts and adds source in config.rb'
+</code></pre>
+
+<p>That’s it. Nothing should have changed and you should see the example article as before. Storage of posts however is a lot more sane. What’s also cool is that if you create new articles via the command line, your new posts will get stored in <strong>/post</strong> automatically. Awesome!</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">middleman article 'My awesome 3rd article'
+# =&gt; create  source/posts/2015-my-awesome-3rd-article.html.markdown
+</code></pre>
+
+<h3>GitHub Pages Deployment</h3>
+
+<p>For me, pushing static sites to GitHub Pages is such a convenient solution that I don’t wanna put you through deploying via Heroku or Amazon’s S3 service. Let’s keep it simple!</p>
+
+<p><strong>Gemfile</strong></p>
+
+<pre><code class="ruby">
+gem "middleman-deploy"
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">
+bundle
+</code></pre>
+
+<p>We need to add a deploy block to <strong>config.rb</strong>:</p>
+
+<pre><code class="ruby">
+activate :deploy do |deploy|
+  deploy.method = :git
+  deploy.branch = 'gh-pages'
+  deploy.build_before = true
+end
+</code></pre>
+
+<p>In order for GitHub Pages to find your CSS and JS assets you need to activate the following in <strong>config.rb</strong> as well:</p>
+
+<pre><code class="ruby">
+configure :build do
+  activate :relative_assets
+end
+</code></pre>
+
+<p>Then create a repo on GitHub, add the remote and deploy:</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">
+git remote add origin https://github.com/yourusername/repositoryname.git
+
+middleman deploy
+</code></pre>
+
+<p>Boom! Your site is live under <code>yourusername.github.io/projectname</code> and your assets should be sorted out. I love this process—couldn’t be easier and more user friendly. Great job GitHub!</p>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">
+git add --all
+gco -m 'Adds setup for GitHub Pages deployment'
+</code></pre>
+
+<h3>Smarter Assets</h3>
+
+<p>In the last step before we get into the Bourbon setup, I’d like to get rid of the styles that come with Middleman and optimize the assets for a better performance in the browser—asset minification and concatenation. Go to <strong>source/stylesheets/all.css</strong> and delete it’s content. Just keep the first line:</p>
+
+<pre><code class="css">@charset "utf-8";
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">
+git add --all
+git commit -m 'Removes unneccessary Middleman styles'
+</code></pre>
+
+<p>Next we want to activate a couple of options to optimize for performance in <strong>config.rb</strong>:</p>
+
+<pre><code class="ruby">
+configure :build do
+  activate :asset_hash
+  activate :minify_javascript
+  activate :css
+  activate :gzip
+end
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">
+git add --all
+git commit -m 'Activates performance optimizations'
+</code></pre>
+
+<p>Let me quickly explain what we did here:</p>
+
+<ul>
+<li><strong>:gzip</strong></li>
+</ul>
+
+
+<p>At the moment, gzip is the most popular and effective compression method. It’s compression algorithm finds similar strings within a file and compresses them. For HTML, which is full of white space and matching tags, this is very effective and adds up to reducing the HTTP response size by a whopping 70%. Activating this, not only gzips your HTML, but also CSS and JSS files. During build, Middleman creates your files as usual but also duplicates them with a <strong>.gz</strong> version. When a browser gets in touch with your files, it can choose if it can serve gzip compressed files or regular ones. gzipping is supported heavily by web and mobile browsers.</p>
+
+<ul>
+<li><strong>:minify_css</strong></li>
+</ul>
+
+
+<p>This process strips out all unneccessary junk from your styles and reduces their file size significantly. Bascially, your CSS becomes one big blob—optimized for being read by a machine. Definitely not friendly on the eyes.</p>
+
+<ul>
+<li><strong>:minify_javascript</strong></li>
+</ul>
+
+
+<p>Same as <strong>minify_css</strong> but a bit more involved and sophisticated.</p>
+
+<ul>
+<li><strong>:asset_hash</strong></li>
+</ul>
+
+
+<p>This activates hashing of your assets. It means that your asset filenames change and receive some extra information—during the build process—that informs browsers if they need to re-download assets or not. Now, the name of a file is dependent on the contents of that file. Hashed assets get cached by browsers and your sites get rendered faster. Another word for this is “fingerprinting” because it provides a simple solution to inform browsers whether or not two versions of a file are indentical. The deployment date does not matter—only the contents. Take a look below how hashed assets’ files look like:</p>
+
+<p><strong>Screenshots</strong></p>
+
+<p><img src="/images/middleman/basics_03_build/asset_hash_css.png"></p>
+
+<p><img src="/images/middleman/basics_03_build/asset_hash_images.png"></p>
+
+<p><img src="/images/middleman/basics_03_build/asset_hash_js.png"></p>
+
+<p>Looks nasty, but now your images, stylesheets and JavaScript files get a unique name through this added “random” code—what is called a (unique) hash. Every time you change an asset and go through the build process again, this hash changes which in turn signals to browsers that then, and only then, they need to re-download that particular file. The files then sorta expired. This is called “cache busting”. Btw, you can refer to your files the same way as before but during build the references in your HTML and what not get updated to use these hashed names. Take a look:</p>
+
+<p><strong>/build/index.html(.gz)</strong></p>
+
+<pre><code class="html">
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' /&gt;
+         &lt;meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"&gt;
+    &lt;title&gt;Blog Title&lt;/title&gt;
+    &lt;link rel="alternate" type="application/atom+xml" title="Atom Feed" href="http://vis-kid.github.io/octo-draft/feed.xml" /&gt;
+    &lt;link href="stylesheets/normalize-6197e73d.css" rel="stylesheet" type="text/css" /&gt;&lt;link href="stylesheets/all-0355b587.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;script src="javascripts/all-da39a3ee.js" type="text/javascript"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+  ...
+</code></pre>
+
+<p>See, in your <strong>/build</strong> folder, JS and CSS files get referenced with the hashed asset names automatically. As a result of this hashing business, when you go through different pages in the same session or revisit a page again later, these assets have been cached and don’t need to be requested again—only until you change something. This process cuts down your number of requests by a staggering amount. Isn’t that cool? All of that with one line of code in <strong>config.rb</strong> and some <em>Sprockets</em> wizardry. Booyakasha!</p>
+
+<p>The key with all these asset optimization techniques is to minimize the number of requests and the request size of your files / assets. Middleman offers great performance boosts right out the box without any work on your end really. Just activate this stuff and sleep tight. GitHub Pages has everthing gzipped and minified out of the box btw. Doesn’t hurt though to make sure everything is in place—especially if you later decide to host your app somewhere else. By then, you don’t need to think about solving this problem again.</p>
+
+<p>Let’s have a look where we’re at. Your index page should look pretty barebones now:</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/images/middleman/basics_03_build/matchanerdz_screen_01.png"></p>
+
+<ul>
+<li><h3>Bourbon Setup</h3></li>
+</ul>
+
+
+<p>For this project I want to use three gems from Bourbon:</p>
+
+<ul>
+<li>Bourbon</li>
+<li>Neat</li>
+<li>Bitters</li>
+</ul>
+
+
+<p>Let’s add them to our <strong>Gemfile</strong> and bundle:</p>
+
+<pre><code class="ruby">
+gem 'bourbon'
+gem 'neat'
+gem 'bitters'
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">
+bundle
+</code></pre>
+
+<p>Bourbon and Neat are now good to go (almost). Bitters needs to install a few things first though. You need to change into your stylesheets directory and activate a generator that places a bunch of Bitters files in a <strong>/base</strong> folder.</p>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">
+cd source/styleheets
+bitters install
+</code></pre>
+
+<p>Take a look what we got after this:</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/images/middleman/basics_03_build/install_bitters_base.png"></p>
+
+<p>Bitters is something like a baseline for your designs. It gives you a couple of sane designs for stuff like buttons, type, forms, error messages and so on. Bitters also prepared a <strong>grid-settings</strong> file for your <strong>Neat</strong> grid which we also have to set up by uncommenting the following line in <strong>source/stylesheets/base/_base.scss</strong>:</p>
+
+<pre><code class="scss">@import "grid-settings";
+</code></pre>
+
+<p>To complete our Bourbon settings for now I’d like to add the following variables to our grid-settings. They lay the groundwork for sizing our grid and activate a visual grid that helps us to better align our design.</p>
+
+<p><strong>/source/stylesheets/base/_grid-settings.scss</strong></p>
+
+<pre><code class="scss">
+$column: 90px;
+$gutter: 30px;
+$grid-columns: 12;
+$max-width: 1200px;
+
+$visual-grid: true;
+$visual-grid-index: back;
+$visual-grid-opacity: 0.15;
+$visual-grid-color: red;
+</code></pre>
+
+<p>The final step to make this work is rename <strong>/stylesheets/all.css</strong> to <strong>/stylesheets.all.sass</strong> and import our Bourbon files.(Since we switched to the indented Sass syntax, we also need to kill the semicolon at the end of the <strong>@charset</strong> line.)</p>
+
+<p><strong>all.css.scss</strong></p>
+
+<pre><code class="sass">@charset "utf-8"
+
+@import 'bourbon'
+@import 'base/base'
+@import 'neat'
+</code></pre>
+
+<p>We import Bitters’ base file here right after Bourbon because we need access to Neat’s <strong>grid-settings</strong> file—which is in the <strong>/base</strong> folder—before we import Neat.</p>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">
+git add --all
+git commit -m 'Sets up Bourbon and activates grid settings'
+</code></pre>
+
+<p>Let’s have a look! You can see the red visual grid and also that thanks to Bitters, our typography already improved a bit beyond browser defaults.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/images/middleman/basics_03_build/bourbon_installed_visual_grid.png"></p>
+
+<ul>
+<li><h3>Normalize &amp; jQuery</h3></li>
+</ul>
+
+
+<p>Let’s get this out of the way also, shall we? Middleman comes with a <a href="https://necolas.github.io/normalize.css/">Normalize</a> file which gets not imported into <strong>all.css</strong> by default. That’s one unneccessary asset request we can easily get rid of. Rename <strong>source/stylesheets/normalize.css</strong> to <strong>source/stylesheets/_normalize.css.scss</strong> first. Now we have a partial that we need to import right at the top after <strong>@charset</strong> in <strong>source/stylesheets/all.sass</strong>:</p>
+
+<pre><code class="sass">
+@charset "utf-8"
+
+@import 'normalize'
+
+@import 'bourbon'
+@import 'base/base'
+@import 'neat'
+@import 'normalize'
+</code></pre>
+
+<p>In case you’re wondering about what <em>Normalize</em> does, think of it as leveling the playing field between the default styles that browsers like to add. One browser likes to add padding here, another has useless margins there, etc. Projects like Normalize try to reset that behaviour so that all elements / designs get rendered more consistently across browsers.</p>
+
+<p>One thing we shouldn’t overlook is the link for our stylesheets in our layout. Since we’re using Sass partials that all get imported into a final, “global” stylesheet, we do not need a link to <strong>normalize.css</strong> anymore—a link to <strong>all.sass</strong> is enough:</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<pre><code class="erb">
+&lt;%= stylesheet_link_tag "all" %&gt;
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">
+git rm source/stylesheets/normalize.css
+git add --all
+git commit -m 'Imports normalize partial properly'
+</code></pre>
+
+<p>Finally, before we take a break, we need to add jQuery which we’ll need later on.</p>
+
+<p><strong>Gemfile</strong></p>
+
+<pre><code class="ruby">gem "jquery-middleman"
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">bundle
+</code></pre>
+
+<p>Since I wanna use CoffeeScript for this project, we need to rename <strong>source/javascripts/all.js</strong> to <strong>source/javascripts/all.coffee</strong>. In there we require jQuery for Sprockets / Asset Pipeline and we’re all set.</p>
+
+<p><strong>all.coffee</strong></p>
+
+<pre><code class="javascript">//= require jquery
+</code></pre>
+
+<p><strong>Git</strong></p>
+
+<pre><code class="bash">git rm source/javascripts/all.js
+git add -all
+git commit 'Adds jQuery to the Mix
+            Renames gobal js file to coffee'
+</code></pre>
+
+<p><strong>Shell</strong></p>
+
+<pre><code class="bash">middleman deploy
+</code></pre>
+
+<p>After deploying, open your site on GitHub Pages to see if everyting works as expected. Nice job!</p>
+
+<ul>
+<li><h3>Break</h3></li>
+</ul>
+
+
+<p>Let’s take a break. We got quite a few boring setup steps out of the way with this one. Hope you got a clear picture what you need for a solid basis when you start a new Middleman project. Next we’ll expand on what we’ve built here and continue working towards a decent site for our podcast.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 02]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Middleman-Bascis-02/"/>
+    <updated>2015-11-13T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/13/Middleman-Bascis-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/3Stooges_600_mirrored.jpg"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Data Files</li>
+<li>Pretty URLs</li>
+<li>Asset Pipleline</li>
+<li><p>Project Templates</p></li>
+<li><h3>Data Files</h3></li>
+</ul>
+
+
+<p>So you have already learned how to play with data that you stored in the triple-hyphen-delimited frontmatter sections of individual pages. You can write separate data files in YAML or JSON and put them in a <strong>/data</strong> directory. I guess this is mostly useful if you have more complex sites with data that rarely changes and where you don’t want to maintain that data directly in your HTML.</p>
+
+<p>Let’s say you have the rights to sell all James Bond movies. We could put a list of them in a data file and iterate over them in our view. If we’d need to change or update that data when a new movie is available you’d only need to apply that change in your <strong>.yaml</strong> or <strong>.json</strong> data file. I would not recommend doing that for data that is in any way complex—to a degree doable, but feels very iffy and wrong.</p>
+
+<p><strong>/data/bond.yaml</strong></p>
+
+<pre><code class="ruby">
+movies:
+- title: "Dr. No"
+  year:  "1962"
+  text:  "John Strangways, the British Intelligence (SIS) Station Chief in Jamaica, is killed. In response, British agent James Bond—also known as 007—is sent to Jamaica to investigate the circumstances. During his investigation Bond meets Quarrel, a Cayman fisherman, who had been working with Strangways around the nearby islands to collect mineral samples. One of the islands was Crab Key, home to the reclusive Dr. No."
+  image: "bond_movie_01.png"
+- title: "From Russia with Love"
+  year:  "1963"
+  text:  "SPECTRE's expert planner Kronsteen devises a plot to steal a Lektor cryptographic device from the Soviets and sell it back to them while exacting revenge on Bond for killing their agent Dr. No; ex-SMERSH operative Rosa Klebb is in charge of the mission. She recruits Donald "Red" Grant as an assassin and Tatiana Romanova, a cipher clerk at the Soviet consulate in Istanbul, as the unwitting bait."
+  image: "bond_movie_02.png"
+- title: "Goldfinger"
+  year:  "1964"
+  text:  "Bond is ordered to observe bullion dealer Auric Goldfinger: he sees Goldfinger cheating at cards and stops him by distracting his employee, who is subsequently killed by Goldfinger's Korean manservant Oddjob. Bond is then instructed to investigate Goldfinger's gold smuggling and he follows the dealer to Switzerland. Bond is captured when he reconnoitres Goldfinger's plant and is drugged; he is taken to Goldfinger's Kentucky stud farm and is imprisoned. He escapes briefly to witness Goldfinger's meeting with U.S. mafiosi, who have brought the materials he needs for an operation to rob Fort Knox."
+  image: "bond_movie_03.png"
+...
+</code></pre>
+
+<p><strong>source/bond-movies.html.erb</strong></p>
+
+<p>``` erb</p>
+
+<h2>Bond movies</h2>
+
+
+<ol>
+<% data.bond.movies.each do |movie| %>
+  <li>
+  <%= image_tag movie.image %>
+    <h3><%= movie.title %></h3>
+    <h6><%= movie.year %></h6>
+    <p> <%= movie.text %></p>
+  </li>
+<% end %>
+</ol>
+
+
+<pre><code>
+One of the advantages of these data files is surely that they aren’t very susceptible to getting hacked. Even better, your **/data** directory with all the YAML or JSON data won’t get pushed to your branch that is responsible for hosting—like your **gh-pages** branch if you host your Middleman app on GitHub Pages. During the **build** phase, your data gets injected into your templates localy before it gets deployed. After that, the data in your views is just plain static HTML. Pretty cool!
+
+A word about naming conventions here. When you have data files in a **data** directory you get access to a **data** object. Middleman then creates “objects” for every **.yml**, **.yaml** or **.json** file which you can access through the inital **data** object by chaining it on. Lastly, the object stored in your data files are added on to that—which in turn give you access to the attributes you have stored on that object. In our case, we have a **movies** YAML “object” with the attributes **title**, **year**, **text** and **image**.
+</code></pre>
+
+<p>&lt;%= data.data_file_name.yaml_or_json_object.attribute %></p>
+
+<p>&lt;%= data.bond.movies.image %>
+&lt;%= data.bond.movies.title %>
+&lt;%= data.bond.movies.year %>
+&lt;%= data.bond.movies.text %></p>
+
+<pre><code>
+If you have subdirectories, you just need to tuck them on. Let’s say you have your bond movies data file under a **spy_movies** directory (**/data/spy_movies/bond.yaml**) You’d now access it like so:
+</code></pre>
+
+<p>&lt;%= data.spy_movies.bond.movies.title %></p>
+
+<pre><code>
+Lastly I should add that storing it in JSON might be cooler but all the excess commas, brackets and braces turn me off tbh. Not only in data files but in frontmatter sections as well. Up to you what suits you best of course. See for yourself:
+
+**some_file.yaml**
+</code></pre>
+
+<p>bond_girls:
+- Strawberry Fields
+- Jill Masterson
+- Tiffany Case</p>
+
+<pre><code>
+**some_file.json**
+</code></pre>
+
+<p>{
+  &ldquo;bond_girls&rdquo;: [
+    &ldquo;Strawberry Fields&rdquo;,
+    &ldquo;Jill Masterson&rdquo;,
+    &ldquo;Tiffany Case&rdquo;
+  ]
+}</p>
+
+<pre><code>
++ ### Pretty URLs
+
+If you have a file like **source/bond-movies.html.erb** it will end up as http://appname.com/bond-movies.html. During the build process we loose the **.erb** file extension and end up with the final **html** version of that page which is mirrored in the URL. That’s alright, normal stuff. For fancier URLs like http://appname.com/bond-movies we gotta work a little.
+
+You need to activate the **Directory Indexes** extension in your config.rb. This creates a folder for every **.html** file. During **middleman build** the finished page ends up as the index file of that folder—meaning that as an index file its extension won’t need to show up in the URL. If you paid attention, you might have already seen this at work with the standard **index.html** file that gets created for every Middleman project as a landing page. It also does not show up in the final URL. Fire up your server and see for yourself.
+
+**config.rb**
+</code></pre>
+
+<p>activate :directory_indexes</p>
+
+<pre><code>
+Let’s see what happened after **middleman build** to your **bond-movies.html.erb** file if you activated that extension. Middleman created a **build/bond-movies** folder and your original filename changed to **index.html** =&gt; **build/bond-movies/index.html**.
+
+**Shell output**
+</code></pre>
+
+<p>create  build/bond-movies/index.html</p>
+
+<pre><code>
+There is one little caveat though. Before you activated pretty URLs you could rely on using the assets path. Now with directory indexes in place you need to supply assets with their full absolute path. So calling an image just by its name for example won’t fly anymore. 
+
+If for some reason you want to override the behaviour of that extension for a particular file you can.
+
+**config.rb**
+</code></pre>
+
+<p>page &ldquo;/bond-movies.html&rdquo;, :directory_index => false</p>
+
+<pre><code>
+**Shell output** if you change it back for **bond-movies.html.erb**:
+</code></pre>
+
+<p>create  build/bond-movies.html
+remove  build/bond-movies/index.html
+remove  build/bond-movies</p>
+
+<pre><code>
+Now its’ URL is back to normal for that file again. (http://appname.com/bond-movies.html)
+
+Btw, you can opt-out of the directory index naming scheme locally in your individual pages’ frontmatter as well.
+
+**source/bond-movies.html.erb**
+</code></pre>
+
+<hr />
+
+<h2>directory_index: false</h2>
+
+<h1>Bond movies</h1>
+
+
+<p>&hellip;</p>
+
+<pre><code>
+If you wanna build that structure with folder and their respective index files yourself, Middleman is not gonna mess with you. It functions the same way and middleman ignores them if you mix and match that approach.
+
++ ### Asset Pipleline
+
+I wanna cut to the chase with this one and only show you the pieces that I think are really relevant about the asset pipeline. You can do stuff with Bower and Compass for example but since I’m personally not a huge fan I spare us both the time. O.K. then.
+
+The “asset pipleline” is Rails lingo imported into Middleman and under the hood a gem called [Sprockets](https://github.com/sstephenson/sprockets) does all the heavy lifting. It helps you with handling dependency management, combining assets plus with minification—which helps slimming down your assets significantly. A few helper methods to concisely reference assets are also at your disposal. Beyond that you are also provided with the means to write Sass and CoffeeScript code—right out of the box. Awesome! 
+
+### Concatenation
+
+Concatenation is one of the most important features of the asset pipline. Instead of having a lot of separate HTML requests for every CSS and JS file, you can reduce them drastically by concatenating them into one or a handful of files. The fewer requests you cause the faster your application will load. Simple math. 
+
+### JS Concatenation
+
+By default, Sprockets will press all JS files into a single **.js** file. After **middleman build**, this file will be under **/build/javascripts/all.js**. The same goes for your CSS. After the build process, you’ll have all Sass files concatenated together in **build/stylesheets/all.css**.
+
+You combine your JS assets by using partials—whoose filenames start with an underscore—for all your JS files and then **require** them at the very top in your **source/javascripts/all.js** file (Files with an added **.coffee** extension work exactly the same). As you can imagine order does matter for this process.
+
+**source/javascript/all.js**
+</code></pre>
+
+<p>//= require &ldquo;<em>jquery&rdquo;
+//= require &ldquo;</em>lib_code&rdquo;
+//= require &ldquo;_animations&rdquo;</p>
+
+<pre><code>
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/source_javascripts_screenshot.png">
+
+When you take a look into your new **/build** directory, you’ll only find one **.js** file under **/javascripts** which “digested” the rest of your files—namely **all.js**. 
+
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/build_javascripts_screenshot.png">
+
+### CSS Concatenation
+
+For your Sass code its bascially the same but you should use Sass’s **@import** for importing your partials—instead of require from Sprockets. Again, place the “required” files at the very top and order matters here as well. Unlike requiring JS partials, you leave off the underscore from the partial name when you import Sass partials.
+
+**/source/stylesheets/all.css.scss**
+</code></pre>
+
+<p>@import &lsquo;normalize&rsquo;;
+@import &lsquo;header&rsquo;;
+@import &lsquo;navigation&rsquo;;
+@import &lsquo;footer&rsquo;;</p>
+
+<pre><code>
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/source_stylesheets_screenshot.png">
+
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/build_stylesheets_screenshot.png">
+
+### Compression / Minification
+
+Another cool feature of sprockets is compression of these files—also called minification. This process cuts out a lot of the fat like getting rid of unnecessary whitespace and comments. People also call this process *uglify*—and of course there is a gem called [uglifier](https://github.com/lautis/uglifier) which does a beautiful job at this. Names like this makes me love programming even more. Compared to JS asset minification CSS uglification is not that complicated. FYI, behind the scenes , the JS part is a bit more involved and needs more finesse.
+
+To get started you’ll need to add the following to your **config.rb** file:
+</code></pre>
+
+<p>configure :build do
+  activate :minify_css
+  activate :minify_javascript
+end</p>
+
+<pre><code>Actually you just need to uncomment these lines under your **:build** block. The next time you use **middleman build** the assets in your **/build** folder will all be uglified and slim. Below are two small examples how this code actually ends up looking:
+
+**Minified CSS under /build/stylesheets/all.css**:
+</code></pre>
+
+<p>body{background-color:#d0e4fe}h1{color:orange;text-align:center}p{font-family:&ldquo;Times New Roman&rdquo;;font-size:20px}</p>
+
+<pre><code>
+**Minified JS under /build/javascripts/all.js**:
+</code></pre>
+
+<p>switch((new Date).getDay()){case 0:day=&ldquo;Sunday&rdquo;;break;case 1:day=&ldquo;Monday&rdquo;;break;case 2:day=&ldquo;Tuesday&rdquo;;break;case 3:day=&ldquo;Wednesday&rdquo;;break;case 4:day=&ldquo;Thursday&rdquo;;break;case 5:day=&ldquo;Friday&rdquo;;break;case 6:day=&ldquo;Saturday&rdquo;}</p>
+
+<pre><code>
+Without the asset pipleline you’d have to set up your own thing to write your JS and CSS via a higher-level language like CoffeeScript and Sass. I believe for beginners this setup part can be a pain and therefore the asset pipleline helps newbies to get going and play with cool toys faster. Doing this by hand is a good exercise and important to grasp—but not right away. CoffeeScript and Sass are supported by default.
+
+Awesome, minified, faster websites with fewer requests right out of the gate without any extra work. Take that 2010!
+
+### Asset Pipeline Helpers
+
+For your Sass files you have four helpers at your disposal:
+
++ image_path()
++ font_path()
++ image_url()
++ font_url()
+
+Because you followed conventions so far you can use these helpers to prepend the correct directory path to your assets. 
+
+Some Sass file:
+</code></pre>
+
+<p>image_path(&lsquo;logo.png&rsquo;)</p>
+
+<h1>=> images/logo.png</h1>
+
+<p>image_path(&lsquo;nested_folder/some.png&rsquo;)</p>
+
+<h1>=> images/nested_folder/some.png</h1>
+
+<pre><code>
+### Import Path
+
+The asset pipeline uses *import paths* via Sprockets for your assets. By default **:js_dir** and **:css_dir** are already added to that path. That means that files put in **/source/javascripts** and **/source/stylesheets** are available and automatically imported. On the other hand, if you have assets that you wanna keep in other directories you can also add them to the import path like this:
+
+**config.rb**
+</code></pre>
+
+<p>sprockets.append_path &lsquo;/some/other/assets_folder/&rsquo;</p>
+
+<pre><code>
+In this example, other assets in **source/some/other/assets_folder/other.css** are also at Middleman’s disposal via this path. Same goes for **.js** files as well of course.
+
++ ### Project Templates
+
+Middleman comes with a couple of handy project templates that you should at least know about. These templates give you a good starting point when you initiate a new Middleman app for example. You can add these templates at any time later as well though.
+
++ **SMACSS** Template
++ **Mobile** Boilerplate Template
++ **HTML5** Boilerplate  Template
++ **Blog** Template(needs extra gem)
+
+You can use them like this:
+
+**Shell**
+</code></pre>
+
+<p>middleman init your_fancy_app &ndash;template=smacss</p>
+
+<pre><code>The template will provide you with all the files and folders that it needs. If you already have an app and want to add a template you use the same command without mentioning your app’s name. Same deal:
+</code></pre>
+
+<p>middleman init &ndash;template=smacss</p>
+
+<pre><code>
+Now comes my favorite part of Middleman. Its super straightforward to build your own templates and reuse them whenever you like. You start by creating a **~/.middleman** folder in your root directory (Don’t forget the dot in front of the name). Within that directory you create new folders for your templates. For example **/.middleman/podcast** would be a *podcast* template. Then you fill this podcast dirctory with all the files and folders you need. For example, if you want to have additional stylesheets available for your Middleman app then you need to simulate Middleman’s filepath to make it super easy to use them.
+
+In the screenshot below I have prepared a dummy example that has a couple of files that I might need for every project and put them in a **bourbon** folder. Now I have a bourbon template.
+
+**Screenshot for ~/.middleman/bourbon**:
+
+<img src="/images/middleman/basics_02/bourbon_template_screenshot.png">
+
+Since I simulated Middleman’s file structure, these stylesheets will show up exactly where I need them after I initiated that template. After initiating the template, my files are now under **/source/stylesheets** and also ready to be imported into my **/source/stylesheets/all.css.scss** file. 
+
+**Screenshot for /middleman_app/source/stylesheets**:
+
+<img src="/images/middleman/basics_02/source_bourbon_screenshot.png">
+
+Since I already made my template styles partials its business as usual:
+
+**source/stylesheets/all.css.scss**
+</code></pre>
+
+<p>@import &lsquo;bourbon_mixins/mixins&rsquo;;
+@import &lsquo;bourbon_neat/grids&rsquo;;
+@import &lsquo;bourbon_refills/cards&rsquo;;
+&hellip;</p>
+
+<pre><code>
+Boom! Finished! One thing you should be careful about though. When we use **middleman build** now to create our new **build** directory these files will get absorbed by **all.css** and none of the bourbon template folders will show up there. However, if you forget to have a leading underscore in your filenames for these styles, the complete folder will transfer into **/build**—with the prospective **.css** files of course. The **@import** statements in **all.css.scss** didn’t make a difference in that case either. 
+
+If you have a ton of templates and wanna just check the list for a name you can use the following command:
+
+**Shell**:
+</code></pre>
+
+<p>middleman init &ndash;help</p>
+
+<h1>=>  # Use a project template: default, html5, mobile, smacss, bourbon</h1>
+
+<p>```</p>
+
+<p>In case you wanna reinvent the wheel, take a look at these open sourced <a href="https://directory.middlemanapp.com/#/templates/all/">templates</a>. If you have never played much with templates, I recommend initiating a dummy app and take them for a spin. See what files get created or overwritten. Poke around a little bit. Then build a dummy folder with a couple of Sass files for a template under <strong>~/.middleman</strong> and see what happens when you initiate this template. Nothing beats learning by doing these little experiments along the way!</p>
+
+<h3>Final Thoughts</h3>
+
+<p>I believe you are now more than ready to start building some little app with Middleman. There are a few things left for you to learn on your own but I presented you with the most important pieces of the puzzle. Middleman is a lot of fun and a good choice technology-wise. Sure there are the purists who mumble about technical implementations but these people are rarely satisfied with implementations other than their own. They might be right, but at this stage in your career you’re most likely not at that point yet where you need to worry about this and therefore should selectively ignore this snobbery. Middleman is powerful, easy to use and has a straightforward API that is beginner friendly—that’s all that matters for now. Have fun!</p>
+]]></content>
+  </entry>
+  
+</feed>

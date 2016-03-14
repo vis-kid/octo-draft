@@ -1,0 +1,858 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Middleman Basics 05-Podcast Site (Part 03) - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Topics Posts Detail Page
+Style Duplications
+Relative Links
+Index List Player
+Why SoundCloud? (Optional) Posts Detail Page I think we should shift &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/12/28/Middleman-Basics-05-Podcast-03/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Middleman Basics 05-Podcast Site (Part 03)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-28T04:29:10+01:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Posts Detail Page</li>
+<li>Style Duplications</li>
+<li>Relative Links</li>
+<li>Index List Player</li>
+<li>Why SoundCloud? (Optional)</li>
+</ul>
+
+
+<h2>Posts Detail Page</h2>
+
+<p>I think we should shift our attention and give our details page a little bit of basic love before we adjust the app to display our podcast episodes. We are not entirely done with the index page, if we have some room left in this tutorial I’ll probably add a couple of media queries to deal with different screen resolutions. For now I’d say let’s move on though. What’s the status quo?</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/detail_page_initial_state.png"></p>
+
+<p>Yikes, doesn’t look too good! Our text is all over the place. Let’s fix that one first. Think it’s a good idea to activate the visual grid again.</p>
+
+<h5>source/stylesheets/base/_grid-settings.scss</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$visual-grid</span><span class="o">:</span> <span class="n-Pseudo">true</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We need to create a separate layout for our detail pages of our posts. The layout will be flexible so that you can use them for pure blog posts and for posting podcast episodes as well—a little conditional will help us out with that. More on that later though. Let’s open <code>config.rb</code> and add this line.</p>
+
+<h5>config.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">activate</span> <span class="ss">:blog</span> <span class="k">do</span> <span class="o">|</span><span class="n">blog</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">blog</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="s2">&quot;layouts/blog-layout&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will tell Middleman that we have a separate layout for detail pages and that it can be found in <code>layouts/blog-layout</code>. Next we need to create <code>layouts/blog-layout.erb</code>. Remember that the <code>.erb</code> is necessary without the <code>.html</code> extension to make this work properly.</p>
+
+<h5>layouts/blog-layout.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">wrap_layout</span> <span class="ss">:layout</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;article class=&#39;article-detail&#39;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;h2 class=&#39;detail-post-title&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3 class=&#39;detail-post-date&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_page</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;section class=&#39;soundclould-player-big&#39;&gt;</span>
+</span><span class='line'><span class="x">        &lt;iframe </span>
+</span><span class='line'><span class="x">          width=&quot;100%&quot; </span>
+</span><span class='line'><span class="x">          height=&quot;450&quot; </span>
+</span><span class='line'><span class="x">          scrolling=&quot;no&quot; </span>
+</span><span class='line'><span class="x">          frameborder=&quot;no&quot; </span>
+</span><span class='line'><span class="x">          src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/</span><span class="cp">&lt;%=</span> <span class="n">current_page</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x">&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&amp;amp;visual=true&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;/iframe&gt;</span>
+</span><span class='line'><span class="x">      &lt;/section&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">  &lt;/article&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So let’s talk about what’s going on here. First of all, we need to wrap this <code>blog-layout</code> inside our general <code>layout</code>. Or, put differently, we wrap our application layout around the blog-layout.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">wrap_layout</span> <span class="ss">:layout</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why? Simply because we want to reuse a lot of the stuff from the original layout and not duplicate things like the <code>footer</code> partial or the asset links in <code>head</code>. I’m sure newbies will wrap their head around this quickly. Just give it a minute or two to sink in if this looks weird to you at first. The layout we used previously was more of a global thing. Now we need a bit more specificity to fit our needs.</p>
+
+<p>Inside the <code>article</code> tag container, we manually build what we need to template our post. It has a title, a date, an optional SoundCloud embedded widget and of course the article body itself. Inside our layouts, we have access to each individual <code>BlogArticle</code>. We can use <code>current_article</code> to get the info for each article to build up our custom template. <code>title</code>, <code>date</code> and <code>body</code> are just methods to extract the attributes from the individual article. We also used <code>strftime</code> to format the date like we did previously on the index page.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">current_article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As already mentioned, a simple conditional is in charge of handling data that’s provided optionally for each individual post via its frontmatter—which is delimited by three dashes. Here we are looking out if the page has an id of a SoundCloud track and display the widget if so.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_page</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In case you need a refresher, we get access to the data via the <code>current_page</code> object and ask its <code>data</code> for the value we stored in the frontmatter via its key. In our example, the key we need is <code>soundcloud_id</code>. If our template finds this key via the conditional, it displays the widget and interpolates the SoundCloud id for that track to find the right one. If it’s just a plain blog post, we don’t need to provide the <code>soundcloud_id</code> in the frontmatter and the SoundCloud widget won’t get embedded. Doesn’t get any more simple than that.</p>
+
+<h5>Example frontmatter for a podcast post with a SoundCloud widget</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">---                                                                                                                                 </span>
+</span><span class='line'><span class="x">title: My super awesome eleventh long assed titled post that breaks into another line                                               </span>
+</span><span class='line'><span class="x">date: 2015-11-30 22:14 UTC                                                                                                          </span>
+</span><span class='line'><span class="x">soundcloud_id: 138095821                                                                                                            </span>
+</span><span class='line'><span class="x">tags:                                                                                                                               </span>
+</span><span class='line'><span class="x">---                                                                                                                                 </span>
+</span><span class='line'><span class="x">Your awesome podcast episode description …</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">lorem</span><span class="o">.</span><span class="n">sentences</span> <span class="mi">10</span> <span class="cp">%&gt;</span><span class="x"> </span>
+</span><span class='line'>
+</span><span class='line'><span class="x">– Question #01</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">– Question #02</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you click on “share” on any of the SoundCloud tracks, you get the option to embed an <code>iframe</code> for that track and just need to copy paste it somewhere in your code. We use this iframe as a basis and use the id for the track we need to interpolate it into the url. There are two options, a big and a small widget—I chose the big one. The other has the advantage of being a bit more customizeable—you can adjust the color for the play button for example. Up to you…</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;section class=&#39;soundclould-player-big&#39;&gt;</span>
+</span><span class='line'><span class="x">  &lt;iframe </span>
+</span><span class='line'><span class="x">    width=&quot;100%&quot; </span>
+</span><span class='line'><span class="x">    height=&quot;450&quot; </span>
+</span><span class='line'><span class="x">    scrolling=&quot;no&quot; </span>
+</span><span class='line'><span class="x">    frameborder=&quot;no&quot; </span>
+</span><span class='line'><span class="x">    src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/</span><span class="cp">&lt;%=</span> <span class="n">current_page</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x">&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&amp;amp;visual=true&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;/iframe&gt;</span>
+</span><span class='line'><span class="x">&lt;/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The magic happens at this part.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">...api.soundcloud.com/tracks/</span><span class="cp">&lt;%=</span> <span class="n">current_page</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x">&amp;amp;auto_play=...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After we asked if this data is available to us via the conditional, we use the fronmatter data to inject the id to display the track we want. Pretty neat and as straightforward as it gets. Let’s have another look how things turned out so far:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/detail_page_widget_no_styles.png"></p>
+
+<p>Makes you wanna throw up huh? Me too. Maybe not if you just arrived from the 90s via a time machine—didn’t think so. On the bright side, we have all the structure and data we need. And see, because we nested the <code>blog-layout</code> inside the <code>layout</code> layout, we get the benefit of having the footer already there at the bottom. No need to duplicate things—cool! With just a little bit of styling, we might turn things around and make this look a bit more decent.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;posts_detail&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_posts_detail.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nn">#main</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">article</span><span class="nc">.article-detail</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.detail-post-title</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$matcha-green</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">40</span><span class="kt">px</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.detail-post-date</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.1</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.article-detail</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.05</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.35</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.soundclould-player-big</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">50</span><span class="kt">px</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let’s have another quick peak.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/detail_page_widget_with_styles.png"></p>
+
+<p>Well, it’s getting there. Let’s commit for now, and do some housekeeping after that.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;1st attempt at post detail page w/ podcast option</span>
+</span><span class='line'><span class="s1">               Adds blog-layout</span>
+</span><span class='line'><span class="s1">               Adjusts config for blog-layout</span>
+</span><span class='line'><span class="s1">               Adds styles for detail page</span>
+</span><span class='line'><span class="s1">               Adds Sass partial</span>
+</span><span class='line'><span class="s1">               Imports Sass partial</span>
+</span><span class='line'><span class="s1">               Updates blog post’s frontmatter&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Style Duplications</h2>
+
+<p>The avid reader might have already spotted what we should clean up next. There is a bit of duplication in <code>_posts_detail.sass</code> and <code>_index_posts.sass</code>. I’d like to extract the duplicated styles into a separate Sass file called <code>_blog_post_extractions.sass</code>. I’m experimenting with this technique lately—an idea that I got from Object Oriented Programming. Things like BEM or SMACSS can be great, especially for bigger projects with bigger teams if they have settled for following conventions, but for smaller projects I’m always looking for frictionless, dead simple solutions. I’ll give this a try until the next new shiny thing convinces me of a better approach.</p>
+
+<h5>source/stylesheets/all.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;bourbon&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;base/base&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;neat&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;blog_post_extractions&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;footer&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;index_posts&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;posts_detail&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_blog_post_extractions.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nn">#main</span><span class="o">,</span> <span class="nc">.posts</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.post-title</span><span class="o">,</span> <span class="nt">article</span><span class="nc">.article-detail</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.post-title</span> <span class="nt">a</span><span class="o">,</span> <span class="nc">.detail-post-title</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$matcha-green</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.post-title</span><span class="o">,</span> <span class="nc">.detail-post-title</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.article-detail</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.05</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.35</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.article-detail</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.detail-post-date</span><span class="o">,</span> <span class="nc">.post-date</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.article-detail</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you compare the above with the original files, you can see that we got rid of a nice chunk of duplication. It is also easy to understand and find because I import such extracted files right on top in <code>all.sass</code>. It’s easy to spot these extractions for people new to the code base. In this case, I use these files to collect extracted styles that apply to blog posts. A similar approach could work for duplications across different appearances of sidebars, devices or similar—there should be a common thread though.</p>
+
+<h5>source/stylesheets/_index_posts.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.post-title</span>
+</span><span class='line'>  <span class="nt">a</span>
+</span><span class='line'>    <span class="nd">+transition</span><span class="p">(</span><span class="no">color</span> <span class="mf">.4</span><span class="kt">s</span> <span class="n">ease-in-out</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:hover</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.post-date</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">margin</span><span class="o">:</span>
+</span><span class='line'>    <span class="na">left</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">-80</span><span class="kt">px</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">right</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">20</span><span class="kt">px</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_posts_detail.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.detail-post-title</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">40</span><span class="kt">px</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.detail-post-date</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.1</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.soundclould-player-big</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">50</span><span class="kt">px</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The previous files are now a lot smaller, nice and tidy—exactly how I like them. Files are cheap so I don’t care if I have lots of them that all do their specific little job. A separation of concerns kinda thing. It’s not a perfect solution, but it’s so dead simple for small stuff that I like experimenting more with that approach. I’m not sure how much scaleable this is though. For a small podcast site it should be O.K. though I feel.</p>
+
+<p>Over time, one of my favorite parts of working with any code is sitting down to find duplication and erradicate it as much as possible. Not only in OOP, any form of duplication is enemy number one in killing projects—or in nastyfying them over time at least. I encourage you to learn all kinds of approaches to deal with that and also—even more importantly— to find your own strategies that work best for you and your team. This part of frontend development is a lot less guarded by programming principles, design patterns and so forth and therefore a lot more “Alice in Wonderland wandering down rabbit holes”-like and since a lot of people are cooking their own secret sauce, it can leave new team members or colleagues tripping out of their minds. Anyway…</p>
+
+<p>We should also comment out our visual grid in <code>source/stylesheets/base/_grid-settings.scss</code> and see how it looks:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/detail_page_widget_with_styles-no-grid.png"></p>
+
+<p>Same as before but with much cleaner styles. Me likey! Time to commit and for deploying our changes.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Extracts styles into _blog_post_extractions</span>
+</span><span class='line'><span class="s1">               Extracts duplications from</span>
+</span><span class='line'><span class="s1">                 _index_posts.sass</span>
+</span><span class='line'><span class="s1">                 _posts_detail.sass</span>
+</span><span class='line'><span class="s1">               Imports styles&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let’s go to our GitHub Pages page and check if everything works as expected. Ups! On the first glance it looks fine, but if we try to go to the detail page from index, we get a <code>404</code> error message. GitHub can’t find what we need.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/404.png"></p>
+
+<h2>Relative Links</h2>
+
+<p>If you have looked closely, you might have seen that we are missing some info in our url. Now it says something like <code>http://your_username.github.io/2015/11/30/my-super-awesome-post.html</code>. What it should say is something like <code>http://your_username.github.io/matcha-nerdz/2015/11/30/my-super-awesome-post.html</code>. The <code>matcha-nerdz</code> part was completely missing. Don’t worry, this is an easy fix though. We need to activate relative links in our config file.</p>
+
+<h5>config.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:relative_links</span><span class="p">,</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Having absolute links on GitHub Pages will point in the wrong direction. With this little change, your links are namespaced relative to your app’s root. As you can see from this little example, deploying early and often is nice to catch things like that. Finding these things out of context when you are already working on something completely different and you have to dig deep where bugs might come from can mess with your flow tremendously.</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git commit --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Set relative_links in config.rb&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Everything should work fine now. The typography is not perfect yet but I’d like to move on and you can fine tune these things once the site is set up the way we need it. Let’s have a look:</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/index-list-long-no-podcast.png"></p>
+
+<h2>Index List Player</h2>
+
+<p>As you can see, were are missing the audio widget and the length of the displayed post is not ideal for an index list. Let’s fix that next. I want to use the smaller SoundCloud player to display the podcast episode in the index list. Therefore it does not make sense to extract a partial for the player for both the index and the detail page—each page needs their own widget. If you like to use only one of the players for both layouts you should definitely extract a partial for it. I’ll leave that step to you since you already learned how this is done.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;div class=&#39;posts&#39;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">page_articles</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;h2 class=&#39;post-title&#39;&gt;&lt;span class=&#39;post-date&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">article</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;section class=&#39;soundclould-player-small&#39;&gt;  </span>
+</span><span class='line'><span class="x">      &lt;iframe </span>
+</span><span class='line'><span class="x">        width=&quot;100%&quot;</span>
+</span><span class='line'><span class="x">        height=&quot;166&quot; </span>
+</span><span class='line'><span class="x">        scrolling=&quot;no&quot; </span>
+</span><span class='line'><span class="x">        frameborder=&quot;no&quot; </span>
+</span><span class='line'><span class="x">        src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soundcloud_id</span> <span class="cp">%&gt;</span><span class="x">&amp;amp;color=ff5500&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&quot;&gt;&lt;/iframe&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/section&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code example is focused on the section where we iterate over <code>page_articles</code>. I added a conditional that only displays the audio widget if the article has a <code>sound_cloud_id</code> in the frontmatter of the article—which we access via its data attribute. It’s very similar to the way we solved this previously. In this case we used the block parameter <code>article</code> to access the info we need.</p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/index-list-long-with-small-podcast.png"></p>
+
+<p>Next I wanna shorten the displayed text as well before we apply a few styles. In the index list, we only want to see something like a 300 character summary—not too much but definitely also not too little text. Experiment on your own and see what works best for your needs.</p>
+
+<p>First we need to add the gem <code>Nokogiri</code> to our <code>Gemfile</code>, bundle it and adjust <code>source/index.html.erb</code> a bit.</p>
+
+<h5>Gemfile</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;nokogiri&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In index we need to change only one line. I left a comment for what needs to be replaced. We use the summary method and supply it with the number of characters we want to see per article in the index list.</p>
+
+<h5>source/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%#</span><span class="c"> article.body </span><span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>source/stylesheets/_index_posts.sass</h5>
+
+<p>And we should add the styles for the small SC player on <code>.soundcloud-player-small</code> to our extracted file.</p>
+
+<h5>source/stylesheets/_blog_post_extractions.sass</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.posts</span> <span class="nt">p</span><span class="o">,</span> <span class="nc">.post-title</span><span class="o">,</span> <span class="nt">article</span><span class="nc">.article-detail</span><span class="o">,</span> <span class="nc">.soundclould-player-small</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nudge the spacing a bit and we’re dont.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.soundclould-player-small</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Screenshot</h5>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_05_build/index-list-long-with-small-podcast-summary.png"></p>
+
+<p>Alright, getting there. Now we have an index list that displays both text-only and podcast episode articles—uncomplicated, without any fuzz. If you have a bit better dummy text, this should look quite decent by now. Let’s commit!</p>
+
+<h5>Shell</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds Article Summary &amp; Small Widget to Index</span>
+</span><span class='line'><span class="s1">               Adds styles for index list SC widget</span>
+</span><span class='line'><span class="s1">               Adds Nokogiri</span>
+</span><span class='line'><span class="s1">               Adds optional SC widget to index</span>
+</span><span class='line'><span class="s1">               Adds 300 character summary&#39;</span>
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>Break</h2>
+
+<p>I think you earned yourself a cool beverage at this point and we can leave it at that for now. In the next and final article we’ll tweak it a bit further and also add a little something for navigating the site.</p>
+
+<h2>Why SoundCloud? (Optional)</h2>
+
+<p>“Why host the podcast on SoundCloud?”, you might ask. Well, my reasoning was simple: First of all, it will quite certainly be around for a long time—something that you can’t necessarily expect from a lot of projects that offer to host your podcast audio files. I don’t wanna get myself in the situation of dealing with migrating tons of already published audio tracks to another service just because someone got acquihired or went bust. Second, it’s dead cheap to host a ton of tracks and they even have a free option for folks who publish tracks only occasionally. The player and its options are alright too—hadn’t any reason to complain about speed or anything so far. The stats are useful as well and there are already people on the platform who are into podcasts and stuff—which is good for the discovery factor. Don’t get me wrong, there are plenty of reasons why I wanted to hug somebody gently around the neck when dealing with uploading and silly UX things, but compared to the downsides of bigger headaches with other hosting options, SoundCloud seemed like the most reasonable choice overall. Lastly, I don’t like the custom sites these podcast sites offer. They look super generic and I like to build my own stuff that fits my needs and let’s me also create my own visual identity. This is just my own personal opinion and I’m not affiliated to SC in any way—atm at least. Don’t plan on changing that also.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-28T04:29:10+01:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/bourbon/'>bourbon</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/middleman/'>middleman</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/neat/'>neat</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refills/'>refills</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/thoughtbot/'>thoughtbot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/12/28/Middleman-Basics-05-Podcast-03/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/12/28/Middleman-Basics-05-Podcast-03/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/" title="Previous Post: AntiPatterns Basics—Rails Models">&laquo; AntiPatterns Basics—Rails Models</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2016/01/02/Middleman-Basics-06-Podcast-04/" title="Next Post: Middleman Basics 06-Podcast Site (Part 04)">Middleman Basics 06-Podcast Site (Part 04) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

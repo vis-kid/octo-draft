@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AntiPatterns Basics Rails—Tests - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AntiPatterns Basics Rails—Tests</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-10T04:29:10+01:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/AntiPatterns/Tests/electric-wiring.jpg" width="500"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Let</li>
+<li>Mystery Guests</li>
+<li>Obscure Tests</li>
+<li>Slow Tests</li>
+<li>Fixtures</li>
+<li>Brittle Tests</li>
+<li>Data Atributes</li>
+</ul>
+
+
+<h2>Let</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Mission</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:james_bond</span><span class="p">)</span>   <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="s1">&#39;007&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:mission</span><span class="p">)</span>      <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Moonraker&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>let</code> helper method in RSpec is very frequently used for creating instance variables that are available between multiple tests. As an eager student of TDD practices, you have probably written your fair share of these but following this practice can easily lead to having lots of mystery guests showing up—see below—which is definitely not something we need to have crashing our party! This particular side effect of <code>let</code> has gained a bit of a reputation to be possibly causing increased test maintenance and inferior readability throughout your test suite. <code>let</code> sure sounds enticing because it’s lazily evaluated and aids adhering to the usually zero-defect concept of DRY and all. Therefore it seems too good not to use on a regular basis. Its close cousin <code>subject</code> should also be avoided most of the time.</p>
+
+<p>It gets worse when you start nesting these things. An all-time favorite are let statements that are plastered all over nested <code>describe</code> blocks. I think it’s not unfair to call this a recipe for hanging yourself—quickly. More limited scope is generally easier to understand and follow. We don’t want to build a house of cards with semi-global let fixtures that obscure understanding and increase chances of breaking related tests. The odds of crafting quality code are stacked against us with such an approach. Extracting common object setup is also easier to do via plain old ruby methods or even classes if needed.</p>
+
+<p>This <code>let</code> creature is a widely shared fixture which will often need to be deciphered first before you know exactly what business this object has in your tests. Also going back and forth to understand what exactly they are made of and which relationships they have via associations can be a time consuming pain. The clarity of these details in your test setup usually help a lot to tell other developers all they need to work with every particular part of your test suite—don’t forget your future self! In a world where you never have to revisit particular tests and even never refactor parts of your test suite that might not matter as much—but that is a pipe dream for now!</p>
+
+<p>We want to have as few collaborators and as little data as possible for each test. <code>let</code> works not in your favor on that front as well. These let fixtures can amass a lot of attributes and methods that make them way too big as well. If you start going down the let road, you will often end up with pretty fat objects that try to make a lot of tests happy at the same time. Sure you can create lots of variations of these <code>let</code> thingies but that makes the whole idea of them a bit irrelevant I think. Why not go one step further, avoid let and rely on Ruby without RSpec DSL magic?</p>
+
+<p>I’m more in the camp of being rather on the side of repeated setup code for each test than being overly DRY, obscure or cryptic in my test suite. I’d always go for more readability. The test method should make clear the cause and effect of its involved pieces—using object collaborators that are possibly defined far away from your test exercise is not in your best interest. If you need to extract stuff, use expressive methods that encapsulate that knowledge. These are pretty much always a save bet. That way you can also supply the setup that you actually need for each test and not cause slow tests because you have unnecessary data involved. Good old variables, methods and classes are often all you need to provide faster, stable tests that are easier to read.</p>
+
+<h2>Mystery Guests</h2>
+
+<p>Mystery Guests are RSpec DSL Puzzles really. For a while, the various objects defined via RSpec DSL <code>let</code> are not that hard to keep in check but soon when the test suite grows, you invite a lot of mysterious guests into your specs. This gives your future self and others unnecessary context puzzles to solve. The result will be obscure tests that require you to go into full Sherlock Holmes mode. I guess that sounds way more fun than it is. Bottom line, it’s a waste of everybody’s time.</p>
+
+<p>Mystery Guests pose two problematic questions:</p>
+
+<ul>
+<li>Where is this object coming from?</li>
+<li>What exactly is it composed of?</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Mission</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:agent_01</span><span class="p">)</span>   <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="s1">&#39;007&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:agent_02</span><span class="p">)</span>   <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Moneypenny&#39;</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="s1">&#39;243&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>   <span class="p">{</span> <span class="s1">&#39;Moonraker&#39;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:mission</span><span class="p">)</span> <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="n">title</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">mission</span><span class="o">.</span><span class="n">agents</span> <span class="o">&lt;&lt;</span> <span class="n">agent_01</span> <span class="o">&lt;&lt;</span> <span class="n">agent_02</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#lots of other tests</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#top_agent&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;returns highest ranking agent associated to a mission&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">top_agent</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;James Bond&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This describe block for <code>#top_agent</code> lacks clarity and context. What agent is involved and what mission are we talking about here? This forces developers to go hunting for objects that are suddenly popping up in your tests. Classic example of a mystery guest. When we have lots of code between the relevant test and the origin of these objects, you increase the chances of obscuring what’s going on in our tests.</p>
+
+<p>The solution is quite easy: You need fresh “fixtures” and build local versions of the objects with exactly the data that you need—and not more than that! Factory Girl is a good choice for handling this. This approach can be considered more verbose and you might be duplicating stuff sometimes—extracting stuff into a method is often a good idea—but it’s a lot more expressive and keeps tests focused while providing context.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Mission</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#lots of other tests</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#top_agent&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;returns a list of all agents associated to a mission&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">agent_01</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="n">number</span> <span class="s1">&#39;007&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">agent_02</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Moneypenny&#39;</span><span class="p">,</span> <span class="n">number</span> <span class="s1">&#39;243&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">mission</span>  <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Moonraker&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">mission</span><span class="o">.</span><span class="n">agents</span> <span class="o">&lt;&lt;</span> <span class="n">agent_01</span> <span class="o">&lt;&lt;</span> <span class="n">agent_02</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">top_agent</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;James Bond&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The example above builds all the objects needed for our tests in the actual test case and provides all the context wanted. The developer can stay focused on a particular test case and does not need to “download” another—possibly totally unrelated—test case for dealing with the situation at hand. No more obscurity!</p>
+
+<p>Yes, you are right, this approach means that we are not achieving the lowest level of duplication possible, but clarity in these cases is much more important for the quality of your test suite and therefore for the robustness of your project. The speed in which you can effectively apply changes to your tests plays also a role in that regard. Another important aspect of testing is that your test suite can not only function as documentation but absolutely should! Zero duplication is not a goal that has a positive effect for specs documenting your app. Keeping unnecessary duplication in check is nevertheless an important goal to not loose sight of—balance is king here!</p>
+
+<h2>Obscure Tests</h2>
+
+<p>Below is another example that tries to setup everything you need locally in the test but also fails because it’s not telling us the full story.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">context</span> <span class="s2">&quot;agent status&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;returns the status of the mission’s agent&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">double_o_seven</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mission</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">agent</span><span class="p">:</span> <span class="n">double_o_seven</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">agent_status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">double_o_seven</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We are creating a generic agent. How do we know it’s 007? We are also testing for the agent’s status but it’s also nowhere to be found—neither in the setup nor explicitly during the verify phase in our <code>expect</code> statement. The relationship between the <code>double_o_seven.status</code> and the mission status could be confusing since it’s coming out of nowhere really. We can do better:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">context</span> <span class="s2">&quot;agent status&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;returns the status of the mission’s agent&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">double_o_seven</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">status</span><span class="p">:</span> <span class="s1">&#39;Missing in action&#39;</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">mission</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">agent</span><span class="p">:</span> <span class="n">double_o_seven</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">agent_status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;James Bond: Missing in action&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, here we have all we need to tell a story. All the data we need is right in front of us.</p>
+
+<h2>Slow Tests</h2>
+
+<p>So, you have started to get into Test-Driven-Development and you started to appreciate what if offers. Kudos, this is great! I’m sure, neither the decision to do it nor the learning curve to get there were exactly a piece of cake. But what often happens after this initial  step is that you try hard at having full test coverage and you start to realize that something is off when the speed of your specs start to annoy you. Why is your test suite getting slower and slower although you think you are doing all the right things? Feeling a bit punished for writing tests? Slow tests suck—big time! There are a couple of problems with them. The most important issue is that slow tests lead to skipping tests in the long run. Once you are at a point where your test suite takes forever to finish, you will be much more willing to think to yourself: “Screw this, I’ll run them later! I got better things to do than waiting for this stuff to finish.” And you are absolutely right, you have better things to do.</p>
+
+<p>The thing is, slow tests are more likely to welcome in compromises in the quality of your code than maybe obvious at first. Slow tests also fuel people’s arguments against TDD—unfairly so I think. I don’t even want to know what non-technical product managers have to say if you regularly have to step outside for a nice long coffee break just to run your test suite before you can continue your work. Let’s not go down that road! When you only need little time to exercise your tests and as a result get super quick feedback cycles for developing each step of new features, practicing TDD becomes a lot more attractive and less of an argument. With a little bit of work and care along the way, we can avoid slow mo tests quite effectively. Slow tests are also a killer for getting into the “zone”. If you get taken out of the flow this frequently in your process, the quality of your overall work might also suffer by having to wait for slow tests to return from an expensive round trip. You want to get as much “in-the-zone time” as possible—unbearably slow tests are major flow killers.</p>
+
+<p>Another issue worth mentioning in this context is that this might lead to having tests that cover your code, but because you won’t take time to finish exercising the whole suite, or write tests after the fact, your apps’ design won’t be driven by tests anymore. If you are not on the Test-Driven hype train this might not bother you much, but for TDD folks, that aspect is essential and should not be neglected. Bottom line, the faster your tests, the more you will be willing to exercise them—which is the best way to design apps as well as to catch bugs early and often. What can we do to speed up tests? There are two speeds that are important here:</p>
+
+<ul>
+<li>The speed in which your tests can really execute your suite.</li>
+<li>The speed for getting feedback from your test suite to design your app.</li>
+</ul>
+
+
+<h3>Avoid writing to the database as much as you can.</h3>
+
+<p>That does not mean that you should avoid it all costs. Often you don’t need to write tests that exercise the database and you can trim off a lot of time that your tests need to run. Using just <code>new</code> to instantiate an object is often sufficient for test setups. Faking out objects that are not directly under test is another viable option. Creating test doubles is a nice way to make your tests faster while keeping the collaborating objects you need for your setup super focused and lightweight. <a href="https://github.com/thoughtbot/factory_girl">Factory Girl</a> also gives you various options to smartly “create” your test data. But sometimes there is no way around to saving to the database (which is a lot less often than you might expect) and this is exactly where you should draw the line. Any other time, avoid it like hell and your test suite will stay fast and agile. In that regard you should also aim for a minimal amount of dependencies, which means the minimal amount of objects that you need collaborating to get your tests to pass—while saving as less as possible to the database along the way. Stubbing out objects—that are mere collaborators and not directly under test—often also make your setup easier to digest and simpler to create. A nice speed boost overall with very little effort.</p>
+
+<h3>Build your tests with the testing pyramid in mind.</h3>
+
+<p>This means that you want to have a majority of unit tests at the bottom of this hierarchy—which all focus on very specific parts of your application in isolation—and the smallest amount of integration tests at the top of this pyramid. Integration tests simulate a user going through your system while interacting with a bunch of components that are exercised around the same time. They are easy to write but not so easy to maintain—and the speed losses are not worth going the easy route. Integration tests are pretty much the opposite of unit tests in regard to being high level and sucking in a lot of components that you need to setup in your tests—which is one major reason why they are slower than unit tests. I guess this makes it clear why they should be at the top of your testing pyramid to avoid significant speed losses. Another important issue here is that you want to have as little overlap between these two test categories as possible—you ideally want to test things only once after all. You can’t expect to have perfect separation, but aiming for as little as possible is a reasonable and achievable goal.</p>
+
+<p>In contrast to unit tests, you want to test as few details as possible with integration tests. The inner mechanics should already be covered by extensive unit tests. Focus instead only on the most essential parts that the interactions need to be capable of exercising! The other main reason is that a webdriver needs to simulate going through a browser and interacting with a page. This approach fakes out nothing or very little, saves the stuff to the database and really goes through the UI. That’s also one reason they can be called acceptance tests because these tests try to simulate a real user experience. This is another major speed bump that you want to exercise as little as possible. If you have a ton of these tests—I guess more than 10% from your overall number of tests—you should slow down and reduce that number to the minimum amount possible. Also, keep in mind that sometimes you don’t need to exercise the whole app—a smaller, focused view test often does the trick as well. You will be much faster if you rewrite a couple of your integration tests that just test a little bit of logic that does not necessitate a full integration check. But don’t get into writing a ton of them either, they offer the least bang for the buck. That being said, intergration tests are vital to the quality of your test suite and you need to find a balance of being too stingy applying them and not having too much of them around.</p>
+
+<h3>Getting feedback from your app / tests fast.</h3>
+
+<p>Quick feedback and fast iteration cycles are key to designing your objects. Once you start to avoid running these tests frequently, you are loosing this advantage—which is a big aid for designing objects. Don’t wait until your Continuous Intergration service of choice kicks in to test your whole application. So what’s a magic number we should keep in mind when running tests? Well, different people will tell you different benchmarks for this. I think that staying under 30 seconds is a very reasonable number that makes it very likely to exercise a full test on a regular basis. If you leave that benchmark more and more behind, some refactoring might be in order. It will be worth it and it will make you feel much more comfortable because you can check in more regularly. You will most likely move forward a lot faster too.</p>
+
+<p>You want that dialog with your tests to be as fast as possible. Tightening this feedback cycle by using an editor that can also exercise your tests is not to be underestimated. Switching back and forth between your editor and your terminal is NOT the best solution to handle this. This gets old very quickly. If you like using Vim, you have one more reason to invest some time to become more efficient at using your editor. Lots of handy tools available for Vim peeps. I remember that Sublime Text also offers to run tests from within the editor but other than that, you need to do a little bit of research to find out what your editor of choice is capable of in that regard. The argument that you will hear frequently from TDD enthusiasts is that you don’t want to leave your editor because overall, you will be spending too much time doing that. You want to stay much more in the zone and not lose train of thought when you can do this sorta thing via a fast shortcut from inside your code editor.</p>
+
+<p>Another thing to note is that you also want to be able to slice the tests that you want to run. If you don’t need to run the whole file, it’s nice to run a single test or a block that focuses just on what you need to get feedback on right now. Having shortcuts that help you run single tests, single files or just the last test again saves you a ton of time and keeps you in the zone—not to mention the high degree of convenience and feeling super dandy cool as well. It’s just amazing how awesome coding tools can be sometimes.</p>
+
+<p>On last thing for the road. Use a preloader like <a href="https://github.com/rails/spring">Spring</a>. You will be surprised how much time you can shave off when you don’t have to load Rails for every test run. Your app will run in the background and does not need to boot all the time. DO it!</p>
+
+<h2>Fixtures</h2>
+
+<p>I’m not sure if fixtures are still an issue for newbies coming to Ruby / Rails land. In case nobody instructed you about them, I’ll try to get you up to speed in a jiffy on these dreaded things. ActiveRecord database fixtures are great examples of having tons of Mystery Guests in your test suite. In the early days of Rails and Ruby TDD, YAML fixtures were the de facto standard for setting up test data in your application. They played an important role and helped move the industry forward. Nowadays, they have a reasonable bad rep though.</p>
+
+<h4>YAML Fixtures</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Quartermaster</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Q</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">favorite_gadget</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Broom radio</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">skills</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Inventing gizmos and hacking</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">00 Agent</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">James Bond</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">favorite_gadget</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Submarine Lotus Esprit</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">skills</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Getting Bond Girls killed and covert infiltration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The hash-like structure sure looks handy and easy to use. You can even reference other nodes if you want to simulate associations from your models. But that’s where the music stops and many say their pain begins. For data sets that are a bit more involved, YAML fixtures are difficult to maintain and hard to change without affecting other tests. I mean, you can make them work of course—after all, developers used them plenty in the past—but tons of developers will agree that the price to pay for managing fixtures is just a bit stingy.</p>
+
+<p>One scenario we definitely want to avoid is changing little details on an existing fixture and causing tons of tests to fail. If these failing tests are unrelated, the situation is even worse—a good example of tests being too brittle. In order to “protect” existing tests from this scenario, this can also lead to growing your fixture set beyond any reasonable size—being DRY with fixtures is most likely not on the table anymore at that point. To avoid breaking your test data when the inevitable changes occur, developers where happy to adopt newer strategies that offered more flexibility and dynamic behaviour. That’s where <a href="https://github.com/thoughtbot/factory_girl">Factory Girl</a> came in and kissed the YAML days goodbye. Another issue is the heavy dependency between the test and the .yml fixture file. Since the fixtures are defined in a separte .yml file, mystery guests are also a major pain waiting to bite you due to being obscure. Did I mention that fixtures are imported into the test database without running through any validations and don’t adhere to the Active Record life cycle? Yeah, that’s not awesome as well—from whatever angle you wanna look at it!</p>
+
+<p>Factory Girl let’s you avoid all that by creating objects relevant to the tests inline—and only with the data needed for that specific case. The motto is, only define the bare minimum in your factory definitions and add the rest on a test-by-test basis. Locally (in your tests) overriding default values defined in your factories is a much better approach than having tons of fixture unicorns waiting to be outdated in a fixture file. This approach is more scalable too. Factory Girl gives you plenty of tools to create all the data you need—as nuanced as you like—but also provides you tons of ammo to stay DRY where needed. The pros and cons are nicely balanced with this library I think. Not dealing with validations is also not a cause of concern anymore. I think using the factory pattern for test data is more than pretty reasonable and is one major cause why Factory Girl was so well received by the community. Complexity is a fast growing enemy that YAML fixtures are hardly equipped to take on effectively. In some way, I think of fixtures as <code>let</code> on steroids. You are not only placing them even further away—being in a separate file and all—you are also potentially preloading way more fixtures than you might actually need. RIP!</p>
+
+<h2>Brittle Tests</h2>
+
+<p>If changes in your specs lead to seemingly unrelated failures in other tests, you are likely looking at a test suite that has become fragile due to causes mentioned above. These often puzzle-like, mystery guest infested tests easily lead to an unstable house of cards. When objects necessary for tests are defined “far away” from the actual test scenario, it’s not that hard to overlook the relationships that these objects have with their tests. When code gets deleted, adjusted or simply the setup object in question gets accidentally overridden—unaware how this could influence other tests around—failing tests are not a rare encounter. They easily appear like totally unrelated failures. I think it’s fair to include such scenarios into the category of tightly coupled code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Mission</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:agent</span><span class="p">)</span>   <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="s1">&#39;007&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>   <span class="p">{</span> <span class="s1">&#39;Moonraker&#39;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:mission</span><span class="p">)</span> <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="n">title</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#lots of other tests</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#joint_operation_agent_name&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">let</span><span class="p">(</span><span class="ss">:agent</span><span class="p">)</span> <span class="p">{</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Felix Leiter&#39;</span><span class="p">,</span> <span class="ss">agency</span><span class="p">:</span> <span class="s1">&#39;CIA&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mission</span><span class="o">.</span><span class="n">agents</span> <span class="o">&lt;&lt;</span> <span class="n">agent</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="err">“</span><span class="n">returns</span> <span class="n">mission</span><span class="err">’</span><span class="n">s</span> <span class="n">joint</span> <span class="n">operation</span><span class="err">’</span><span class="n">s</span> <span class="n">agent</span> <span class="nb">name</span><span class="err">”</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">joint_operation_agent_name</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;Felix Leiter&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this scenario we have clearly modified locally an objects’s state which was defined in our setup. The <code>agent</code> in question is now a CIA operative and has a different name. <code>mission</code> comes again out of nowhere as well. Nasty stuff really. No surprise when other tests that possibly rely on a different version of <code>agent</code> start to blow up. Let’s get rid of the <code>let</code> nonsense and build the objects we need again right where we test them—with only the attributes we need for the test case of course.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Mission</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="c1">#lots of other tests</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#joint_operation_agent_name&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">agent</span>   <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:agent</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Felix Leiter&#39;</span><span class="p">,</span> <span class="ss">agency</span><span class="p">:</span> <span class="s1">&#39;CIA&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mission</span> <span class="o">=</span> <span class="n">build_stubbed</span><span class="p">(</span><span class="ss">:mission</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mission</span><span class="o">.</span><span class="n">agents</span> <span class="o">&lt;&lt;</span> <span class="n">agent</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="err">“</span><span class="n">returns</span> <span class="n">mission</span><span class="err">’</span><span class="n">s</span> <span class="n">joint</span> <span class="n">operation</span><span class="err">’</span><span class="n">s</span> <span class="n">agent</span> <span class="nb">name</span><span class="err">”</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">mission</span><span class="o">.</span><span class="n">joint_operation_agent_name</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;Felix Leiter&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is important to understand how objects are related—ideally with the minimum amount of setup code. You don’t want to send other developers on a wild goose chase to figure this stuff out when they stumble over your code. If it’s super hard to get a grasp quickly and a new feature needed to be implemented yesterday, these puzzles can not expect to be dealt with the highest priority. This in turn often means that new stuff get’s developed on top of that unclear context—which is a brittle basis for going forward and also super inviting for bugs down the road. The lesson to take away here is not to override stuff where possible.</p>
+
+<h2>Data Attributes</h2>
+
+<p>A final useful tip for avoiding brittle tests is to use data attributes in your HTML tags. Just do yourself a favor and use them—you can thank me later. This lets you decouple the needed elements under test from the styling information that your designers might touch frequently without your involvement. If you hard code a class like <code>class='mission-wrapper'</code> in your test and a smart designer decides to change this poor name, your test will be affected unnecessarily. And the designer is not to blame of course. How in the world would she know that this affects part of your test suite—very unlikely at least.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&#39;mission data-role=&#39;single-mission&#39;&gt;</span>
+</span><span class='line'><span class="x">  &lt;h2&gt;</span><span class="cp">&lt;%</span> <span class="o">=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">agent_status</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">  ...</span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">context</span> <span class="s2">&quot;mission’s agent status&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;does something with a mission&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_css</span> <span class="s1">&#39;[data-role=single-mission]&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We expect to see some HTML element on a page and marked it with  a <code>data-role</code>. Designers have no reason to touch that and you are protected against brittle tests that happen due to changes on the styling side of things. Pretty effective and useful strategy that basically costs you nothing in return. The only thing that might be necessary is to have a short conversation with designers. Piece of cake!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>We want to avoid distracting people who will read our tests or even worse, confuse them. That is opening the door for bugs but can also be expensive because it can cost valuable time and brain power. When you create your tests, try hard not to override things—it does not aid in creating clarity. More likely it will lead to subtle, time-consuming bugs and won’t affect the aspect of documenting your code positively. This creates an unnecessary burden we can avoid. Mutating test data more than absolutely necessary is also worth being a bit paranoid about. Keep it as simple as possible! This really helps avoiding sending other developers or your future self on wild goose chases. There is still a lot to learn about things you should avoid while testing but I believe this is a good start. Folks who are rather new to all things TDD should be able to handle these few AntiPatterns right away without diving into more advanced waters.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-10T04:29:10+01:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/antipatterns/'>antipatterns</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/bdd/'>bdd</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/code-smells/'>code smells</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/object-oriented-programming/'>object oriented programming</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/tdd/'>tdd</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/test-driven-development/'>test-driven-development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/" title="Previous Post: Slim Basics 01">&laquo; Slim Basics 01</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/" title="Next Post: Slim Basics 02">Slim Basics 02 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,2801 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Design | Drafts Previewer]]></title>
+  <link href="http://vis-kid.github.io/octo-draft/blog/categories/design/atom.xml" rel="self"/>
+  <link href="http://vis-kid.github.io/octo-draft/"/>
+  <updated>2016-03-14T22:45:33+01:00</updated>
+  <id>http://vis-kid.github.io/octo-draft/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Visual Design 101]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/03/03/Visial-Design-101/"/>
+    <updated>2016-03-03T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/03/03/Visial-Design-101</id>
+    <content type="html"><![CDATA[<p><img src="/images/Design_101/Visual_Design/Ingres_Academic_Study<em>(detail)</em>03.jpg" width="600"></p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Relationships</li>
+<li>Design Principles</li>
+<li>Unity</li>
+<li>Alignment</li>
+<li>Continuation(Gestalt)</li>
+<li>Emphasis</li>
+<li>Hierarchy</li>
+<li>Consistency</li>
+<li>Similarity(Gestalt)</li>
+<li>White space</li>
+<li>Balance</li>
+<li>Figure-Ground Relationship(Gestalt)</li>
+<li>Proximity(Gestalt)</li>
+<li>Closure(Gestalt)</li>
+</ul>
+
+
+<h2>Relationships</h2>
+
+<p>Let’s get this out of the way real quick—it’s all about relationships. That’s basically it, end of story. Good visual design is successful at creating distinctive and cohesive relationships. On a intellectual level, that’s easy to grasp. The hard part start when you get frustrated when you want to achieve elegance and quality by applying various design principles but the practice of the craft is between you and your glorious ideas. Long story short, the following content is relatively easy to learn and understand but it takes repeated practice to put the pieces together and achieve results that creates these relationships successfully—while effortless looking at best.</p>
+
+<p>probably some kind of innate pattern recognition software that helped to form these visual comforts and discomforts</p>
+
+<p>Learning these visual design basics, I want to convey the idea that your number one priority should probably be to not to frustrate or alienate users while communicating with your viewers via your designs. I currently think that visual design—especially on the web—should also build up confidence. The user needs to feel not only save, but also understand what you put in front of her. She should never feel intimidated by the site or the content. You can apply all the visual design principles successfully, but if you fail at the afore mentioned, it will be for nothing. Overall you want to be helpful, that should be your priority. These principles make you much more effective with that goal in mind. You want to not only create relationships within your design, more importantly, you want to create successful relationships with your users. Design can help with that.</p>
+
+<p>Convery a message tailored to an audience
+shapes, words, symbols, images</p>
+
+<p>visual problems
+goot design solves visual problems</p>
+
+<h2>Design Principles</h2>
+
+<p>The knowledge of these principles will help you make informed decisions about how distribute pieces of your design in the overall composition, guide you in sizing objects and make it clearer how you should apply colors for example. Design principles are often very closely related to each other and can’t stand too much on their own. When you put them to work, you should be able to achieve better visual hierarchy which in turn makes it easier for the user to navigate through your work. The relationships you create in your designs are only as good as the relationships people tend to look for—via psychological patterns.</p>
+
+<p>These principles help you achieve the functionality that good design is capable of. Maybe its not a bad approximation to say that it helps with the communication of your product, content or whatever by being visually sound and functional. The user should never be negatively surprised when you apply these principles. The design becomes more invisible because you provide users little reason to stop and think. Effortless looking design can be one of your goals and it is easier achieved with these principles in your tool belt. Maybe effortless design and invisible design go hand in hand. Not sure, but they are definitely not too far apart from each other.</p>
+
+<p>Design principles want to help removing the guesswork from our design process as much as possible. They are based on human psychology and help you to make better, more informed decisions about how you compose your work. Understanding these will improve the quality of your work tremendously—and probably also speed up the time spent on particular pieces before they work. Experimentation is great, it really is, but guess work can become tedious very quickly. Accepting that design principles are more of less part of your tool set and part of learning the craft might not come easy—after all, most of us want to be unique and original. In my mind, there is no contradiction in that department though, but if you don’t pay attention to these, you won’t build a proper basis for breaking the rules gloriously.</p>
+
+<p>One last thing before we get to work: Design is communication! Via visual design you communicate with a viewer. Your “words” or your repertoire includes shapes, words, symbols, images, white space, textures, colors and movements(animations or implied movements like the continuation of a pattern or form). Good design work results in great communication by providing great solutions to visual problems. The principles are connected to each other, feed off each other and influence each other. You want to be a guide who takes a user through a design—where you want them to go(also where it’s best for them!). A good ui will take this concern seriously and offer appropriate solutions. It will most likely be be broken, should you you loose them or leave them behind. Below we’ll look into seven design principles and a hand full of useful gestalt principles you should be aware of. They should be taken as guidelines, not as being set in stone and help you make decisions that lead to more cohesiveness.</p>
+
+<h2>Unity</h2>
+
+<p>Designs works best as a cohesive whole and should overall aim to achieve unity when you put all the elements together. Try to build up unified structures. Proximity, alignment, continuation and repetition can massively help to achieve perceived union among elements. This also helps you separate pieces of the puzzle without using additional borders. It looks more classy that way as well I think. As viewers, we perceive the overall structure first when we look at new things. A unified whole meets the user half way with that.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Unity/dropbox-team.png"></p>
+
+<h6>This site does a lot of things right and makes good use of every design principle in the book. What I found most impressive though is how effortless they achieved visual unity with only a few elements on the page.</h6>
+
+<p>Unity needs to be built up over time—doesn’t happen right away. I’d describe it as the combination of macro- and micro-unity in that regard. Smaller elements needs to convey cohesion as well when you build up an overall unified impression. Doesn’t work without paying attention to smaller details first.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Unity/github-project-page.png"></p>
+
+<h6>GitHub does a great job in establishing unity as well. All little considerations in a content rich page like this add up to a consistent whole where all the pieces fit together and where nothing sticks out negatively. Impressive work really!</h6>
+
+<p>If you do your job right, it creates the sort of cohesion that makes viewers more comfortable. Establishing trusting and understanding how they should follow the content is a free by-product. My impression is that the more unified a design becomes the more invisible it gets. If nothing stands in the way that could block the users attention the more frictionless the user experience can take place. Don’t make users think, right? In terms of style and elements used, if nothing sticks out from the rest too much and if all pieces have some sort of relationship to each other, unity can be easier achieved.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Unity/github-integrations.png"></p>
+
+<h6>This is another example of excellent use of this principle. The block that displays the list of integrations does need very little extra elements to establish unity. Since the unity of this section is already very strong, hey could maybe even try to loose the borders.</h6>
+
+<h2>Alignment</h2>
+
+<p>This design principle is the easiest to use to reduce visual clutter. Think of messy desk vs organized one. even if you like creative looking messy desks, your audience or customers might appreciate a well sorted appearance over a chaotic one. It’s also easier for them to navigate and find the relevant pieces of information if you can establish some sort of flow via alignment. As a side effect, hierarchy gets easier established without elements floating all over the place—or even lazily arranged ones. I guess it’s fair to say that missing alignment makes you look cheap or inexperienced—unless this is something you want to imply—or when you like to have an experimental, anarchistic vibe to a design I guess. Long story short, alignment is where it all begins and you are probably never wrong taking care of it.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Alignment-Continuation/dropbox-help.png"></p>
+
+<h6>Grids are maybe the most obvious use of using alignment to your advantage. This screenshot from the Dropbox help center clearly shows how tidy proper alignment can look. Visually pleasing as well I think.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Alignment-Continuation/paravel-reynolds.png"></p>
+
+<h6><a href="http://themanyfacesof.com/burt-reynolds/">themanyfacesof.com</a>, a fun side project from <a href="http://paravelinc.com/">Paravel</a>, made a nice little Burt Reynolds themed site that has tons of examples where you can see good alignment in action. The alignment is very subtle and mostly achieved through great typography skills and grids.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Alignment-Continuation/dropbox-feature-list.png"></p>
+
+<h6>The Dropbox feature list is another example that is worth studying. Simple, unpretentious and effective design work showing using alignment to maximum effect to structure content.</h6>
+
+<h2>Gestalt Principles</h2>
+
+<p>“<a href="https://en.wikipedia.org/wiki/Gestalt_psychology">Gestalt principles</a>” are powerful tools for designers. They are psychological principals that can help with making it clear how to arrange design elements in your work. We will cover them a bit along the way where they fit in best. Similar to visual design principles, they can be applied with print, web, video and photography. The list below covers what you need to study first:</p>
+
+<ul>
+<li>Figure ground relationship</li>
+<li>Uniform Connectedness</li>
+<li>Law of Praegnanz</li>
+<li>Common Fate</li>
+<li>Continuation</li>
+<li>Similarity</li>
+<li>Proximity</li>
+<li>Closure</li>
+</ul>
+
+
+<h2>Continuation</h2>
+
+<p>Visual alignment is actually pretty much based on the Gestalt principle of continuation. We’ll look more into how you can use this in your work when we cover grids in this series. I should mention this though, objects that follow a common direction, for example by being aligned to each other, create the impression of being more related to each other than elements missing this guideline. Following these organized lines of content creates order in a layout. For example, letters that form words which in turn form sentences and paragraphs are a good example of how continuation creates a better sense of content. You can clearly see they are belonging to each other and how to follow them to digest the information.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Alignment-Continuation/color-drops.png"></p>
+
+<h6>This is a great example of both alignment and continuation (<a href="http://www.lolcolors.com/">LOL Colors</a>). Without using borders, you can clearly see a grid at work effectively and the form of the color drops implies movement continuing down the page. I love this piece!</h6>
+
+<p>On macro-level, you want to work on aligning things that are related to each other and position them along a common edge. That way, elements flow a lot easier in the overall composition and let users navigate effortless—if done right. This visual connection helps you to form an overall unity between small and big elements. It’s like an invisible margin that holds the major pieces in your design together and gives the eye little reason to stop for visual hiccups. More often than not, edge alignment is more useful and applied more frequently than center alignment. Both have their place of course, but aligning content via edges is definitely your bread and butter when you design for the web. Center alignment for larger elements can be used to emphasize particular elements or call to actions.</p>
+
+<h2>Emphasis</h2>
+
+<p>Emphasis is all about focal points. The less you have, the stronger their emphasis. You want to avoid making look everything important—that way nothing sticks out and all you end up with is noise. I’m sure you have seen sites that ignore that principle and plaster tons of funky colored buttons all over the place. Leaves a nasty taste, doesn’t it? That’s what a lack of emphasis can leave behind. More importantly, it does not help in creating a clear hierarchy. Your tools of choice are the usual suspects, but size and color might be the most effective at creating emphasis.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Emphasis/dropbox-signup-emphasis.png"></p>
+
+<h6>Establishing a strong contrast with content or design elements around is another way to go. Although this site is a bit busy, Dropbox makes a great job at highlighting the action they user is supposed to make. Visually, there is nothing standing in the way that blocks the user from focusing on signing up. The strongest emphasis is on the blue buttons that clearly stand out from the rest in the viewport. This design has good visual balance too—even better if they’d go with only one blue button.</h6>
+
+<p>My approach these days is simple: one or two emphasised elements in a particular viewport should be enough to guide the users attention to the most important elements on the page. Which elements is maybe more difficult than it sounds like. You not only want to create interest among your users but also drive the attention where needed—fast and easily. Ask yourself, what is really so crucial to be grabbing the users focus first. Choose wisely and don’t annoy users with your decisions!</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/wooden-keyboard.png"></p>
+
+<h6>The emphasis on the product is excellent in this design. Neither the description nor the background blocks the emphasis on the wooden <a href="http://oreeartisans.com/products/oree-board">Orée</a> keyboard in any way. Beautiful! Symmetry is also working nicely here.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/htc-vive.png"></p>
+
+<h6>Not much to say about how HTC presented the <a href="http://www.htcvive.com/eu/product/">VIVE</a>. Emphasis at it’s best. Good design like this definitely sells.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/craft-email.png"></p>
+
+<h6><a href="http://www.invisionapp.com/craft">Craft</a> by Invision has made a nice landing page where they elegantly emphasised the input field for email addresses. Hard to get lost on this page. The name of the product sticks out nicely as well. The distinction between background and foreground is especially skilled and playful.</h6>
+
+<h2>Figure Ground Relationship</h2>
+
+<p>This principle is very powerful and I think so fundamental that you should master it as early as possible. Working on your designs, you should often ask yourself the simple question: what elements are basically background or foreground?</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/raspberry-pi-figure-ground.png"></p>
+
+<h6>You can see that the content and the button to take action clearly stick out from the background. (<a href="http://www.cayenne-mydevices.com/">http://www.cayenne-mydevices.com/</a>) A clear distinction is very important to play with the user’s focus effectively. Here the lines are a bit blurry and playful I’d say, but still very clear figure-ground distinction.</h6>
+
+<p>When our early ancestors were hunting, gathering or whatever, it often was of vital importance to discern what might be an immediate threat or advantage—right in front of them. Distinguishing things quickly from stuff that are just background “noise” seems to still be part of our wiring for “survival”. Think of tiger behind a bush in the jungle vs rain on the horizon. Neurologically, this visual survival strategy has probably left such a deep imprint that we won’t change this simple mechanism of perception for quite a while.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/zappka.png"></p>
+
+<h6>Here we have a very prominent background image that takes a lot of attention. Should convey some sort of emotional response I guess. Nevertheless, the button to take action is cleverly placed and it’s color is emphasised nicely into the foreground. (<a href="http://zappka.com/">http://zappka.com/</a>)</h6>
+
+<p>I know this sounds funny and mostly obsolete for digital folks, but knowing this, makes it much simpler to decide how to accentuate important elements or information for users and how to “hide” less relevant stuff in the background. Another issue might be that our eyes and brains are not super fast at processing a lot of information at the same time which leads to prioritizing what we need to focus on first. This is no rocket science of course, but having this knowledge at the back of your head definitely helps placing pieces of the design puzzle more effectively.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/startup-fucking-advice.png"></p>
+
+<h6>This works quite ok, the distinction between background and foreground works somehow. I just don’t get why they didn’t place the red button at the end of the table—where the eye is drawn naturally due to the perspective of the image. Would have been much stronger emphasis without much effort. (<a href="http://www.startupfuckingadvice.com/">http://www.startupfuckingadvice.com/</a>)</h6>
+
+<p>Broken down to its core essence, figure ground relationship boils down to what can the user ignore at first and what should she focus on right away. For design with strong visual hierarchy, this is an essential design principle to produce quality work. Without applying this knowledge, you either stumble over a successful solution by accident or your outcome will be significantly weaker in establishing visual hierarchy. Blending them sometimes and breaking the clear distinction might result in nice results.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/samsung-360.png"></p>
+
+<h6>This one from the new Samsung <a href="http://www.samsung.com/global/galaxy/gear-360/">Gear 360</a> is as good as it gets. The background and foreground work together extremely well. There is a clear distinction and the background accentuates the camera in the foreground elegantly. Pretty clever and playful too.</h6>
+
+<p>Below are couple more examples of good emphasis / figure-ground relationship for the road:</p>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/chewable-coffee.png"></p>
+
+<h6><a href="https://gocub.es/">Go Cubes</a></h6>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/chewable-coffee-single.png"></p>
+
+<h6><a href="https://gocub.es/">Go Cubes</a></h6>
+
+<p><img src="/images/Design_101/Visual_Design/Figure-Ground/gear360-dust.png"></p>
+
+<h6><a href="http://www.samsung.com/global/galaxy/gear-360/">Gear 360</a></h6>
+
+<h2>Hierarchy</h2>
+
+<p>Hierarchy is all about visual importance and is sort of a cousin to emphasis in regards to reducing visual clutter. It’s mostly a macro guide on what to focus first and how to follow some sort of visual, subliminal breadcrumbs—like telling a visual story the user can cling on to when navigating your site. You can approach design elements like “layers of importance” that need to be arranged effectively. With only a few pieces strongly emphasized, you are taking the viewer softly by the hand and move him through the site as intended—more importantly, as you intend for the user to have the best possible experience.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Hierarchy/reddit-index.png"></p>
+
+<h6>The screenshot of the Reddit index page is maybe not the best example of well crafted design—especially in the sense of establishing a clear and strong hierarchy. Reddit is one of these cases where the success of the site and design are not closely related I feel. It has an authentic ring to it, by being messy I mean, but I often wish their user experience would be enhanced by working more on their design. Wouldn’t need much to establish a better visual hierarchy.</h6>
+
+<p>As we covered before, you don’t want things to look equally important. That way your viewer would have a harder time to digest your content. Instead create various level of importance that emphasise the overall structure of your composition. One strategy that works pretty much always is: the bigger the size, the bigger the importance. These differences in size or whatever should be significant differences only, avoid going overboard. After you achieved a basic hierarchy through size and spacing, you can bring color to the mix. This can help to emphasize certain elements even more. If you work the other way around, starting with color, you make your job unnecessarily harder—or at least less effective.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Hierarchy/github-trending.png"></p>
+
+<h6>I like how the <a href="https://github.com/trending">Explore</a> page at GitHub deals with typography to create a subtle and clear hierarchy. It’s very easy for the eye to follow the content downward. Color is also put to good use to create visual anchors. Same goes for their search page.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Hierarchy/github-search.png"></p>
+
+<h6>Color, form, white space, size and alignment work together and create a solid hierarchy.</h6>
+
+<p>Good visual hierarchy is a bit like giving users directions without putting signs all over the place. It’s a lot more subtle and elegant that way. Skillfully implemented hierarchy let’s you avoid that the user feels overwhelmed, especially when you have tons of content on a site. Users getting lost by lacking of hierarchy is the exact opposite you want to happen. That is easy money that you leave on the table. I sometimes wonder how many conversions are missed just because this important principle was ignored designing checkouts and stuff. A clear hierarchy distinguishes quickly between good and mediocre design solutions—also convey the skills and experience of the designer at work.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Hierarchy/what-is-dropbox.png"></p>
+
+<h6>Another great example of how skillful designer at Dropbox execute their work. A lot more content to work with, but still successful at guiding the eye through the text. Subtle and skillful.</h6>
+
+<h2>Consistency</h2>
+
+<p>If you follow the principles discussed so far but lack consistency you not only confuse your user unnecessarily but also weaken the progress you achieved applying other design principles. Consistency helps to create a mental model of the design, site or look you are going for. Similar items should look similar which makes finding stuff easier. Also, once you get into coding your designs, making your designs more DRY (Don’t Repeat Yourself) is a lot more straightforward with that in mind.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Consistency/dropbox-plans.png"></p>
+
+<h6>Another eye pleasing design from the Dropbox team. It shows consistency on various levels. The style and size of the illustrations are consistent—not only in this example but across the page actually. The buttons look the same—also page wide. The visual weight of all three columns are evenly distributed, aligned and share the same inner structure. Overall, simple, considered and effective.</h6>
+
+<p>Consistency sets expectations, the next thing should not look completely different—especially not to amuse the create impulses of designers making their mark.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/startup-cards.png"></p>
+
+<h5><a href="http://uxtimeline.com/">UX Timeline</a></h5>
+
+<p>Not using a ton of different typefaces is one of the most important application of consistency. Users gets used to read in a particular style or typeface and you don’t want to disturb that—at all! Lot’s of different typefaces is one nasty antipattern.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Consistency/type-consistency.png"></p>
+
+<h5><a href="https://www.whiplashmerch.com/">Whiplash</a></h5>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/soundcloud-charts.png"></p>
+
+<h5><a href="https://soundcloud.com/charts/top">SoundCloud Charts</a></h5>
+
+<p>Have you recently seen sites that use tons of different buttons instead of a few which would create much better consistency? I bet you have and that you didn’t like it. The buttons below belong to a interface inventory of one single site. Amazing how far you can go in the wrong direction.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Consistency/atomic-design-buttons.png"></p>
+
+<h6>A screenshot from Brad Frost’s excellent book about <a href="http://atomicdesign.bradfrost.com/chapter-4/">Atomic Design</a></h6>
+
+<p>The usability of a system can improve a ton when similar elements like these share the same look. Why make users learn a ton of visual language for navigating your page? It doesn’t make any sense! On the bright side, consistency helps you shape the design very subliminally without too many extra elements as distinguishers.</p>
+
+<h2>Similarity</h2>
+
+<p>You guessed it, consistency has it’s roots in this Gestalt principle that says that similar looking things create a sort of unity that you can use in your designs. Elements that share similar characteristics appear to be more related to each other—more than dissimilar things. No surprises here of course. The being related part is the thing to focus on. Design elements can create a relationship just by looking similar. Elements that are similar, when put together can create strong contrasts to other elements around them which basically separates them without much effort or extra design barriers. That’s fantastic news because it can make our lives as designers a lot easier. This means that psychologically, it can help us create consistency by repeating particular elements and that avoiding to create tons of variations of the same things weaken our work—or most likely only confuse your users. Cohesion is the magic idea behind all this.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/dribbble-peeps.png"></p>
+
+<h6>The user list on <a href="https://dribbble.com/designers">Dribbble</a>, displaying designers and their work, is a nice example how similarity can support a list of different design elements to create relationships and therefore appear more unified.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/reddit-bad-similarity.png"></p>
+
+<h6>Reddit does not achieve great consistency by applying similarity that well. This list of posts has super long and super short titles, some headlines are indented while others aren’t. It looks a bit messy and wouldn’t take much work to create more cohesion via similarity.</h6>
+
+<p>You can achieve similarity by:</p>
+
+<ul>
+<li>color</li>
+<li>form</li>
+<li>size</li>
+<li>shape</li>
+<li>texture</li>
+<li>orientation</li>
+<li>dimension</li>
+<li>consistency of size</li>
+</ul>
+
+
+<p>All of them can suggest relationships when being similar. Color and shape are very strong examples to emphasize these relationships. I think that similarity of color is maybe the strongest to suggest similarity. The eye is looking for color similarity very early in the process of looking at new stuff. If you can make it easy for it to discover common threads via color, you make the user think less I guess. Although similarity is a mighty weapon to yield, it is nevertheless a tool for reinforcement of hierarchies, not one that easily creates it on its own.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/trending-open-source-boders.png"></p>
+
+<h6>This list of trending Open Source repos on GitHub is really nice. Very simple, easy to read and digest as well as cohesive by being very similar. I think it is so successful in creating blocks of discrete content that it doesn’t even need these borders.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/trending-open-source-no-boders.png"></p>
+
+<h6>After removing the borders in the list, you can see that the similarity is still so strong that it doesn’t change the effectiveness of this list. You can see that the consistent use of similar elements can create a rather strong unity. See, I told you, it’s all about relationships really.</h6>
+
+<p>The subtle mental map we can create is not to be underestimated. It helps to establish a pattern for organizing content. Chaos is on the other end of that spectrum and is most likely not what we are aiming for. Imagine a page of text where the letters would not be displayed consistently on a line-by-line basis but would float randomly around the page. Not very inviting to read, huh?</p>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/github-explore-weaker.png"></p>
+
+<h5>This is the landing page of the <a href="https://github.com/explore">Explore</a> section on GitHub. Here I think that a more consistent use of size and appearance would have been a bit more effective. At first I thought that the increased size was due to an “editorial” decision to consciously highlight certain categories. After a couple of refreshes it was clear thought that this was just randomized. Lacking good reason to play with size, the unity would have been stronger by sticking to consistency. Also, you have two sorts of cards, one with just a headline for the category and one with additional text. On top of that, the hover effects are different for all three variations. Not a big issue overall, but imho not as strong as the showcases list of the same section below.</h5>
+
+<p><img src="/images/Design_101/Visual_Design/Similarity/github-explore-cards.png"></p>
+
+<h6>Same content as above but the result is much stronger. Although the background colors are very different from each other, the cards look still very similar and consistent.</h6>
+
+<p>In terms of functionality, similar looking elements should accomplish similar tasks for the user. When users unnecessarily need to re-learn different behaviours for similar looking things, frustration might be the least of your problems. You definitely want to avoid creating too many question marks for users in that department. Similarity helps to manage expectations of your users—that in itself is a very powerful tool in your arsenal.</p>
+
+<h2>White space</h2>
+
+<p>What exactly is considered white space? It’s unmarked, negative or empty space between elements in a composition. There is also macro whitespace for the main pieces in your design which creates more obvious effects. Micro whitespace on the other hand are for minute details, like spacings in text. It’s great if you are after more subtle effects. A good grip on white space is considered elegant and timeless if executed right.</p>
+
+<p><img src="/images/Design_101/Visual_Design/WhiteSpace/gear-360-white-space.png"></p>
+
+<h6>Here the excellent use of white space creates a strong and elegant emphasis on this new product. There are a couple of principles put to work successfully, but white space is playing the strongest role to make this design work so well.</h6>
+
+<p>Site with proper white space usually appear a bit lighter or more airy. In that regard, it also leads to a composition that is more digestable. Lesser whitespace can result in looking cheap—which caw be a desired effect of course. I’m sure you have seen displays of luxury products and realized that they focus your attention by applying a ton of whitespace. It’s not so much about luxury vs cheap, but often, higher priced or valued products make good use of this principle. Instead it’s another technique that you can use to lead a viewer from element to element. That way, white space is considered active.</p>
+
+<p><img src="/images/Design_101/Visual_Design/WhiteSpace/foundersuite.png"></p>
+
+<h6>(<a href="https://foundersuite.com/investor_crm">Foundersuite</a>) When you investigate the sizes used to establish effective white space, you see that the measures used play off of each other. Let’s have a look below:</h6>
+
+<p><img src="/images/Design_101/Visual_Design/WhiteSpace/foundersuite-color-blocks.png"></p>
+
+<h6>As you can see, this application of white space is active. Although not perfect in execution—web browsers duh—you can easily see how little consideration it takes to play with this design principle. Doesn’t take much work to go beyond your gut feeling.</h6>
+
+<p>To be most effective, white space must be active. It is a fuzzy description but it means that it should have relationships to elements around it. Active whitespace helps emphasize the composition or structure of your content and therefore affect the hierarchy positively. Passive whitespace is important as well since it can create small breathing rooms. But, too much inactive white space that is lacking relationships to surrounding elements and make your work look inconsiderate or even messy. It simply does not create the balance good design wants to achieve with that technique.</p>
+
+<p><img src="/images/Design_101/Visual_Design/WhiteSpace/ionic-white-space.png"></p>
+
+<h6>Another nice application of white space on <a href="http://ionic.io/">ionic.io</a>. There is a relationship in size as well as macro and micro white space playing nicely together.</h6>
+
+<p>When you read text, see the useful application of white space every day without thinking much about it. The space between words, sentences and paragraphs is all white space and helps us to visually digest the meaning of the letters being written. It guides the eye through the content and gives us cues how the eye is most effectively moving through it the text. Both give the eyes a chance to rest and support the overall balance.</p>
+
+<p><img src="/images/Design_101/Visual_Design/WhiteSpace/mighty-bell-white-space-blocks.png"></p>
+
+<p>Keep in mind that you want to achieve differentiation though space. This lets you cut back on other elements to create distinctions or borders. If you like that clean look of your favorite designs then the conscious application of white space was most likely one major component of it. Nothing speaks elegance and sophistication than proper user of white space.</p>
+
+<h2>Balance</h2>
+
+<p>More often that not, you want all elements, or at least the most emphasised ones on page to have optical equilibrium. Avoid having elements that look heavier than the rest! Balance is all about keeping visual weight in check. We like to look at things that are balanced around a vertical axis—a Rohrschach test image basically. Nothing wrong with that. This is a safe pattern to follow—very formal and ordered. If you can break that balance masterfully though, create a bit of a tension or surprise, maybe to highlight some part, your design might appear more dynamic and interesting.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Balance/blockhead-balance-01.png"></p>
+
+<h6>The site for the <a href="https://tenonedesign.com/blockhead.php">Blockhead</a> adapter has a few nice examples how they craftfully applied balance to their designs. Above, the image to the right and the text achieve a nice optical equilibrium. Same goes for the image below. Balance, hierarchy, whitespace and emphasis are all nicely applied.</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Balance/blockhead-balance-02.png"></p>
+
+<p>Lucky for us, symmetrical balance is easy to achieve. Might be a tad more boring but it’s mostly a save bet. The asymmetric approach is less rigid or static but expects a bit more craft to pull off successfully. You need to work on keeping the various non-mirrored parts in a perceived balance. The elements involved are different from each other. It is not so much about getting a ruler out and measuring all the lengths, distances or white spaces, but about creating a visual, perceived equilibrium. Not easy to do but it can result in very beautiful and elegant solutions. Good examples show the experience of a well considered and crafted design.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Balance/dropbox-balance-01.png"></p>
+
+<h6>It doesn’t get any better than that. The <a href="https://www.dropbox.com/">Dropbox</a> landing page makes excellent use of visual balance all over the place. You can see that the images and the text achieve a nice asymmetrical balance–especially in reference to other sections around them. An boy, don’t get me started about how they used the Koi carp to imply responsiveness and multi-device operability. Genius!</h6>
+
+<p>When you play with visual balance, all the design tools are at your disposal: size, color, position, shape, quantity, texture and so on can influence the perceived weight individually and play off of each other. Getting a good grip optical equilibrium is one of the harder skills to master I think.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Balance/dropbox-balance-02.png"></p>
+
+<p>Asymetrcial balance is more friendly, less static or rigid and conveys a design that appears more playful and dynamic. Not that I’m a Dropbox fan boy or something, but in terms of design they are making skillful use of every design principle in the book and achieve an overall quality that can be admired.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Balance/dropbox-balance-03.png"></p>
+
+<h5>Dropbox’s about page</h5>
+
+<h2>Proximity</h2>
+
+<p>Design elements that are placed closer to each other seem to appear being more related. The distance between elements has an effect on their perceived relatedness. The closer they are arranged together, the closer the relationship is implied. You can enforce that mental proximity through color and similarity of course. Handling proximity right can affect your designs positively by enabling you to leave off other elements that would help you achieve a visual unity—borders for example. Again, unity is what this is all about. Proximity can be so strong though that it overshadows similarity of color or form.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Proximity/proximity.png"></p>
+
+<h6>On the site for <a href="https://yogrow.co/ecommerce-stack">YoGrow</a> you can see how they made use of proximity. Maybe they could have used less of the background color and borders and let proximity do its magic. There is not too much to explain I think but proximity is one Gestalt principle that you want to not overlook. In the example below, proximity was you need to imply the relationships of these color palettes. Borders or background colors can be left off and generates an elegant look (<a href="http://www.lolcolors.com/">LOL Colors</a>).</h6>
+
+<p><img src="/images/Design_101/Visual_Design/Proximity/color-drops.png"></p>
+
+<h2>Closure</h2>
+
+<p>Closure is a technique where the user who watches a composition fills in the blanks of your designs—that you deliberately planted—a form of suggestion I’d say. It’s sort of a illusion that completes the image that the designer wants you to see. Maybe you can also describe it as a design that leaves out all the stuff that is unnecessary to understand the image. For the human brain, it’s easier to see a pattern than to see disorganized pieces. Thereby you can create a possibly stronger visual imprint on the viewer I’d say. It’s like we dig a deliberate hole that is for the viewer to fill after they figure it out. This is sometimes the technique behind very clever logos. Have a look below.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Closure/closure-example-list.jpeg"></p>
+
+<p>The pattern-seeking human brain seems to operate by filling in missing pieces into familiar forms. It does not work well with things that are unfamiliar to us. Experience is necessary to invoke this mental trigger. Supposedly our minds are doing this on a vast scale with our everyday perception. It might even be a vital mechanism of how we construct our realities. Because we can’t fully sense what is going on around us, we cope by interpolating what’s out there—sort of I guess. This filling of the blanks let’s us focus on what’s important and probably go on with our business without being too much distracted by everything going on. Visual design learned to “exploit” that mechanism of our brain via closures. I’m not a psychologist, but this is the best description that I can come up with to summarize all that I learned about this over time.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Closure/fedex.png"></p>
+
+<p><img src="/images/Design_101/Visual_Design/Closure/girl-scouts.png"></p>
+
+<p>If that really leaves the viewer with a more ingrained impression or relationship to a brand or whatever, can be questioned of course. In general, you don’t want to make it too hard for viewers to fill in these blanks though. Very few people take the time to figure this stuff out, so they need to put it together quickly in order to be effective. If it’s taking them too long, you are wasting an opportunity to leave a positive impression—or worse any significant impression at all.</p>
+
+<p><img src="/images/Design_101/Visual_Design/Closure/usa-network.gif"></p>
+
+<p><img src="/images/Design_101/Visual_Design/Closure/closure-v.png"></p>
+
+<h2>Final thoughts</h2>
+
+<p>Practice, practice, practice, there is no way around it! From now on, try to look for these principles when you take a look at other designs or art. Try to understand if the creators considered these principles and applied them actively or if they just followed their gut blindly or instinctively—which is not wrong by definition or anything but represents a limited tool set that is harder to rely on in your work. But most of all, have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bourbon Neat-Variables]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/10/01/Neat-Variables/"/>
+    <updated>2015-10-01T05:29:10+02:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/10/01/Neat-Variables</id>
+    <content type="html"><![CDATA[<p><img src="/images/Neat_01/Neat-pour.jpg"></p>
+
+<p><a href="http://neat.bourbon.io/"><img src="/images/bourbon-neat/Bourbon-Neat-Logo.png" width="250" height="450"></a></p>
+
+<p>In this last section about Bourbon Neat we’ll look at the various “built-in” Sass variables you have at your disposal. Its gonna be a short ride but knowing how to tweak your grids is important.</p>
+
+<h4>Variables</h4>
+
+<ul>
+<li>default-layout-direction</li>
+<li>visual-grid-opacity</li>
+<li>border-box-sizing</li>
+<li>visual-grid-index</li>
+<li>disable-warnings</li>
+<li>visual-grid-color</li>
+<li>default-feature</li>
+<li>grid-columns</li>
+<li>max-width</li>
+<li>visual-grid</li>
+<li>column</li>
+<li>gutter</li>
+</ul>
+
+
+<p>Before we start, I should remind you that most of the time your Neat variables are best placed in one central location like in your <strong>_grid-settings</strong> partial. In any case, to avoid any surprises, make sure to not forget to import these variables before you import Neat.</p>
+
+<p>Sass:
+<code>sass
+@import "bourbon/bourbon"
+@import "grid-settings"
+@import "neat/neat"
+</code></p>
+
+<h2>Visualizing your grid</h2>
+
+<p>Let’s start with something that you should be using from day one. Neat can show you a visual grid that makes it easier to visualize your designs and better spot opportunities for experimentation.</p>
+
+<p>I’m definitely in the camp of people who advocate designing in the browser as soon as possible. No doubt, sometimes it is important so spend a little extra time in Sketch or whatever, but aiming to bridge the two faster is a reasonable ambition. Seeing the grid skelleton for your layout in the browser makes it a whole lot easier to leave other graphical design tools more and more behind.</p>
+
+<ul>
+<li><h3>visual-grid</h3></li>
+</ul>
+
+
+<p>By default, Neat sets <strong>$visual-grid</strong> to <strong>false</strong>. Just jump into <strong>_grid-settings</strong> and change it to <strong>true</strong>.</p>
+
+<p>Sass:
+<code>sass
+$visual-grid: true
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/visual-grid-empty.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/PPWLQK">codepen example</a></p>
+
+<p>The color you’ll see will be a bit different—I already tweaked that a bit—but it will show you the number of columns you have set via <strong>$grid-columns</strong>—all within your outer containers. In this case I kept the default which is 12 columns. In general, a 12 column grid offers you a lot of flexiblity and is a solid choice for beginners as well as for advanced designers.</p>
+
+<ul>
+<li><h3>visual-grid-index</h3></li>
+</ul>
+
+
+<p>If you already have some content which spans the full width of the outer container(s) on the page you might be surprised to see no effect of the <strong>$visual-grid</strong>. In case that happens, remember that the <strong>$visual-grid-index</strong> is set to <strong>back</strong> by default. Maybe not the best default ever, but no biggie either.</p>
+
+<p>SCSS:
+<code>scss
+$visual-grid-index: back !default
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/visual-grid-index-back.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/MaJRpY">codepen example</a></p>
+
+<p>If you want to see the visual grid displayed in front of the content on the page just make this little change:</p>
+
+<p>Sass:
+<code>sass
+$visual-grid-index: front
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/visual-grid-index-front.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/RWKOyB">codepen example</a></p>
+
+<ul>
+<li><h3>visual-grid-color</h3></li>
+</ul>
+
+
+<p>If you’re unhappy with the default grid color you can change that of course. Obviously its a good idea to choose a color that has good contrast compared to your design. I like using plain old <strong>tomato</strong>—although for the examples here I decided differently since I already used it to highlight the containers.</p>
+
+<p>Sass:
+<code>sass
+$visual-grid-color: black
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/visual-grid-color.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/PPWgXL">codepen example</a></p>
+
+<ul>
+<li><h3>visual-grid-opacity</h3></li>
+</ul>
+
+
+<p>If you’re unhappy with the default opacity of 40% you can overrule that too. I believe <strong>0.4</strong> is a good choice for a default but every project is different. Although its not the best use of this variable, let’s see how 100% looks in the same example.</p>
+
+<p>Sass:
+<code>sass
+$visual-grid-opacity: 1
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/visual-grid-opacity-100.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/pjRmPe">codepen example</a></p>
+
+<ul>
+<li><h3>grid-columns</h3></li>
+</ul>
+
+
+<p>If you think the default 12-column grid gives you not the flexibility or structure you were looking for you can change the default via this variable globally. Doing this after you already designed your way through a layout in the browser might make you face some pain tough. Take it with a grain of salt— its just an educated warning since I haven’t been there before. I mean its probably nothing tragic but manual adjustments for individual rows / columns seem like a given.</p>
+
+<p>Let’s go through a couple of reasonable examples:</p>
+
+<p>Sass:
+<code>sass
+$grid-columns(6)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/grid-columns(6).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/PPpbOo">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$grid-columns(16)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/grid-columns(16).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/NGpbyN">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$grid-columns(4)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/grid-columns(4).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/QjpGmG">codepen example</a></p>
+
+<ul>
+<li><h3>column</h3></li>
+</ul>
+
+
+<p>For this one we’ll have to take a step back for a minute. Neat’s grid system is based on the Golden Ratio. If that is gobbledygook to you check out my articles about Bourbon mixins where I spent a little time on that. What is important here is that you can change the relative width of a single grid column via this variable. Let’s look under the hood.</p>
+
+<p>SCSS:
+<code>scss
+$column: modular-scale(3, 1em, $golden) !default;
+</code></p>
+
+<p>Internally it uses the <strong>modular-scale</strong> function which I also described in an article about Bourbon’s various functions. Here it sets up the base value of <strong>1em</strong> and makes every column as wide as <strong>3</strong> increments / steps from that base value. Additionally it locks the scale of choice to the Golden Ratio via <strong>$golden</strong>.</p>
+
+<p>I’ve never felt the need to tweak these things but if curiosity and some extra time for experimentation would hit me I’d start playing around with the various variables for modular scales that you have at your disposal in Bourbon. You can choose from 17 “scales” that come with the library—or make up your own of course.</p>
+
+<p>SCSS
+<code>scss
+$golden:           1.618;
+$minor-second:     1.067;
+$major-second:     1.125;
+$minor-third:      1.2;
+$major-third:      1.25;
+$perfect-fourth:   1.333;
+$augmented-fourth: 1.414;
+$perfect-fifth:    1.5;
+$minor-sixth:      1.6;
+$major-sixth:      1.667;
+$minor-seventh:    1.778;
+$major-seventh:    1.875;
+$octave:           2;
+$major-tenth:      2.5;
+$major-eleventh:   2.667;
+$major-twelfth:    3;
+$double-octave:    4;
+</code></p>
+
+<h4>Attention!</h4>
+
+<p>Make sure to import Bourbon first because the variables are defined there and not in Neat. Also, if you decide that you want to change the width of your column via a different variable for your modular scale you should not forget to change this unit in your gutters as well (more info in the next section about <strong>gutter</strong>).</p>
+
+<p>Let’s compare the different modular scales for a default 12-column grid. Not all of them result in sensible choices but take a look and see if someting pops out that you like:</p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $golden)
+$gutter: modular-scale(1, 1em, $golden)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(golden).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/ojZBgr">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $minor-second)
+$gutter: modular-scale(1, 1em, $minor-second)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(minor-second).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/NGpdbv">codepen examples</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-second)
+$gutter: modular-scale(1, 1em, $major-second)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-second).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/yYMgzq">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $minor-third)
+$gutter: modular-scale(1, 1em, $minor-third)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(minor-third).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/yYMgPx">codepen examples</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-third)
+$gutter: modular-scale(1, 1em, $major-third)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-third).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/WQpRdM">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $perfect-fourth)
+$gutter: modular-scale(1, 1em, $perfect-fourth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(perfect-fourth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/epvgzL">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $augmented-fourth)
+$gutter: modular-scale(1, 1em, $augmented-fourth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(augmented-fourth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/yYMgKR">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $perfect-fifth)
+$gutter: modular-scale(1, 1em, $perfect-fifth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(perfect-fifth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/WQpRyz">codepen examples</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $minor-sixth)
+$gutter: modular-scale(1, 1em, $minor-sixth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(minor-sixth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/GpWrXm">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-sixth)
+$gutter: modular-scale(1, 1em, $major-sixth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-sixth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/Zbeyvm">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $minor-seventh)
+$gutter: modular-scale(1, 1em, $minor-seventh)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(minor-seventh).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/gamRvm">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-seventh)
+$gutter: modular-scale(1, 1em, $major-seventh)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-seventh).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/pjewaZ">codepen examples</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $octave)
+$gutter: modular-scale(1, 1em, $octave)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(octave).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/EVWXQz">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-tenth)
+$gutter: modular-scale(1, 1em, $major-tenth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-tenth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/epvRMx">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-eleventh)
+$gutter: modular-scale(1, 1em, $major-eleventh)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-eleventh).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/JYWJvj">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $major-twelfth)
+$gutter: modular-scale(1, 1em, $major-twelfth)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(major-twelfth).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/gamRzW">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $double-octave)
+$gutter: modular-scale(1, 1em, $double-octave)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/column(double-octave).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/EVWZPG">codepen example</a></p>
+
+<p>I can’t believe I actually took screenshots of all scales. Guess I got curious after all because I planned on only showing you a couple. Maybe not a rabbit hole you wanna follow but hey, folks like to get clever with these things. Using the default Golden Ratio is an absolute solid choice for people who just wanna move on.</p>
+
+<ul>
+<li><h3>gutter</h3></li>
+</ul>
+
+
+<p>Kinda the same idea as with <strong>column</strong>. This ones sets the relative width of a single   gutter—the space between each column—in your grid. To create a coherent grid system that has the Golden Ratio baked into every aspect, by default, <strong>gutter</strong> also uses <strong>$golden</strong> to calculate the gutters.</p>
+
+<p>SCSS:
+<code>scss
+$gutter: modular-scale(1, 1em, $golden) !default;
+</code></p>
+
+<p>For people new to the party, let me visualize this for you. All the <strong>tomato</strong> colored stuff are gutters:</p>
+
+<p><img src="/images/bourbon-variables/gutter(golden).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/zvZypr">codepen example</a></p>
+
+<h4>Attention!</h4>
+
+<p>If you decide that you want to change the width of your gutter via a different variable for your modular scale you should not forget to change this unit for your columns as well.</p>
+
+<p>Sass:
+<code>sass
+$column: modular-scale(3, 1em, $octave)
+$gutter: modular-scale(1, 1em, $octave)
+</code></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/bourbon-variables/gutter(octave).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/EVWGEy">codepen example</a></p>
+
+<ul>
+<li><h3>max-width</h3></li>
+</ul>
+
+
+<p>This variable let’s you change the size of your outer containers that is used by the <strong>outer-container</strong> mixin. By default it is set to <strong>1088</strong> pixels which gets calculated to <strong>em</strong> out of the box.</p>
+
+<h4>Screenshot with default max-width of <strong>1088px</strong>:</h4>
+
+<p><img src="/images/bourbon-variables/max-width(1088).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/dYvwjV">codepen example</a></p>
+
+<p>Sass:
+<code>sass
+$max-width: em(1200)
+</code></p>
+
+<h4>Screenshot with <strong>1200px</strong> max-width:</h4>
+
+<p><img src="/images/bourbon-variables/max-width(1200).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/rOyoKx">codepen example</a></p>
+
+<p>This variable is certainly handy since the “standards” for how wide web pages are supposed to span are changing rapidly and long gone are the 960px days. Through access to this variable you have one central place where you can determine how much space your content can maximally span.</p>
+
+<ul>
+<li><h3>default-feature</h3></li>
+</ul>
+
+
+<p>If you have gone through my previous articles you might remember that for media queries I really like the use of the <strong>media</strong> mixin from Neat combined with the additional convenient usage of the <strong>new-breakpoint</strong> function. I also mentioned that if you provide no <em>media feature</em> to your breakpoint pixel value it will default to <strong>min-width</strong>. Let me refresh your memeory:</p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nv">$tablet</span><span class="o">:</span> <span class="nf">new-breakpoint</span><span class="p">(</span><span class="mi">800</span><span class="kt">px</span> <span class="mi">6</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.some-responsive-element</span>
+</span><span class='line'>  <span class="nd">+media</span><span class="p">(</span><span class="n">tablet</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>CSS:
+<code>css
+@media screen and (min-width: 800px) {
+  .some-responsive-element {
+    ...
+    ...
+   }
+</code></p>
+
+<p>As you can see, providing no <em>media-feature</em> makes things super easy if want <strong>min-width</strong> for setting breakpoints. If that default is messing with your Zen when dealing with media queries you can change that default as well.</p>
+
+<p>Sass:
+<code>sass
+$default-feature: max-width
+</code></p>
+
+<ul>
+<li><h3>border-box-sizing</h3></li>
+</ul>
+
+
+<p>By default this is set to <strong>true</strong> and I guess a good reason would be in order to mess with this one.</p>
+
+<ul>
+<li><h3>default-layout-direction</h3></li>
+</ul>
+
+
+<p>Through this variable your layout uses the default orientation of <strong>LTR</strong>—left-to-right. Obviously this can have only one of two options—<strong>RTL</strong> being the second. I guess if you design something for cultures that digest content from the opposite direction, this one will make you love Neat even more.</p>
+
+<ul>
+<li><h3>disable-warnings</h3></li>
+</ul>
+
+
+<p>If excess deprication warnings are the sort of thing that sometimes make you want to hug their authors around the neck–unlike me of course—you can mute these messages by setting this variable to <strong>true</strong>.</p>
+
+<p>Sass:</p>
+
+<pre><code class="sass">$disable-warnings: true
+</code></pre>
+
+<h3>Final thoughts</h3>
+
+<p>If you have gone through both modules about Bourbon and Neat and still don’t like the idea of using this framework for your projects I’d like it if you’d share your reasons and maybe even write about it. I’d love to hear reasonable opposing opinions or learn about better options to build lightweight semantic grids with Sass. I guess Neat is pretty hard to beat these days though. That being said, the thing that makes it so appealing to me, and that most likely will keep it relevant for quite some time, is that there isn’t much left that can be taken away to reduce it.</p>
+
+<p>Btw, I just learned that thoughtbot recently announced that Bourbon and Neat are used in the new <a href="https://playbook.cio.gov/designstandards/">U.S. Web Design Standards</a>. Pretty darn cool!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bourbon Neat-Mixins 02]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/09/22/Neat-Bascis-02/"/>
+    <updated>2015-09-22T05:29:10+02:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/09/22/Neat-Bascis-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/Neat_01/Neat-pour.jpg"></p>
+
+<p><a href="http://neat.bourbon.io/"><img src="/images/bourbon-neat/Bourbon-Neat-Logo.png" width="250" height="450"></a></p>
+
+<p>Now that you should have the basics under your belt, in the second article about Neat mixins I’ll dive a little deeper and explore the following function and mixins:</p>
+
+<h4>Function</h4>
+
+<ul>
+<li>new-breakpoint</li>
+</ul>
+
+
+<h4>Mixins</h4>
+
+<ul>
+<li>reset-layout-direction</li>
+<li>direction-context</li>
+<li>display-context</li>
+<li>reset-display</li>
+<li>fill-parent</li>
+<li>reset-all</li>
+<li>media</li>
+<li><p>row</p></li>
+<li><h3>media</h3></li>
+</ul>
+
+
+<p>I assume you haven’t lived under a rock for the past couple of years and that you know about the importance of flexible designs that respond to the ever evolving landscape of screen sizes and types of devices. Bourbon Neat has your back and provides you with an elegant approach to manage media queries for your grids. Through the use of clever targeted media queries, your layout can be adapted to a wide range of devices without making a mess. Responsive design is here to stay and a responsible and sustainable use of media queries is king.</p>
+
+<p>Something to avoid is what you could call query spagetthi—which basically is a tangled mess of media queries that becomes tricky to maintain lightening fast. So whatever you can do to keep these things neat and clean you should pay extra attention to I think. This mixin is no perfect antidote but definitly encourages a DRY approach to dealing with media queries sanely—especially when paired with the <strong>new-breakpoint</strong> function. How so?</p>
+
+<p>You can write media query blocks that can take grid contexts. Say you have two elements that add up to <strong>12</strong> columns—as defined in <strong>$total-columns</strong> in your <strong>_grid-settings</strong> file. These elements span <strong>3</strong> and <strong>9</strong> columns respectively on desktop size screens which allow for <strong>1088px</strong> wide outer containers. For smaller devices / viewport sizes, just let the <strong>media</strong> (query) mixin know at what size the context of <strong>12</strong> columns overall needs to change to another number and adjust the size for the responsive elements within that new context accordingly. Boom!</p>
+
+<p>Haml:
+<code>haml
+.container
+  %aside 3 columns / 1 column
+  %article 9 columns / 2 columns
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span>
+</span><span class='line'>    <span class="nd">+media</span><span class="p">(</span><span class="no">max-width</span> <span class="mi">700</span><span class="kt">px</span><span class="o">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">article</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span><span class='line'>    <span class="nd">+media</span><span class="p">(</span><span class="no">max-width</span> <span class="mi">700</span><span class="kt">px</span><span class="o">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h5>Screenshot without media query:</h5>
+
+<p><img src="/images/Neat_02/without-media-query.png"></p>
+
+<h5>Screenshot with media query at 700px viewport size and 4 columns as grid context:</h5>
+
+<p><img src="/images/Neat_02/with-media-query.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/wKzJXM">codepen example</a></p>
+
+<p>I just provided the <strong>media</strong> mixin with a <a href="http://www.w3.org/TR/css3-mediaqueries/#media1">media feature</a> via <strong>max-width 700px</strong> and a new grid context of <strong>4</strong> columns for the <strong>$total-columns</strong> <strong>max-width</strong> of the element. Having established a new grid context for both the <strong>aside</strong> and <strong>article</strong> elements for the viewport size of <strong>700px</strong> max, I only needed to tell the elements how many columns they can now span within the new total of <strong>4</strong> columns.  I think this is pretty darn readable and easy to organize. It get’s even cooler once you reuse <em>media contexts</em> ( media query / grid context ) via the <strong>new-breakpoint</strong> function and save them to a Sass variable .</p>
+
+<h4>Attention!</h4>
+
+<p>If you provide this mixin with only a pixel value without any specific media feature</p>
+
+<p>Sass:
+<code>sass
+.some-responsive-element
+  +span-columns(8)
+  +media(700px)
+    +span-columns(4)
+</code></p>
+
+<p>then Neat is going to use <strong>$default-feature</strong> which is <strong>min-width</strong>. Also, providing a grid context is optional and defaults to whatever is set through <strong>$total-columns</strong> in your <strong>_grid-settings</strong> partial.</p>
+
+<ul>
+<li><h3>new-breakpoint</h3></li>
+</ul>
+
+
+<p>So you’re probably thinking about what’s up with the DRY approach I mentioned a couple of paragraphs earlier right? That’s the spirit!</p>
+
+<p>I’d say this handy custom Sass function is the Robin to your <strong>media</strong> Batman and keeps you from repeating yourself over and over again. If you want to make your media queries a lot more readable and reuseable, I don’t see a good reason why you won’t be using this sidekick to fight media query crimes.</p>
+
+<p>Put simply, all it does is save media contexts ( media query / grid context ) through variables and gives you the opportunity to reuse them at will in all your <strong>media</strong> mixins. In my book, that’s one hell of a useful extraction! Let’s take a look.</p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nv">$tablet</span><span class="o">:</span> <span class="nf">new-breakpoint</span><span class="p">(</span><span class="no">min-width</span> <span class="mi">768</span><span class="kt">px</span> <span class="no">max-width</span> <span class="mi">1024</span><span class="kt">px</span> <span class="mi">4</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.some-responsive-element</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+media</span><span class="p">(</span><span class="nv">$tablet</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.some-other-responsive-element</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+media</span><span class="p">(</span><span class="nv">$tablet</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/merKVe">codepen example</a></p>
+
+<p>Super readable right? To be extra sure we’re on the same page: You just provide all the media features you need—but no commas, colons, <strong>or</strong>, <strong>and</strong>—plus the number of columns for the new grid context and save it to a Sass variable. All that is left to do is feed your <strong>media</strong> mixins with the appropriate variable and DRY they are.</p>
+
+<p>I hope you’ll appreciate how clean this reads and how easy it is to tweak your layouts for various breakpoints—all in one central place. Gone are the days where managing tons of layout related media queries could quickly get you in a fantasy fist fight with your former self.</p>
+
+<ul>
+<li><h3>row</h3></li>
+</ul>
+
+
+<h4>Basics</h4>
+
+<p>I wanna take a little extra time to explore this one. If you’re not using tables very often in your designs—as you probably shouldn’t since we kissed the days of using tables for layout purposes goodbye—this one can be tricky to jump into right away. You have two main options for using this mixin: with the argument <strong>table</strong> or without any argument.</p>
+
+<p>Sass:
+<code>sass
+.some-row-element
+  +row
+</code></p>
+
+<p>Using row without the <strong>table</strong> argument, a <strong>clearfix</strong> is added and <strong>$display</strong> stays set to default which is <strong>block</strong>. Effectively that means that whatever comes after the designated element using <strong>row</strong> needs to start its own thing on a separare “row”.</p>
+
+<p>Sass:
+<code>sass
+.some-table-row-element
+  +row(table)
+</code></p>
+
+<p>On the other hand, using <strong>row(table)</strong>, you guessed it, makes this row part of a table layout. What happens under the hood, among other things, is that this mixin sets <code>display: table</code> and <code>table-layout: fixed</code>.</p>
+
+<p>There is one more option you can provide this mixin with. You can pass an argument($direction with <strong>LTR</strong> or <strong>RTL</strong>) that changes the direction—<em>left-to-right</em> or vice versa—of your layout for that particular row.</p>
+
+<p>Sass:
+<code>sass
+.some-row-element
+  +row($direction: RTL)
+</code></p>
+
+<p>But let’s start at the beginning. The following dummy example has 16 <strong>img</strong> elements and the first four are nested under a <strong>.row</strong> container which uses the <strong>row</strong> mixin. Let’s see what happens if you leave off the <strong>table</strong> argument.</p>
+
+<p>Haml:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.container</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  .row
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.row</span>
+</span><span class='line'>  <span class="nd">+row</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">img</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">60</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h5>Screenshot:</h5>
+
+<p><img src="/images/Neat_02/img-row-without-argument.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/ojYgMa">codepen example</a></p>
+
+<p>As you can see, the browser treats the first four elements as part of one row and puts the following <strong>img</strong> elements on a separate row. The elements below the .row container are not bound to a particular row and just float downwards as long as they have space available to them.</p>
+
+<p>Two <strong>.row</strong> containers result in the same trick, stacked on top of each other.</p>
+
+<p>Haml:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.container</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  .row
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  .row
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>
+</span><span class='line'>    <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h5>Screenshot:</h5>
+
+<p><img src="/images/Neat_02/img-2-rows-without-argument.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/ZbBJjK">codepen example</a></p>
+
+<p>Not too tricky I guess. Although I’m not sure how useful this would be because instinctively I’d rather use the <strong>omega</strong> mixin for such an occasion—but I might change my mind if I’d run against a wall of sorts with that approach. What seems pretty useless though is using <strong>row(table)</strong> here. You’d just get one very long column that stacks all 16 elements above each other. I’ll spare you the nasty screenshot but check out the <a href="http://codepen.io/vis-kid/pen/ZbBJqK">codepen example</a> if you’re curious.</p>
+
+<h3>Using row without an argument on a table</h3>
+
+<p>Above I wanted to show you the basic mechanics of this mixin, especially if you are new to the game. Now we’re approaching useful territory. Let’s play with an actual table:</p>
+
+<p>If you haven’t fooled with tables before, I recommend firing up Google before you proceed. Below is a little survival guide for those who only need to refresh a couple of terms.</p>
+
+<p>Here we have a <strong>table</strong> element that uses the <strong>thead</strong> tag which has one row that displays the various column names / headers via the <strong>th</strong> tag. Underneath you’ll find the <strong>tbody</strong> tag that houses the actual data for each table row (<strong>tr</strong>) via the <strong>td</strong> tag.</p>
+
+<p>Haml:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.container</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %table&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;%thead
+</span><span class='line'>  <span class="nt">%tr</span>
+</span><span class='line'>    <span class="nt">%th</span> Username
+</span><span class='line'>    <span class="nt">%th</span> User_ID
+</span><span class='line'>    <span class="nt">%th</span> Favorite Pizza
+</span><span class='line'>    <span class="nt">%th</span> Pet
+</span><span class='line'>    <span class="nt">%th</span> Pet Name
+</span><span class='line'>    <span class="nt">%th</span> Favorite Game
+</span><span class='line'>
+</span><span class='line'><span class="nt">%tbody</span>
+</span><span class='line'>  <span class="nt">%tr</span>
+</span><span class='line'>    <span class="nt">%td</span> Joe
+</span><span class='line'>    <span class="nt">%td</span> 112233
+</span><span class='line'>    <span class="nt">%td</span> Pepperoni
+</span><span class='line'>    <span class="nt">%td</span> Cat
+</span><span class='line'>    <span class="nt">%td</span> Gordon
+</span><span class='line'>    <span class="nt">%td</span> Splinter Cell
+</span><span class='line'>  <span class="nt">%tr</span>
+</span><span class='line'>    <span class="nt">%td</span> Jane
+</span><span class='line'>    <span class="nt">%td</span> 223311
+</span><span class='line'>    <span class="nt">%td</span> Mushrooms
+</span><span class='line'>    <span class="nt">%td</span> Dog
+</span><span class='line'>    <span class="nt">%td</span> Fluffy
+</span><span class='line'>    <span class="nt">%td</span> Metal Gear Solid V
+</span><span class='line'>  <span class="nt">%tr</span>
+</span><span class='line'>    <span class="nt">%td</span> Bob
+</span><span class='line'>    <span class="nt">%td</span> 331122
+</span><span class='line'>    <span class="nt">%td</span> Onions
+</span><span class='line'>    <span class="nt">%td</span> Fish
+</span><span class='line'>    <span class="nt">%td</span> Sharky
+</span><span class='line'>    <span class="nt">%td</span> Little Big Planet 2
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>Sass:
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;body
+</span><span class='line'>  color: white
+</span><span class='line'>  background-color: white&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;.container
+</span><span class='line'>  +outer-container
+</span><span class='line'>  background-color: tomato&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;tr
+</span><span class='line'>  +row()
+</span><span class='line'>  text-align: center&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;th
+</span><span class='line'>  padding:
+</span><span class='line'>  top: 10px
+</span><span class='line'>  bottom: 20px&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;td
+</span><span class='line'>  height: 50px
+</span><span class='line'>  background: Olive
+</span><span class='line'>  padding-top: 2px
+</span></code></pre></td></tr></table></div></figure>
+This results in an uneven nasty table blob that only spans as far as the content in these table data cells go. Obviously not super useful and a pain if you want to manually fix this using a bunch of CSS rules to even things out.</p>
+
+<p>Sreenshot:</p>
+
+<p><img src="/images/Neat_02/row-without-table.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/avBzXK">codepen example</a></p>
+
+<h3>Using row(table)</h3>
+
+<p>There should be a simple solution to this right? Adding <strong>table</strong> as an argument and <code>display: table</code> and <code>table-layout: fixed</code> come to the rescue! Not too mention with a little topping of <strong>fill-parent</strong> under the hood. That’s it! That’s all you need to do for a nice table for your data—no need for an aspirin!</p>
+
+<p>Sass:
+<code>sass
+tr
+  +row(table)
+  text-align: center
+</code></p>
+
+<h5>Screenshot</h5>
+
+<p><img src="/images/Neat_02/row-with-table.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/rOWzGy">codepen example</a></p>
+
+<h4>Attention!</h4>
+
+<p>A fixed table-layout like that has the advantage of not only laying out the table faster, but the width of the columns is not dependent on the contents (their length) of the table cells. That basically means that you’ll get evenly laid out rows in your table grid that span over the width of the table container. Remove one table data cell (<strong>td</strong>) and you’ll see that the other elements will divide up the space in that row evenly. Booyakasha!</p>
+
+<h5>Screenshot with irregular number of columns:</h5>
+
+<p><img src="/images/Neat_02/table-with-varying-length-table-data.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/KdNXzq">codepen example</a></p>
+
+<h3>Without row</h3>
+
+<p>Let’s close with an example that shows the default behaviour of tables without using the <strong>row</strong> mixin at all. (With a little padding and stuff though)</p>
+
+<p>Sass
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">tr</span>
+</span><span class='line'>  <span class="na">text-align</span><span class="o">:</span> <span class="no">center</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">th</span>
+</span><span class='line'>  <span class="na">padding</span><span class="o">:</span>
+</span><span class='line'>  <span class="na">top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">bottom</span><span class="o">:</span> <span class="mi">20</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">td</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">50</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background</span><span class="o">:</span> <span class="nb">Olive</span>
+</span><span class='line'>  <span class="na">padding-top</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/Neat_02/table-without-row.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/bVBrXp">codepen example</a></p>
+
+<p>Easy to see that cells for every column are spaced evenly but don’t use all the appropriated space that is available to them. They simply orient themselves on the longest data / content per column and adjust their cells to align themselves along these lines.</p>
+
+<p>Apologies for being overly verbose about <strong>row</strong> but I hope this section made any headaches you might have with tables / rows a little less likely.</p>
+
+<ul>
+<li><h3>fill-parent</h3></li>
+</ul>
+
+
+<p>Neat offers you an easy solution if you want some element to quickly fill its parent by spanning the same number of columns. You don’t have to provide any arguments. This mixin is nothing fancy but might come in handy when you deal with media queries or tables.</p>
+
+<h4>Attention!</h4>
+
+<p>Using <strong>span-columns(12)</strong> instead of <strong>fill-parent</strong> to span the whole width of an outer-container for example would not be the right approach in such a case—it would just add unnecessary baggage.</p>
+
+<p>Haml:
+<code>haml
+.container
+  %aside Aside 3 columns | fill-parent
+  %article Article 5 columns | fill-parent
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+fill-parent</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">article</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+fill-parent</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/Kdgebx">codepen example</a></p>
+
+<p>Let’s look at a couple of screenshots for comparison:</p>
+
+<h5>Screenshot without <strong>fill-parent</strong>:</h5>
+
+<p><img src="/images/Neat_02/without-fill-parent.png"></p>
+
+<h5>Screenshot with only one element that uses <strong>fill-parent</strong>:</h5>
+
+<p><img src="/images/Neat_02/single-fill-parent.png"></p>
+
+<h5>Screenshot with both elements using <strong>fill-parent</strong>:</h5>
+
+<p><img src="/images/Neat_02/both-fill-parent.png"></p>
+
+<p>Just wanted to show you that elements using <strong>fill-parent</strong> ignore other elements in the same row and aim to span the full width of its parent without considering its neighbors. I guess this one is straightforward enough, let’s move on!</p>
+
+<ul>
+<li><h3>direction-context</h3></li>
+</ul>
+
+
+<p>Every element in your Neat grid has a <strong>$default-layout-direction</strong> which is set to <strong>LTR</strong> (left-to-right) in <strong>settings/_grid.scss</strong>. This simply means that behind the scenes Neat is always using a <strong>direction-context</strong> with <strong>left-to-right</strong>. It is an obivious decision of course since most cultures are used to digest content from left to right.</p>
+
+<p>Under the hood, this mixin does nothing else than change the float direction of the applied element. What is neat is that within some directional context, let’s say <strong>left-to-right</strong>, you can gather a bunch of grid elements and change their direction to <strong>right-to-left</strong> all at once under one code block. Again, this solution makes things mostly more compact and readable for yourself as well as easier to understand / navigate for someone who’s not that familiar with a certain project.</p>
+
+<p>Haml:
+<code>haml
+.container
+  %aside 3 columns
+  %article 9 columns
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;+</span><span class="nt">direction-context</span><span class="o">(</span><span class="nt">right-to-left</span><span class="o">)</span>
+</span><span class='line'>  <span class="nt">aside</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span>  <span class="nt">article</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/OyRKPq">codepen example</a></p>
+
+<h5>Screenshot with <strong>direction-context(right-to-left)</strong>:</h5>
+
+<p><img src="/images/Neat_02/with-direction-context.png"></p>
+
+<h5>Screenshot “without” <strong>direction-context</strong>:</h5>
+
+<p><img src="/images/Neat_02/without-direction-context.png"></p>
+
+<p>Just for the heck of it, here’s another example. Nothing new here for now—just the columns are of equal size now and also flow from <strong>right-to-left</strong>.</p>
+
+<p>Haml:
+<code>haml
+.container
+  %aside 3 columns
+  %article 3 columns
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;+</span><span class="nt">direction-context</span><span class="o">(</span><span class="nt">right-to-left</span><span class="o">)</span>
+</span><span class='line'>  <span class="nt">aside</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span>  <span class="nt">article</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h5>Screenshot:</h5>
+
+<p><img src="/images/Neat_02/3-column-elements-with-direction-context-rtl.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/ZbpgWp">codepen example</a></p>
+
+<p>The following little tweak only has one of these 3-column elements use the mixin and therefore both float on the opposite side of the container. Nothing too magic, but might be handy to have in your bag of tricks. Over time, not needing to fiddle around with floats on every element manually because you can do it on a high level that extracts the details is not small potatoes. Et voilà!</p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;+</span><span class="nt">direction-context</span><span class="o">(</span><span class="nt">right-to-left</span><span class="o">)</span>
+</span><span class='line'>  <span class="nt">article</span>
+</span><span class='line'>    <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img src="/images/Neat_02/one-3-column-element-with-direction-context-rtl.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/yYamVJ">codepen example</a></p>
+
+<ul>
+<li><h3>reset-layout-direction</h3></li>
+</ul>
+
+
+<p>Not much to say about this one. You’ve changed the layout direction for whatever reason and want to switch back to the <strong>$default-layout-direction</strong> (<strong>left-to-right</strong>)? Here you go, the default context is restored! No argument needed. When might this be useful? Good question! The documentation says mostly when you need to change direction in a single row. I personally wouldn’t bother too much. First of all it’s gonna be deprecated in favor of a <strong>direction</strong> mixin anyway and also it gave me a surprising headache when I wanted to make it work with media queries.</p>
+
+<ul>
+<li><h3>display-context</h3></li>
+</ul>
+
+
+<p>To create a code block that changes the display properties used by mixins within itself you have two options you can pass to this mixin: <strong>block</strong> and <strong>table</strong>. The first one is obvious of course and <strong>table</strong> adds <code>display: table-cell</code> for you. <strong>table-cell</strong> let’s an element behave like a <strong>&lt;td></strong> element.</p>
+
+<p>Sass:
+<code>sass
++display-context(table)
+  .some-cell {
+    +span-columns(9)
+  .some-other-cell
+    +span-columns(3)
+</code></p>
+
+<ul>
+<li><h3>reset-display</h3></li>
+</ul>
+
+
+<p>Let’s say you have changed the active display to <strong>table</strong> like in the example above, you can easily switch back to <strong>block</strong> through this mixin. Takes no argument as well. The documentation says it’s most useful if applied to single rows that changed their display values.</p>
+
+<p>Sass:
+<code>sass
++display-context(table)
+  .some-cell {
+    +span-columns(9)
+  .some-other-cell
+    +span-columns(3)
+  +media(700px)
+    .some-cell, .some-other-cell
+      +reset-display
+</code></p>
+
+<ul>
+<li><h3>reset-all</h3></li>
+</ul>
+
+
+<p>If you want to combine <strong>reset-display</strong> and <strong>reset-layout-direction</strong> in one go, that’s what you’ll get—no arguments required. Let’s say one some row you changed the display to <strong>table</strong> and the <strong>$default-layout-direction</strong> to <strong>RTL</strong> and want to switch back.</p>
+
+<p>Sass:
+<code>sass
+.some-element
+  +row(table, RTL)
+  +media(700px)
+    +reset-all
+</code></p>
+
+<h3>Final thoughts</h3>
+
+<p>Well, that was a long one. Thanks for making it through and I hope it was an interesting journey through Neat mixin land. There is one more thing to discuss though, namely all the variables that you have at your disposal to tweak the framework for your needs. The next article is a shorter one but then the Neat module should be complete for now. Thanks for taking the time!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bourbon Neat-Mixins 01]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/09/15/Neat-Bascis/"/>
+    <updated>2015-09-15T05:29:10+02:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/09/15/Neat-Bascis</id>
+    <content type="html"><![CDATA[<p><img src="/images/Neat_01/Neat-pour.jpg"></p>
+
+<p><a href="http://neat.bourbon.io/"><img src="/images/bourbon-neat/Bourbon-Neat-Logo.png" width="250" height="450"></a></p>
+
+<p>I assume you have taken a look at my previous intro article about Neat. So without further ado, let me pour you your first sip of Bourbon Neat. In this piece I’ll take a newbie-friendly look at the following function, mixins and variables:</p>
+
+<h4>Function</h4>
+
+<ul>
+<li>new-breakpoint</li>
+</ul>
+
+
+<h4>Mixins</h4>
+
+<ul>
+<li>shift-in-context</li>
+<li>outer-container</li>
+<li>span-columns</li>
+<li>media</li>
+<li>omega</li>
+<li>shift</li>
+<li>pad</li>
+</ul>
+
+
+<h4>Variables</h4>
+
+<ul>
+<li>$visual-grid-opacity</li>
+<li>$visual-grid-index</li>
+<li>$visual-grid-color</li>
+<li>$grid-columns</li>
+<li>$max-width</li>
+<li>$visual-grid</li>
+</ul>
+
+
+<h2>Mixins</h2>
+
+<ul>
+<li><h3>outer-container</h3></li>
+</ul>
+
+
+<p>When you make an element the outer container, Neat automatically centers it in the viewport (by adding <strong>margin-left: auto</strong> / <strong>margin-right: auto</strong>), clears the floats and applies the specified <strong>$max-width</strong>. It is an optional mixin (recommended though) and you can have multiple outer container elements on a single page. The one thing you can’t do is nest them.</p>
+
+<p>The outer container holds your layout grid. Within it, your grid can span as many columns across as specified in your <strong>grid-settings</strong> file via the <strong>$grid-columns</strong> variable (defaults to 12 columns). That means all the elements in a row have to add up to the total number of columns specified there.</p>
+
+<p>In the dummy example below, you’ll see that the <strong>container</strong> element wraps a couple of <strong>aside</strong> and <strong>article</strong> tags. They span 3 and 9 columns respectively and simply add up to 12 columns as specified in my settings. If I’d go over that number of columns the layout would certainly break. Think of the <strong>outer-container</strong> mixin as the most likey prerequisite for adding grid layouts within container elements.</p>
+
+<p>Haml:</p>
+
+<pre><code class="haml">.container
+  %aside Aside
+  %article Article
+
+  %aside Aside
+  %article Article
+
+  %aside Aside
+  %article Article
+</code></pre>
+
+<p>Sass:</p>
+
+<pre><code class="sass">
+body
+  background-color: white
+
+.container
+  +outer-container
+  background-color: tomato
+
+aside, article
+  margin-bottom: 5px
+  height: 200px
+
+aside
+  +span-columns(3)
+  background-color: LightSkyBlue 
+
+article
+  +span-columns(9)
+  +omega
+  background-color: Olive
+</code></pre>
+
+<p>The background colors are supposed to make it easier to see how the pieces fit together. You don’t need to concern yourself too much about the <strong>span-columns</strong> and <strong>omega</strong> mixins in this example for now. After a couple of paragraphs they will be crystal clear to you.</p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/outer-container.png"></p>
+
+<p>Here is also a codepen for playing around with it:
+<a href="http://codepen.io/vis-kid/pen/xwZJOP">codepen example</a></p>
+
+<p>In your settings file you can also specify a <strong>$max-width</strong> Sass variable that defines the maximum width that the content of your page should span. For example, Neat comes with a easily changeable <strong>$max-width</strong> setting of 1088px (converted to em) out of the box. That setting basically specifies the width of your outer container elements.</p>
+
+<p>There is also the option to provide this mixin with an argument for a <strong>$local-max-width</strong> if you want a certain container element to have a different <strong>max-width</strong> than the global one set in <strong>grid-settings</strong>. This overwrites locally the default <strong>max-width</strong> from your settings file. You can provide <em>pixel</em>, <em>em</em> or <em>percentage</em> arguments. The columns of your grid inside that container adjust their width automatically but the number of columns stays the same.</p>
+
+<p>Sass:
+<code>sass
+.container
+  +outer-container(800px)
+  background-color: tomato
+</code>
+or</p>
+
+<pre><code class="sass">.container
+  +outer-container(80%)
+  background-color: tomato
+</code></pre>
+
+<p><a href="http://codepen.io/vis-kid/pen/vNGOqj">codepen example</a></p>
+
+<ul>
+<li><h3>span-columns</h3></li>
+</ul>
+
+
+<p>Just in case some of you are new to designing with grids, you should maybe look into this excellent book by <a href="http://www.subtraction.com/2010/11/05/i-wrote-a-book/">Khoi Vinh</a>. I highly recommend it. One concept that you need to understand right away though is that you build up your grid designs through a series of columns that span across the page.</p>
+
+<p>The basic usage of this is super straightforward in this framework. You just pick an element and tell it how many columns it should span within the total number of <strong>$grid-columns</strong>. Let me demonstrate the basics.</p>
+
+<p>Haml:</p>
+
+<pre><code class="haml">.container
+  %aside.first  First: 2 columns
+  %article.second  Second: 10 columns
+
+  %aside.third  Third: 4 columns
+  %article.fourth  Fourth: 8 columns
+
+  %aside.fifth  Fifth: 6columns
+  %article.sixth  Sixth: 6 columns
+
+  %aside.seventh  Seventh: 8 columns
+  %article.eighth  Eighth: 4 columns
+
+  %aside.ninth  Ninth: 10 columns
+  %article.tenth  Tenth: 2 columns
+</code></pre>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">article</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.third</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.fifth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.seventh</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.ninth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.second</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.fourth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.sixth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.eighth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="nc">.tenth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.second</span><span class="o">,</span> <span class="nc">.fourth</span><span class="o">,</span> <span class="nc">.sixth</span><span class="o">,</span> <span class="nc">.eighth</span><span class="o">,</span> <span class="nc">.tenth</span>
+</span><span class='line'>  <span class="nd">+omega</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/span-columns.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/Mayorb">codepen example</a></p>
+
+<p>Of course such an example is just for show and makes little practical sense . As you can see, every row consists of one blue <strong>aside</strong> on the left and one green <strong>article</strong> element on the right. The layout doesn’t break because within the outer container element their total number of columns add up to 12 (as defined in <strong>$grid-columns</strong>) evenly.</p>
+
+<p>The coolest part is that there is no need to add any styling information to your markup—since this is related to your presentation layer, you only add the info how your grid is composed of to your Sass files. Cleanly separated concerns. SWEET! Every sane designer that touches your work after you will love you for not polluting the content with styling information. Your future self anyway!</p>
+
+<p>An added bonus that comes for free is that you can name classes in your markup anyway you want / need. Nobody makes these decisions for you which is a blessing without any disguise. Yes naming is hard, yadda yadda yadda, but its even trickier if somebody unrelated makes these decisions for you.</p>
+
+<h3>Nesting columns</h3>
+
+<p>Sass:
+<code>sass
+.some-parent-element
+  +span-columns(10)
+  .some-nested-element
+    +span-columns(5 of 10)
+</code></p>
+
+<p>Of course, from time to time it might come in handy to quickly nest grid elements within another. Say you have a wide element that spans for 10 columns and should incorporate two smaller elements spanning 5 columns each. Easy! All you have to provide the nested elements with is the size of the parent column as an argument to the <strong>span-columns</strong> mixin. The nested elements can of course only add up to the number of columns of the parent tops. That’s it! Let’s look at a more concrete example.</p>
+
+<p>Haml:
+<code>haml
+.container
+  %aside.first First: 2 columns
+  %article.second
+    %article.third Third: 5 nested columns
+    %article.fourth Fourth: 5 nested  columns
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&amp;ldquo;bourbon&amp;rdquo;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&amp;ldquo;neat&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span>
+</span><span class='line'>  <span class="na">padding</span><span class="o">:</span>
+</span><span class='line'>    <span class="na">top</span><span class="o">:</span> <span class="mi">15</span><span class="kt">px</span>
+</span><span class='line'>    <span class="na">bottom</span><span class="o">:</span> <span class="mi">15</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span><span class="o">,</span> <span class="nt">article</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">article</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">aside</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">LightSkyBlue</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span><span class="o">,</span> <span class="nc">.second</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">250</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.second</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.third</span><span class="o">,</span> <span class="nc">.fourth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">5</span> <span class="n">of</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nb">Olive</span><span class="o">,</span> <span class="mi">6</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">margin-top</span><span class="o">:</span> <span class="mi">25</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="na">padding-top</span><span class="o">:</span> <span class="mi">25</span><span class="kt">px</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/span-columns-nested.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/VvaWBV">codepen example</a></p>
+
+<ul>
+<li><h3>omega</h3></li>
+</ul>
+
+
+<p>Another important concept for newbies playing with grids is the gutter. It’s just the margin on the right between grid elements and get’s automatically created for every grid element in a container—except for the last! Gutters also scale responsively if you resize the browser window. The example below clearly demonstrates this space beween grid elements. The gutter is signified by the tomato-colored background which comes through from the outer container.</p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/gutters.png"></p>
+
+<p>Haml:
+<code>haml
+.container
+  .first  1 column
+  .second 2 columns
+  .third  3 columns
+  .fourth 3 columns
+  .fifth  2 columns
+  .sixth  1 column
+</code></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span><span class="o">,</span> <span class="nc">.second</span><span class="o">,</span> <span class="nc">.third</span><span class="o">,</span> <span class="nc">.fourth</span><span class="o">,</span> <span class="nc">.fifth</span><span class="o">,</span> <span class="nc">.sixth</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.second</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.third</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.fourth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.fifth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.sixth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/avNPjX">codepen example</a></p>
+
+<p>Easy-peasy right? But guess what happens if we just double the columns by duplicating the row right beneath it?</p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/messy-columns-without-omega.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/BoKvER">codepen example</a></p>
+
+<p>Pretty messy huh? So what happened here? Because the 6th element in the first row is not the last element anymore, it also get’s a right gutter (margin) by default. Let me be very clear on this—to achieve a cleanly aligned layout, the last element in a container has it’s gutter removed by default. Because of the added gutter on the sixth element, the width of all elements in the first row now exceed the <strong>total-width</strong> your number of <strong>total-columns</strong> can span per row and your grid simply breaks.</p>
+
+<p>Nothing too tragic though and the fix is easy. Just find the element that needs that automatically added gutter to the right removed and apply the <strong>omega</strong> mixin there. Boom, that easy!</p>
+
+<p>Haml:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.container</span>
+</span><span class='line'>  <span class="na">.first</span><span class="err">  </span><span class="na">1st</span><span class="o">:</span> <span class="mi">1</span> <span class="n">column</span>
+</span><span class='line'>  <span class="na">.second</span><span class="err"> </span><span class="na">2nd</span><span class="o">:</span> <span class="mi">2</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.third</span><span class="err">  </span><span class="na">3rd</span><span class="o">:</span> <span class="mi">3</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.fourth</span><span class="err"> </span><span class="na">4th</span><span class="o">:</span> <span class="mi">3</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.fifth</span><span class="err">  </span><span class="na">5th</span><span class="o">:</span> <span class="mi">2</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.sixth</span><span class="err">  </span><span class="na">6th</span><span class="o">:</span> <span class="mi">1</span> <span class="n">column</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">&lt;p&gt;</span><span class="err">  </span><span class="na">.first</span><span class="err">  </span><span class="na">1st</span><span class="o">:</span> <span class="mi">1</span> <span class="n">column</span>
+</span><span class='line'>  <span class="na">.second</span><span class="err"> </span><span class="na">2nd</span><span class="o">:</span> <span class="mi">2</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.third</span><span class="err">  </span><span class="na">3rd</span><span class="o">:</span> <span class="mi">3</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.fourth</span><span class="err"> </span><span class="na">4th</span><span class="o">:</span> <span class="mi">3</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.fifth</span><span class="err">  </span><span class="na">5th</span><span class="o">:</span> <span class="mi">2</span> <span class="n">columns</span>
+</span><span class='line'>  <span class="na">.sixth</span><span class="err">  </span><span class="na">6th</span><span class="o">:</span> <span class="mi">1</span> <span class="n">column</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Sass:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&amp;ldquo;bourbon&amp;rdquo;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&amp;ldquo;neat&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">body</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nb">white</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">white</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.container</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="ni">tomato</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span><span class="o">,</span> <span class="nc">.second</span><span class="o">,</span> <span class="nc">.third</span><span class="o">,</span> <span class="nc">.fourth</span><span class="o">,</span> <span class="nc">.fifth</span><span class="o">,</span> <span class="nc">.sixth</span>
+</span><span class='line'>  <span class="na">background-color</span><span class="o">:</span> <span class="nb">Olive</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">200</span><span class="kt">px</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.first</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.second</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.third</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.fourth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.fifth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.sixth</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+omega</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>As you can see, I only added an <strong>omega</strong> to the <strong>.sixth</strong> class but it made all the difference. Every element falls into place nicely and none of the rows exceed their <strong>total-width</strong>.</p>
+
+<p><img src="/images/Neat_01/messy-columns-with-omega.png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/BoKMow">codepen example</a></p>
+
+<p>Let’s take this one little step further. Say you have a couple of rows that should display images of the same size evenly without breaking the grid. All we need is a couple of elements that span the same width, here <strong>span-columns(2)</strong>, and place them in a couple of rows. The magic happens with the arguement you supply the <strong>omega</strong> with:</p>
+
+<pre><code class="sass">img
+  +omega(6n)
+</code></pre>
+
+<p>So every sixth <strong>img</strong> element will have it’s right gutter removed and therefore evenly fits six 2-column elements into the 12 columns of the outer container. Neat!</p>
+
+<p>Haml:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.container</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  %img
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>
+</span><span class='line'>  <span class="nt">%img</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>Sass:
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;body
+</span><span class='line'>  color: white
+</span><span class='line'>  background-color: white&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;.container
+</span><span class='line'>  +outer-container
+</span><span class='line'>  background-color: tomato&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;img
+</span><span class='line'>  +span-columns(2)
+</span><span class='line'>  +omega(6n)
+</span><span class='line'>  height: 200px
+</span><span class='line'>  margin-bottom: 5px
+</span><span class='line'>  background-color: Olive
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h4>Screenshot</h4>
+
+<p><img src="/images/Neat_01/omega(6n).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/NGNoXB">codepen example</a></p>
+
+<p>You want only 4 elements per row? No problem! Just reduce the argument for <strong>omega</strong> to <strong>4n</strong>. This will come in handy in the next article when we get to responsive grids and how you can change your layout through media queries.</p>
+
+<p>Sass:
+<code>sass
+img
+  +omega(4n)
+</code></p>
+
+<p><img src="/images/Neat_01/omega(4n).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/meEbdr">codepen example</a></p>
+
+<p>I enrourage you to play around with this example via the provided codepen and get a feel for it. There is no magic here, but if you need a bit more time to wrap your head around, mess a bit with the arguments of the omega and I have no doubt it will become crystal clear to you in no time.</p>
+
+<h4>Attention!</h4>
+
+<p>Last words of wisdom: In some cases it seems to matter in which order you supply the <strong>span-columns</strong> and <strong>omega</strong> mixins to the elements. My advice is to always use <strong>span-columns</strong> first to avoid unexpected behaviour.</p>
+
+<ul>
+<li><h3>shift</h3></li>
+</ul>
+
+
+<p>This one should be quick. If you want to adjust an element by moving it horizontally to the left or right, you simply apply the <strong>shift</strong> mixin and provide it with the number of columns it should move. You can use integers or floating point numbers.</p>
+
+<p>Sass:
+<code>sass
+.some-element-that-needs-adjusting
+  +shift(n)
+</code></p>
+
+<p>Provide a positive number (unitless) of columns and the element moves to the right and vice versa. Behind the scenes, Neat simply increases or decreases the percentage values of <strong>margin-left</strong> on the element. Little sidenote, if you use <strong>shift</strong> without any argument, it will default to <strong>shift(1)</strong>.</p>
+
+<p>Screenshot without <strong>shift</strong>:</p>
+
+<p><img src="/images/Neat_01/without-shift.png"></p>
+
+<p>Screenshot with <strong>shift(1)</strong>:</p>
+
+<p><img src="/images/Neat_01/with-shift(1).png"></p>
+
+<p>Screenshot with <strong>shift(-1.5)</strong>:</p>
+
+<p><img src="/images/Neat_01/with-shift(-1.5).png"></p>
+
+<p><a href="http://codepen.io/vis-kid/pen/XmKrmQ">codepen example</a></p>
+
+<ul>
+<li><h3>shift-in-context</h3></li>
+</ul>
+
+
+<p>Same idea as shift (it uses <strong>shift-in-context</strong> under the hood btw) but made for grid elements that are nested I guess. Played around with it a little bit in a dummy example that had nested grids but achieved the same results using only <strong>shift</strong>.</p>
+
+<ul>
+<li><h3>pad</h3></li>
+</ul>
+
+
+<p>I don’t think I need to go into any specifics how this little padding fella works. It’s a little helper to clean  up your stylesheets and to provide you with the default gutter width if you provide the mixin with <strong>default</strong> as an argument. Nothing too fancy, but I thought I mentioned it to complete your options for adjusting the spacing of your grids.</p>
+
+<p>Sass:
+<code>
+.some-element-that-needs-padding
+  +pad(10px 20px 30px default)
+</code></p>
+
+<p>Here you go, all you need to know to get started for playing with Neat grids. I tried to provide you with a solid basis that enables you to build any grid you need—however complex you like. Neat is one of my favorite tools out there and I hope I could show you why this lightweight project deserves a lot of respect.</p>
+
+<p>My next article will cover another round of Neat mixins and also explain how you can use media queries and breakpoints to adjust your grids for changing viewport sizes.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bourbon Neat: Semantically Responsible Responsive Grids]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/09/09/bourbon-neat-semantic-responsive-grids/"/>
+    <updated>2015-09-09T05:29:10+02:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/09/09/bourbon-neat-semantic-responsive-grids</id>
+    <content type="html"><![CDATA[<p><img src="/images/bourbon-neat/bourbon-neat.jpg" width="450" height="260" title="" ></p>
+
+<p><a href="http://neat.bourbon.io/"><img src="/images/bourbon-neat/Bourbon-Neat-Logo.png" width="250" height="450"></a></p>
+
+<h2>Welcome to your new favorite tool</h2>
+
+<p>Bourbon Neat was conceived by <a href="https://twitter.com/kaishin">Reda Lemeden</a> and is part of the fantastic <a href="http://bourbon.io/">Bourbon</a> suite. Its basically a lightweight responsive grid framework that was built on top of Sass and Bourbon. If semantic markup is your thing and presentation classes make you mad, this smart library will brighten your day. Btw, the project is supported by <a href="https://thoughtbot.com/">thoughtbot</a> and their designers take care of it.</p>
+
+<p>Before we install the thing, let me give you a couple of good reasons to look into it. We all know countless frameworks that promise to deliver a stable frame for developing your designs. And certainly most succeed in that regard in one way or another. The relevant questions are in how many regards and to what degree:</p>
+
+<ul>
+<li>Will you be able to switch frameworks in the future easily?</li>
+<li>Problems with cluttering your markup?</li>
+<li>Are they suited for scaling projects?</li>
+<li>Are they ridiculous in size?</li>
+<li>Steep learning curve?</li>
+<li>Generic look?</li>
+</ul>
+
+
+<p>If any of the issues above are remotly ringing a bell, I just want to assure you that such headaches are easily avoidable these days. Its very rare to come across a project that balances its payoffs so well as <em>Bourbon Neat</em> (Or just Neat for short). Why so? Here are a couple of good reasons:</p>
+
+<ul>
+<li>super lightweight</li>
+<li>future-proof</li>
+<li>easy to use</li>
+<li>responsive</li>
+<li>semantic</li>
+<li>scalable</li>
+<li>elegant</li>
+</ul>
+
+
+<p>Bourbon also aims to provide you with options—not answers. What I like especially is that it isn’t a factory for generic, pre-defined styles. That way it aids the designer’s own design decisions without standing in the way.</p>
+
+<h2>A word about semantics</h2>
+
+<p>This is an important issue but I’ll make it short:
+These ugly <em>presentation classes</em> and additional <em>“empty” wrapper divs</em> that you often find in similar libraries are ghosts from the past—at least they should be ghosted really. <em>Neat</em> plays a significant role in moving past these gnarly semantic habits. Nowadays you can easily write <em>clean, unobtrusive markup</em> and have all your grid styles cleanly separated in your stylesheets by including mixins. Busted!</p>
+
+<p><img src="/images/bourbon-neat/Ghostbusters.gif" width="350"></p>
+
+<h2>Neat Grids</h2>
+
+<p>Why deal with a grid framework at all? Well, design is all about relationships and relationships are obviously hard. Grids make them easier by helping you tie structures together more meaningfull and organized.</p>
+
+<p>What I like most about grids is that they <em>simplify, reduce</em> and <em>stabilize</em>—in essence, they help trim the fat out of designs. Unless applied mindlessly of course, that’s exactly what Neat helps you achieve so effortlessly. Neat’s grid framework offers a lot of power in a small looking package that is easy to use. Hard to believe this library consists of only:</p>
+
+<ul>
+<li><h3>14 mixins</h3>
+
+<ul>
+<li>reset-layout-direction</li>
+<li>direction-context</li>
+<li>shift-in-context</li>
+<li>display-context</li>
+<li>outer-container</li>
+<li>span-columns</li>
+<li>reset-display</li>
+<li>fill-parent</li>
+<li>reset-all</li>
+<li>omega</li>
+<li>media</li>
+<li>shift</li>
+<li>pad</li>
+<li>row</li>
+</ul>
+</li>
+<li><h3>one function for setting breakpoints</h3>
+
+<ul>
+<li>new-breakpoint</li>
+</ul>
+</li>
+<li><h3>and twelve variables for settings</h3>
+
+<ul>
+<li>default-layout-direction</li>
+<li>visual-grid-opacity</li>
+<li>border-box-sizing</li>
+<li>visual-grid-index</li>
+<li>disable-warnings</li>
+<li>visual-grid-color</li>
+<li>default-feature</li>
+<li>grids-columns</li>
+<li>max-width</li>
+<li>visual-grid</li>
+<li>column</li>
+<li>gutter</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Boom, that’s it! Pretty low key but it equips you with a lot of horsepower!</p>
+
+<h2>Responsive Grids</h2>
+
+<p><img src="/images/bourbon-neat/grids.gif" width="750"></p>
+
+<p>Its becoming obvious that <em>change</em> and the <em>need for flexibility</em> are constant future-proof necessities. Incorporating media queries should be smooth and easily manageable but they can quickly become a mess if not handled with care.</p>
+
+<p>Bourbon Neat encourages a <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself"><em>DRY</em></a> approach for handling your breakpoints with its <strong>new-breakpoint</strong> function. Save breakpoints in variables and resuse them wherever you need. Changing a bunch of media queries in one place is hard to beat.</p>
+
+<p>To be more concrete, let me give you one little teaser.
+Here’s some random Sass example using the <strong>new-breakpoint</strong> function for media-queries:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nv">$mobile</span><span class="o">:</span> <span class="nf">new-breakpoint</span><span class="p">(</span><span class="no">max-width</span> <span class="mi">500</span><span class="kt">px</span> <span class="mi">4</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.sidebar</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+media</span><span class="p">(</span><span class="nv">$mobile</span><span class="p">)</span>
+</span><span class='line'>      <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nc">.content</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">+media</span><span class="p">(</span><span class="nv">$mobile</span><span class="p">)</span>
+</span><span class='line'>      <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+In my next article I’ll dive deeper into the nitty-gritties of this but what should be apparent to you in this example is the ease of use if you decide to change your media queries. Through the use of Sass variables and this function, you’ll have one consistent, authoritative place to change / tweak your responsive layout without touching each element individually.</p>
+
+<h2>Installation</h2>
+
+<p>Now that you know what you’re getting yourself into, let’s install this beauty:
+(You need <a href="http://sass-lang.com/install">Sass</a> installed before you start of course)</p>
+
+<ul>
+<li><h4>#01 Install Bourbon</h4></li>
+</ul>
+
+
+<p>Take a look at my article about Bourbon if you need to follow this step.</p>
+
+<ul>
+<li><h4>#02 Install the Neat gem via <a href="https://rubygems.org/">RubyGems</a></h4></li>
+</ul>
+
+
+<pre><code class="">gem install neat
+</code></pre>
+
+<ul>
+<li><h4>#03 Install Neat</h4></li>
+</ul>
+
+
+<p>Change into a Sass directory of your choosing:</p>
+
+<pre><code>neat install
+</code></pre>
+
+<p>This will install all the necessary mixins, settings and functions in your designated directory.</p>
+
+<h3>Screenshot:</h3>
+
+<p><img src="/images/bourbon-neat/neat_directories.png"></p>
+
+<ul>
+<li><h4>#04 Do a Sass import for Neat in your Sass stylesheet</h4></li>
+</ul>
+
+
+<pre><code class="sass">@import 'bourbon/bourbon'
+@import 'grid-settings'
+@import 'neat/neat'
+</code></pre>
+
+<p>As you can see, the order is important here. Because Neat was built on top of Bourbon you need to import Bourbon first. The same goes for its <strong>grid-settings</strong>.</p>
+
+<h2>Rails</h2>
+
+<p>If you want to use Neat with Rails you’ll just add</p>
+
+<ul>
+<li><h4>#01</h4></li>
+</ul>
+
+
+<pre><code class="ruby">gem neat
+</code></pre>
+
+<p>to your Gemfile and run</p>
+
+<ul>
+<li><h4>#02</h4></li>
+</ul>
+
+
+<pre><code class="bash">bundle install
+</code></pre>
+
+<p>in your terminal.</p>
+
+<ul>
+<li><h4>#03</h4></li>
+</ul>
+
+
+<p>In <strong>application.sass</strong> you’ll simply add</p>
+
+<pre><code class="sass">@import 'bourbon'
+@import 'grid-settings'
+@import 'neat'
+</code></pre>
+
+<p>and you’re good to go. Remember though that <code>@import</code> isn’t playing well with Sprockets directives and therefore you need to delete them. In <strong>application.sass</strong>, all references to <strong>require</strong>, <strong>require_tree</strong>, and <strong>require_self</strong> need to go.</p>
+
+<p>Last but not least, the fine folks at thoughtbot provided you with a nice command line interface. It comes with three self-explanatory commands:</p>
+
+<pre><code class="bash">neat install
+
+neat update
+
+neat remove
+</code></pre>
+
+<h2>Closing $0.02</h2>
+
+<p>Given that you’re using intelligent tools, its definitely a joy working with grids. This framework does a great job in planning for developer happiness—long- and short-term. To me there is but one word which describes best what Bourbon Neat has provided me with when I work with grids: <em>Zen</em>. Hard to find better developer / designer happiness than that imho.</p>
+
+<p>In the next article I’ll take a closer, more technical look at how to use this fantastic gem.
+Have fun playing with Neat! I know you will!</p>
+
+<p><img src="/images/bourbon-neat/ping-pong-grids.gif" width="450"></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AntiPatterns Basics—Rails Controllers - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AntiPatterns Basics—Rails Controllers</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-25T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/AntiPatterns/Controllers/LomaPrieta-Marina.jpeg"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Fat Controllers</li>
+<li>Non-RESTful Controllers</li>
+<li>Rat’s Nest Rsources</li>
+</ul>
+
+
+<h2>FAT Controllers</h2>
+
+<p>Well, “fat models, skinny controllers”, right? In case you haven’t read the previous AntiPattern articles, I should mention that aiming for models and controllers that stay skinny is a better guideline—no matter what. All that excess fat is not good for your projects—“skinny everything” makes much more sense. (Maybe I should disclaim that I’m not associated with the fashion industry in any way and don’t want to repeat the impression that you can’t be considered beautiful without fitting a certain type of imaginary body). As with models, you want controllers that have single responsibilities. Controllers should be dumb really, managing traffic and not much else. Also, if possible, we want to make our templates as dumb as possible—presenters can be handy in that regard.</p>
+
+<p>It is further important that you do not stray much from RESTful controller actions. Sure, every once in a while it can make sense to have additional methods in there, but most of the time, you should feel a little uneasy having them around. Controllers tend to get fat when they amass business logic that actually belongs into models or when inexperienced developers don’t make use of Rails’ conventions. You won’t be the first trying to reinvent the wheel and you certainly won’t be the last. Don’t feel bad about it, probably most of us have been there, but as a craftsman, you really should invest time and effort to know the conventions, benefits and limitations of the frameworks you work with—at least for commercial purposes where somebody pays for your expertise. Experiments are always fine of course.</p>
+
+<p>Since controllers are in charge of the flow of your application as well as for gathering the information that your views need, they already have a pretty important responsibility. They really do not need added complexity from the realm of your models. Controllers are closely working with your views to display the data provided by the model layer. Their relationship is tighter than with models. The model layer can potentially be developed much more independent from the others. The good thing about that is that a clean controller layer often has a positive effect on how tidy your views can be.</p>
+
+<p>What I want to get across is that fat controllers are super common in Rails land—especially among beginners and inexperienced developers—and with a little bit of love and care this can be optimized easily. The first step is straightforward. Ask yourself when a controller grows in size if the complexity comes from added business logic. If so, find a way to move it to the model layer where you have the added benefit of having a better home for testing complex code.</p>
+
+<h3>Presenters</h3>
+
+<p>To follow the above recommendation of moving aquired controller logic to models, presenters can be a handy technique. They can simulate a model while combining a couple of loosely related attributes together which can be useful for keeping controllers slim and sexy. On top of that, they are also good at keeping logic nastiness out of your views. Pretty good deal for crafting an extra object!</p>
+
+<p>Presenters can “imitate” a model which represents the state that your view needs and combines the attributes that need to move through the controller. They can be more complex, but then I feel they are drifting into “Decorator” territory. Sometimes a controller is in charge of creating multiple models simultaneously and we want to avoid is handling multiple instance variables in there. Why is this important? Because it helps us to keep the maintainability of our apps in check. The presenter aggregates behaviour and attributes which makes it easy for our controllers to focus on small, dead-simple jobs—with a single object. Also, formatting data in your view or other similar small functions are frequent jobs that often occur. Having this contained in a presenter is not only great for clean views but also for having a dedicated place that makes testing this  behaviour straightforward—the model layer is easier to test. More “bang for the buck” and all that jazz.</p>
+
+<p>If you stumble upon the Presenter Pattern and find multiple approaches or different ways to describe it, you are not going crazy. There is little clear cut agreement on what a presenter is I feel like. What is common knowledge though is that it sits between the MVC layers. We can use it to manage multiple model objects that need to be created at the same time. While combining these objects it imitates an ActiveRecord model.</p>
+
+<p>A commonly cited scenario is some sort of form that inputs information for various different models. Like a new user account that also has input fields for credit cards and addresses or something or something. Going full wizard by stepping through a couple of forms in sequence is not that different . Since these parts of your application tend to be very important ones, it is definitely a good idea to keep things tidy while having the best possible option available for testing at the same time. The user experience on this one is key too. In the example below, we want to create a simple mission that <code>has_one</code> <code>agent</code> and one <code>quartermaster</code>. No rocket science, but it’s a good example to see how quickly things can get out of hands. The controller needs to juggle multiple objects that the view needs in a nested form to tie things together. You will soon see that all of this can be cured with a nice “Form Object” which presents the objects needed and weaves things together in one central class.</p>
+
+<h5>app/models/mission.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Mission</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:agent</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:quartermaster</span>
+</span><span class='line'>  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:agent</span><span class="p">,</span> <span class="ss">:quartermaster</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:mission</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Quartermaster</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:mission</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I’m mentioning the models here just for completeness sake in case you never used <code>fields_for</code> before—a bit simplified but working. Below is the heart of the matter.</p>
+
+<h4>Too many instance variables</h4>
+
+<h5>app/controllers/missions_controller.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MissionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="vi">@agent</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="vi">@quartermaster</span> <span class="o">=</span> <span class="no">Quartermaster</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">mission_params</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@agent</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">agent_params</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@quartermaster</span> <span class="o">=</span> <span class="no">Quartermaster</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">quartermaster_params</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@mission</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="vi">@agent</span>
+</span><span class='line'>    <span class="vi">@mission</span><span class="o">.</span><span class="n">quartermaster</span> <span class="o">=</span> <span class="vi">@quartermaster</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@account</span><span class="o">.</span><span class="n">save</span> <span class="ow">and</span> <span class="vi">@agent</span><span class="o">.</span><span class="n">save</span> <span class="ow">and</span> <span class="vi">@quartermaster</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;Mission accepted&#39;</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">missions_path</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;Mission not accepted&#39;</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mission_params</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:mission</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:enemy</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">agent_params</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:agent</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">:licence_to_kill</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">quartermaster_params</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:quartermaster</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">:hacker</span><span class="p">,</span> <span class="ss">:expertise</span><span class="p">,</span> <span class="ss">:humor</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Overall, it’s easy to see that this is heading in the wrong direction. It already attracted quite a bit of mass and it only consists of <code>new</code> and <code>create</code> methods. Not good! The quickly growing amount of private methods are already piling up way too fast as well. <code>agent_params</code> and <code>quartermaster_params</code> in a <code>MissionsController</code> does not sound too slick to you I hope. A rare sight you think? I’m afraid not. “Single Responsibilities” in controllers truly are a golden guideline. You’ll see why in just a minute.</p>
+
+<p>Even if you squint your eyes, this looks super nasty. And during saving in the <code>create</code> action, with validations in place, if we can’t save every object due to some mistake or something, we’ll end up with orphaned objects that nobody wants to deal with. Yikes! Sure we could put this into a <code>transaction</code> block which successfully completes saving only if all objects are in order, but this is a bit like surfing against the current—also, why do model level stuff like this in the controller really? There are more elegant ways to catch a wave.</p>
+
+<p>Following this path, the view would have an accompanying <code>form_for</code> for <code>@mission</code> and the additional <code>fields_for</code> for <code>@agent</code> and <code>@quartermaster</code> of course.</p>
+
+<h3>Messy Form With Multiple Objects</h3>
+
+<h5>app/views/missions/new.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@mission</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">mission</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;h3&gt;Mission&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:mission_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:mission_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:objective</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:objective</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:enemy</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:enemy</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;h3&gt;Agent&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">fields_for</span> <span class="vi">@agent</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;h3&gt;Quartermaster&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">fields_for</span> <span class="vi">@quartermaster</span> <span class="k">do</span> <span class="o">|</span><span class="n">quartermaster</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:hacker</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:hacker</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:expertise</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:expertise</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:humor</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">quartermaster</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:humor</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">submit</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sure, this works but I wouldn’t be too excited to stumble upon this. <code>fields_for</code> sure is handy and all but handling this with OOP is a lot more dope. For such a case, a presenter will also aid us in having a simpler view because the form will deal with just a single object. Nesting the form becomes unnecessary that way. Btw, I left out any wrappers for styling the form to make it easier to digest visually.</p>
+
+<h3>Form Object Presenter</h3>
+
+<h5>app/views/missions/new.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@mission_presenter</span><span class="p">,</span> <span class="ss">url</span><span class="p">:</span> <span class="n">missions_path</span> <span class="k">do</span> <span class="o">|</span><span class="n">mission</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;h3&gt;Mission&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:mission_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:mission_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:objective</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:objective</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:enemy</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:enemy</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;h3&gt;Agent&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:agent_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:agent_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:agent_number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:agent_number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;h3&gt;Quartermaster&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:quartermaster_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:quartermaster_name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:quartermaster_number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:quartermaster_number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:hacker</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:hacker</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:expertise</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:expertise</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:humor</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:humor</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">mission</span><span class="o">.</span><span class="n">submit</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can easily see, our view has become much simpler—no nestings and it’s a lot more straightforward this flat. The part you need to be a bit careful is this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@mission_presenter</span><span class="p">,</span> <span class="ss">url</span><span class="p">:</span> <span class="n">missions_path</span> <span class="k">do</span> <span class="o">|</span><span class="n">mission</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You need to provide <code>form_for</code> with a path via <code>url</code> so that it can <code>post</code> the params from this form to its proper controller—here <code>MissionsController</code>. Without that additional argument, Rails would try to find the controller for our presenter object <code>@mission_presenter</code> through conventions—in this case <code>MissionFormPresentersController</code>—and blow up without one.</p>
+
+<p>In general, we should try our best to keep controller actions mostly as simple as dealing with the CRUD manipulation of resources—that’s what a controller does for a living and is best equiped to do without muddying the MVC distinctions. As a nice side effect, the level of complexity in your controllers will go way down as well.</p>
+
+<h5>app/controllers/missions_controller.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MissionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@mission_presenter</span> <span class="o">=</span> <span class="no">MissionFormPresenter</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@mission_presenter</span> <span class="o">=</span> <span class="no">MissionFormPresenter</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">mission_params</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span>
+</span><span class='line'>      <span class="vi">@mission_presenter</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;Mission accepted&#39;</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">missions_path</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;Mission not accepted&#39;</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mission_params</span>
+</span><span class='line'>    <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:mission_form_presenter</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="n">whitelisted</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">whitelisted</span>
+</span><span class='line'>    <span class="o">[</span><span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:enemy</span><span class="p">,</span> <span class="ss">:agent_name</span><span class="p">,</span> <span class="ss">:agent_number</span><span class="p">,</span> <span class="ss">:licence_to_kill</span><span class="p">,</span> <span class="ss">:quartermaster_name</span><span class="p">,</span> <span class="ss">:quartermaster_number</span><span class="p">,</span> <span class="ss">:hacker</span><span class="p">,</span> <span class="ss">:expertise</span><span class="p">,</span> <span class="ss">:humor</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The controller is also a lot easier on the eyes, isn’t it? Much cleaner and pretty much standard controller actions. We are dealing with a single object that has one job. We instantiate a single object, the presenter, and feed it the params as usual.</p>
+
+<p>The only thing that bugged me was sending this long list of whitelisted strong parameters. I extracted them into a method called <code>whitelisted</code> which just returns an array with the complete list of parameters. Otherwise, <code>mission_params</code> would have looked like the following—which felt too nasty:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">mission_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:mission_form_presenter</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:mission_name</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:enemy</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:agent_name</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:agent_number</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:licence_to_kill</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:quartermaster_name</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:quartermaster_number</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:hacker</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:expertise</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="ss">:humor</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Oh, a word about the <code>:mission_form_presenter</code> argument for <code>params.require</code>. Although we named our instance variable for the presenter <code>@mission_presenter</code>, when we use it with <code>form_for</code>, Rails expects the key of the params hash for the form to be named after the object instantiated—not after the name given in a controller. I have seen newbies trip over this several times. That Rails is providing you with cryptic errors in such a case isn’t helping either. If you need a little refresher on params, this is a good place to dig in:</p>
+
+<ul>
+<li><a href="http://api.rubyonrails.org/classes/ActionController/Parameters.html">Documentation</a></li>
+<li><a href="https://www.youtube.com/watch?v=y57OnWV6dRE">Free screencast</a></li>
+</ul>
+
+
+<p>In our <code>Mission</code> model, we now have no need for <code>accepts_nested_attributes</code> anymore and can get rid of that harmless looking, dreaded thing. The <code>validates</code> method is also irrelevant here because we add this responsibility to our form object. Same goes for our validations on <code>Agent</code> and <code>Quartermaster</code> of course.</p>
+
+<h5>app/models/mission.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Mission</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:agent</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:quartermaster</span>
+</span><span class='line'>  <span class="c1">#accepts_nested_attributes_for :agent, :quartermaster, allow_destroy: true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#validates :mission_name, presence: true</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Encapsulating this validation logic directly on our new object helps us keeping things clean and organized. In cases where you could also create these objects independently from each other, validations should stay where they currently are of course. This kind of duplication can also be dealt with—no worries. FYI, for example by using <code>validates_with</code> with a separate class for validation that inherits from <code>ActiveModel::Validator</code>.</p>
+
+<p>Now we have a skinny controller with a single responsibility and a flat form for creating multiple objects in parallel. Awesome! How did we achieve all this?  Below is the presenter that does all the work—not implying this class does a lot of work though. We want to have some sort of intermediary model without a database that juggles multiple objects. Take a look at this plain old ruby object (PORO).</p>
+
+<h5>app/presenters/mission_form_presenter.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MissionFormPresenter</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Model</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span>  <span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:enemy</span><span class="p">,</span> <span class="ss">:agent_name</span><span class="p">,</span>
+</span><span class='line'>                 <span class="ss">:agent_number</span><span class="p">,</span> <span class="ss">:licence_to_kill</span><span class="p">,</span> <span class="ss">:quartermaster_name</span><span class="p">,</span>
+</span><span class='line'>                 <span class="ss">:quartermaster_number</span><span class="p">,</span> <span class="ss">:hacker</span><span class="p">,</span> <span class="ss">:expertise</span><span class="p">,</span> <span class="ss">:humor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:agent_name</span><span class="p">,</span> <span class="ss">:quartermaster_name</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">save</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">mission_attributes</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@mission</span><span class="o">.</span><span class="n">create_agent!</span><span class="p">(</span><span class="n">agent_attributes</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@mission</span><span class="o">.</span><span class="n">create_quartermaster!</span><span class="p">(</span><span class="n">quartermaster_attributes</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mission_attributes</span>
+</span><span class='line'>    <span class="p">{</span> <span class="ss">mission_name</span><span class="p">:</span> <span class="n">mission_name</span><span class="p">,</span> <span class="ss">objective</span><span class="p">:</span> <span class="n">objective</span><span class="p">,</span> <span class="ss">enemy</span><span class="p">:</span> <span class="n">enemy</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">agent_attributes</span>
+</span><span class='line'>    <span class="p">{</span> <span class="nb">name</span><span class="p">:</span> <span class="n">agent_name</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="n">agent_number</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="n">licence_to_kill</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">quartermaster_attributes</span>
+</span><span class='line'>    <span class="p">{</span> <span class="nb">name</span><span class="p">:</span> <span class="n">quartermaster_name</span><span class="p">,</span> <span class="ss">number</span><span class="p">:</span> <span class="n">quartermaster_number</span><span class="p">,</span> <span class="ss">hacker</span><span class="p">:</span> <span class="n">hacker</span><span class="p">,</span> <span class="ss">expertise</span><span class="p">:</span> <span class="n">expertise</span><span class="p">,</span> <span class="ss">humor</span><span class="p">:</span> <span class="n">humor</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think it’s fair to say that it’s not very complicated. <code>MissionFormPresenter</code> is a form object that now encapsulates what made our controller unnecessarily fat. As a bonus, our view became flat and simple. What happens here is that we can aggregate all the info from our form and then we create all the objects we need sequentially.</p>
+
+<p>The most important piece happens in our new <code>save</code> method. First we create the new <code>Mission</code> object. After that, we can create the two objects assoicated with it: <code>Agent</code> and <code>Quartermaster</code>. Through our <code>has_one</code> / <code>belongs_to</code> associations, we can make use of of a <code>create_x</code> method that adapts to the name of the associated object. For example, if we use <code>has_one :agent</code> we get a <code>create_agent</code> method. Easy, right? (FYI, actually we also get a <code>build_agent</code> method.) I decided to use the version with a bang(!) because it raises an <code>ActiveRecord::RecordInvalid</code> error if the record is invalid while attempting to save. Wrapped inside a <code>transaction</code> block, these bang methods take care that no ophaned object gets saved if some validation kicks in. The transaction block will roll back if something goes wrong during save.</p>
+
+<p>How does this work with the attributes you might ask? We ask Rails for a little bit of love via <code>include ActiveModel::Model</code> (<a href="http://api.rubyonrails.org/classes/ActiveModel/Model.html">API</a>). This allows us to initialize objects with a hash of attributes—which is exactly what we do in the controller. After that, we can use our <code>attr_accessor</code> methods to extract our attributes to instantiate the objects we really need. <code>ActiveModel::Model</code> further enables us to interact with views and controllers. Among other goodies, you can also use this for validations in such classes. Putting these validations into such dedicated form objects is a good idea for organization and it also keeps your models a bit more tidy. I decided to extract the long list of parameters into private methods which feed the objects that get created in <code>save</code>. In such a presenter object, I have little concern of having a couple more private methods lying around. Why not? Feels cleaner!</p>
+
+<p>Testing these kind of scenarios where multiple models come together should be treated with utmost care—the simpler the objects in question, the better the testing experience. No rocket science really. Presenters operate in your favor on this one. Having these tests potentially tied to the controller is not the best way to approach this. Remember, unit tests are fast and cheap.</p>
+
+<p>A word of caution. Do not overuse presenters—they should not be your first choice. Usually, the need for a presenter grows over time. For me personally, they are best used when you have data represented by multiple models that need to come together in a single view. Without a presenter, you might more often than not prepare multiple instance variables in your controller for a single view. That alone can make them real fat real quick. A thing that you should consider and weigh is while presenters add objects to your codebase they can also reduce the number of objects a controller needs to deal with—less complexity and single responsibilities. It is probably a fairly advanced technique to lose some fat, but when you want to slim down, you need to put in the work.</p>
+
+<h2>Non-RESTful Controllers</h2>
+
+<p>Not trying to adhere to the standard controller actions is most likely a bad idea. Having tons of custom controller methods is an antipattern you can avoid pretty easily. Methods like <code>login_user</code>, <code>activate_admin</code>, <code>show_books</code>, and other funny business that stands in for <code>new</code>, <code>create</code>, <code>show</code> and so forth, should give you a reason to pause and to doubt your approach. Not following a REST-ful approach can easily lead to big, massive controllers, mostly likely because you’ll need to fight the framework or reinvent the wheel every once in a while. In short, not a good idea. Also, more often than not, it’s also a symptom of inexperience or carelessnes. Following the “Single Responsibility Principle” seems to be very hard under these circumstances as well—just an educated guess though.</p>
+
+<p>Approaching resources in your controller in a  restful manner is making your life a lot less complicated and your apps are becoming easier to maintain as well—which adds to the overall stability of your app. Think about handling resources REST-fully from the perspective of an object’s life cycle. You create, update, show (single or collections), update and destroy them. For most cases, this will do the job. FYI, <code>new</code> and <code>edit</code> actions aren’t really part of REST—they are more like different versions of the <code>show</code> action, helping you present different stages in the resource’s life cycle. Put together, most of the time, these seven standard controller actions give you all you need to manage your resources in your controllers. Another big advantage is that other Rails developers working with your code will be able to navigate your controllers much faster.</p>
+
+<p>Following that line of REST-ful cool aid, this also includes the way you name your controllers. The name of the resource you work on should be mirrored in the controller object. For example, having a <code>MissionsController</code> that handles other resources than <code>@mission</code> objects is a smell that something is off. The sheer size of a controller often is also a dead giveaway that REST was ignored. Should you encounter large controllers that implement tons of customized methods that break with conventions, it can be a very effective strategy to split them into multiple distinctive controllers that have focused responsibilities—and bascially manage only a single resource while adhering to a REST-ful style. Break them apart agressively and you will have an easier time to compose their methods the Rails way.</p>
+
+<h2>Rat’s Nest Resources</h2>
+
+<p>Look at the following example and ask yourself what’s wrong with this:</p>
+
+<h4>Nested AgentsController</h4>
+
+<h5>app/controllers/agents_controller.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AgentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:mission_id</span><span class="o">]</span>
+</span><span class='line'>      <span class="vi">@mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:mission_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@agents</span> <span class="o">=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">agents</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="vi">@agents</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we check if we have a nested route that provides us with the id for a possible <code>@mission</code> object. If so, we want to use the associated object to get the <code>agents</code> from it. Otherwise, we’ll fetch a list of all agents for the view. Looks harmless, especially because it’s still concise, but it’s the start of a potentially way larger rat’s nest.</p>
+
+<h4>Nested Routes</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:agents</span>
+</span><span class='line'><span class="n">resources</span> <span class="ss">:missions</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">resources</span> <span class="ss">:agents</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nothing obtuse about the nested routes here. In general, there is nothing wrong about this approach. The thing we should be careful about is how the controller handles this business—and as a consequence, how the view needs to adapt to it. Not exactly squeaky clean as you can see below.</p>
+
+<h4>View With Unnecessary Conditional</h4>
+
+<h5>app/views/agents/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@mission</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;h2&gt;Mission&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">objective</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">enemy</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;h2&gt;Agents&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@agents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li class=&#39;agent&#39;&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Name:            </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Number:          </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Status:          </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">status</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Might also not look like a big deal, I get it. The level of complexity is not exactly real world though. Aside from that, the argument is more about dealing with resources in an object oriented way and about using Rails to your fullest advantage. I guess this is a little bit of an edge case regarding single responsibilities. It’s not exactly violating this idea too bad, even though we have a second object—@mission—for the association lingering around. But since we are using it for getting access to a specific set of agents, this is totally alright.</p>
+
+<p>The branching is the part that is inelegant and will most likely lead to poor design decisions—both in views and controllers. Creating two versions of <code>@agents</code> in the same method is the perpetrator here. I’ll make it short, this can get out of hand really quickly. Once you start nesting resources like this, chances are good new rats are hanging around soon. And the view above also needs a conditional that adapts to the situation for when you have <code>@agents</code> associated with a <code>@mission</code>. As you can easily see, a little bit of sloppiness in your controller can lead to bloated views that have more code than needed. Let’s try another approach. Exterminator time!</p>
+
+<h4>Separate Controllers</h4>
+
+<p>Instead of nesting these resources, we should be giving each version of this resource its own distinctive, focused controller—one controller for “simple”, unnested agents and one for agents that are associated with a mission. We can achieve this via namespacing one of them under a <code>/missions</code> folder.</p>
+
+<h5>app/controllers/missions/agents_controller.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Missions</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">AgentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>      <span class="vi">@mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:mission_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@agents</span> <span class="o">=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">agents</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By wrapping this controller inside a module, we can avoid that <code>AgentsController</code> inherits twice from <code>ApplicationController</code>. Without it, we would run into an error like this: <code>Unable to autoload constant Missions::AgentsController</code>. I think a module is a small price to pay for making Rails autoloading happy. The second <code>AgentsController</code> can stay in the same file as before. It now only deals with one possible resource in <code>index</code>—prepping all agents without missions that are around.</p>
+
+<h5>app/controllers/agents_controller.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AgentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@agents</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, we also need to instruct our routes to look for this new namespaced controller if agents are associated with a mission.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:agents</span>
+</span><span class='line'><span class="n">resources</span> <span class="ss">:missions</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">resources</span> <span class="ss">:agents</span><span class="p">,</span> <span class="ss">controller</span><span class="p">:</span> <span class="s1">&#39;missions/agents&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After we specified that our nested resource has a namespaced controller, we’re all set. When we do a <code>rake routes</code> check in the terminal, we’ll see that our new controller is namespaced and that we are good to go.</p>
+
+<h4>New Routes</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> Prefix Verb   URI Pattern                                     Controller#Action
+</span><span class='line'>              root GET    /                                               agents#index
+</span><span class='line'>            agents GET    /agents<span class="o">(</span>.:format<span class="o">)</span>                               agents#index
+</span><span class='line'>                   POST   /agents<span class="o">(</span>.:format<span class="o">)</span>                               agents#create
+</span><span class='line'>         new_agent GET    /agents/new<span class="o">(</span>.:format<span class="o">)</span>                           agents#new
+</span><span class='line'>        edit_agent GET    /agents/:id/edit<span class="o">(</span>.:format<span class="o">)</span>                      agents#edit
+</span><span class='line'>             agent GET    /agents/:id<span class="o">(</span>.:format<span class="o">)</span>                           agents#show
+</span><span class='line'>                   PATCH  /agents/:id<span class="o">(</span>.:format<span class="o">)</span>                           agents#update
+</span><span class='line'>                   PUT    /agents/:id<span class="o">(</span>.:format<span class="o">)</span>                           agents#update
+</span><span class='line'>                   DELETE /agents/:id<span class="o">(</span>.:format<span class="o">)</span>                           agents#destroy
+</span><span class='line'>    mission_agents GET    /missions/:mission_id/agents<span class="o">(</span>.:format<span class="o">)</span>          missions/agents#index
+</span><span class='line'>                   POST   /missions/:mission_id/agents<span class="o">(</span>.:format<span class="o">)</span>          missions/agents#create
+</span><span class='line'> new_mission_agent GET    /missions/:mission_id/agents/new<span class="o">(</span>.:format<span class="o">)</span>      missions/agents#new
+</span><span class='line'>edit_mission_agent GET    /missions/:mission_id/agents/:id/edit<span class="o">(</span>.:format<span class="o">)</span> missions/agents#edit
+</span><span class='line'>     mission_agent GET    /missions/:mission_id/agents/:id<span class="o">(</span>.:format<span class="o">)</span>      missions/agents#show
+</span><span class='line'>                   PATCH  /missions/:mission_id/agents/:id<span class="o">(</span>.:format<span class="o">)</span>      missions/agents#update
+</span><span class='line'>                   PUT    /missions/:mission_id/agents/:id<span class="o">(</span>.:format<span class="o">)</span>      missions/agents#update
+</span><span class='line'>                   DELETE /missions/:mission_id/agents/:id<span class="o">(</span>.:format<span class="o">)</span>      missions/agents#destroy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our nested resource for <code>agents</code> is now properly redirected to <code>controllers/missions/agents_controller.rb</code> and each action can take care of agents that are part of a mission. For completeness sake, let’s have a look at our final views as well:</p>
+
+<h4>Agents With Mission</h4>
+
+<h5>app/views/missions/agents/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Mission&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">mission_name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">objective</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">enemy</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;h2&gt;Agents&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@agents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li class=&#39;agent&#39;&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Name:            </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Number:          </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Agents Without Mission</h4>
+
+<h5>app/views/agents/index.html</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Agents&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@agents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li class=&#39;agent&#39;&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Name:            </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Number:          </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Well, let’s get rid of that little bit of duplication where we iterate over <code>@agents</code> also. I created a partial for rendering a list of agents and put it into a new <code>shared</code> directory under <code>views</code>.</p>
+
+<h5>app/views/shared/_agents.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Agents&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@agents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li class=&#39;agent&#39;&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Name: </span><span class="cp">&lt;%=</span>            <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Number: </span><span class="cp">&lt;%=</span>          <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;div&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nothing new or surprising here but our views are now more DRY.</p>
+
+<h4>Agents With Mission</h4>
+
+<h5>app/views/missions/agents/index.html.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Mission&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">mission_name</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">objective</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@mission</span><span class="o">.</span><span class="n">enemy</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;shared/agents&quot;</span><span class="p">,</span> <span class="ss">collection</span><span class="p">:</span> <span class="vi">@agents</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Agents Without Mission</h4>
+
+<h5>app/views/agents/index.html</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;shared/agents&quot;</span><span class="p">,</span> <span class="ss">collection</span><span class="p">:</span> <span class="vi">@agents</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dope!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I think if you as a beginner can avoid these AntipPatterns in your controllers you are off to a very good start. There is still much left to learn for you in this regard but give it time, it’s nothing that comes too easy or overnight. On the other hand, if you you are hungry for more and like to explore more advanced techniques I’m all for it of course. Don’t let yourself be discouraged by the “advanced” name tag. Take your time, have fun and don’t get frustrated if you need to revisit the topic again because you don’t yet have all pieces of the puzzle in place yet. If you are early in the development game and started to play with design patterns, I believe you are way ahead of the game and made the right decision. Don’t wait and get out of your comfort zone to stretch your gray matter a bit.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-25T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/antipatterns/'>antipatterns</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/code-smells/'>code smells</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/object-oriented-programming/'>object oriented programming</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/" title="Previous Post: AntiPatterns Basics—Rails Views">&laquo; AntiPatterns Basics—Rails Views</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/" title="Next Post: Slim Basics 01">Slim Basics 01 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

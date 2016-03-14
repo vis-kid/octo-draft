@@ -1,0 +1,1218 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AntiPatterns Basics—Rails Models - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AntiPatterns Basics—Rails Models</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-13T04:29:10+01:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/AntiPatterns/Models/wheelchair-construction-fail.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to “classify” solutions that prevented them from reinventing the wheel all the time. It’s important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers. If this is rather new to you and you see yourself as being more on the beginner side of all things Ruby / Rails, then this one is exactly written for you. I think it’s best if you think of it as a quick skinny-dip into a much deeper topic whose mastery will not happen overnight.Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices and tools frameworks provide for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Fat Models</li>
+<li>Missing Test Suite</li>
+<li>Voyeuristic Models</li>
+<li>Law of Demeter</li>
+<li><p>Spaghetti SQL</p></li>
+<li><h3>Fat Models</h3></li>
+</ul>
+
+
+<p>I’m sure you have heard the “Fat models, skinny controllers” sing-song tons of times when you first started out with Rails. OK, now forget that! Sure, the business logic needs to be solved in the model layer but you shouldn’t feel inclined to stuff everything in there senselessly just to avoid crossing the lines into controller territory. Here’s a new target you should aim for: “Skinny models, skinny controllers”. You might ask, “well, how should we arrange code to achieve that—after all it’s a zero-sum game?” Good point! The name of the game is composition and Ruby is well equipped to give you lots of options to avoid model obesity.</p>
+
+<p>In most (Rails) web applications that are database backed, the majority of your attention and work will be centered around the model layer—given that you work with compentent designers who are able to implement their own stuff in the view I mean. Inherently your models will have more “gravity” and attract more complexity. The questions is just how you intend to manage that complexity. Active Record definitely gives you plenty of rope to hang yourself while making your lives incredibly easy. It is a tempting approach to design your model layer by just following the path of highest immediate convenience. Nevertheless, a future proof architecture takes a lot more consideration than cultivating huge classes and stuffing everything into Active Record objects.</p>
+
+<p>The real problem that you deal with here is complexity—unnecessarily so I’d say. Classes that amass tons of code become complex just by their size alone. They are more difficult to maintain, difficult to parse and understand as well as increasingly harder to change because their composition probably lacks decoupling. These models often exceed their recommended capacity of handling one single responsibility and are rather all over the place. Worst case they become like garbage trucks, handling every trash that is lazily thrown at them. We can do better! If you think complexity is not a big deal—after all you are special, smart and all—think again! Complexity is the most notorious serial project killer out there—not your friendly neighborhood “Dark Defender”.</p>
+
+<p>“Skinnier models” achieve one thing advanced folks in the coding business (probably a lot more professions than code and design) appreciate and what we all should absolutely strive for—simplicity! Or at least more of it which is a fair compromise if complexity is hard to eradicate. What tools does Ruby offer to make our lives easier in that regard and let’s us trim the fat out of our models? Simple, other classes and modules. You identify coherent code that you could extract into another object and thereby build a model layer that consists of reasonably sized agents that have their own unique, distinctive responsibilities. Think about it in terms of a talented performer. In real life, such a person might be able to rap, break, write lyrics and produce her own tunes. In programming, you prefer the dynamics of a band—here with at least four distinctive members—where each person is in charge of as few things as possible. You wanna build an orchestra of classes that can handle the complexity of the composer—not a micromanaging genius maestro class of all trades.</p>
+
+<p><img src="/octopress_drafts_previewer/images/AntiPatterns/Models/genuis-maestro.png"></p>
+
+<p>Let’s look at an example of a fat model and play with a couple of options to handle its obesity. The example is a dummy one of course and by telling this goofy little story I hope it will be easier to digest and follow for newbies. We have a Spectre class that has too many responsibilities and has therefore grown unnecessarily. Besides these methods, I think it’s easy to imagine that such a specimen already accumulated lots of other stuff as well—represented by the three little dots. Spectre is well under way to become a <a href="https://robots.thoughtbot.com/how-much-should-i-refactor">god class</a>. (Chances are pretty low to sensibly formulate such a sentence again anytime soon;)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Spectre</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_members</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_agents</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:enemy_agents</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:operations</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn_mi6_agent</span><span class="p">(</span><span class="n">enemy_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;MI6 agent </span><span class="si">#{</span><span class="n">enemy_agent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn_cia_agent</span><span class="p">(</span><span class="n">enemy_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;CIA agent </span><span class="si">#{</span><span class="n">enemy_agent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn_mossad_agent</span><span class="p">(</span><span class="n">enemy_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Mossad agent </span><span class="si">#{</span><span class="n">enemy_agent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">kill_double_o_seven</span><span class="p">(</span><span class="n">spectre_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_agent</span><span class="o">.</span><span class="n">kill_james_bond</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">dispose_of_cabinet_member</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_member</span> <span class="o">=</span> <span class="no">SpectreMember</span><span class="o">.</span><span class="n">find_by_id</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;A certain culprit has failed the absolute integrity of this fraternity. The appropriate act is to smoke number </span><span class="si">#{</span><span class="n">number</span><span class="si">}</span><span class="s2"> in his chair. His services won’t be greatly missed&quot;</span>
+</span><span class='line'>    <span class="n">spectre_member</span><span class="o">.</span><span class="n">die</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_assignment</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Operation </span><span class="si">#{</span><span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">’s objective is to </span><span class="si">#{</span><span class="n">operation</span><span class="o">.</span><span class="n">objective</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">enemy_agent</span>
+</span><span class='line'>    <span class="c1">#clever code</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">spectre_agent</span>
+</span><span class='line'>    <span class="c1">#clever code</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">operation</span>
+</span><span class='line'>    <span class="c1">#clever code</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Spectre turns various kinds of enemy agents, delegates killing 007, grills Spectre’s cabinet member when they fail and also prints out operational assignments. A clear case of micromanagement and definitely a violation of the “Single Responsibility Principle”. Private methods are also stashing up fast. This class doesn’t need to know most of the stuff that’s currently in it. We will split this functionality into a couple of classes and see if the complexity of having a couple more classes/objects is worth the liposuction.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Spectre</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_members</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_agents</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:enemy_agents</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:operations</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn_enemy_agent</span>
+</span><span class='line'>    <span class="no">Interrogator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">enemy_agent</span><span class="p">)</span><span class="o">.</span><span class="n">turn</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">enemy_agent</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">enemy_agents</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Interrogator</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:enemy_agent</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">enemy_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@enemy_agent</span> <span class="o">=</span> <span class="n">enemy_agent</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn</span>
+</span><span class='line'>    <span class="n">enemy_agent</span><span class="o">.</span><span class="n">turn</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EnemyAgent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:agency</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;After extensive brainwashing, torture and hoards of cash…&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MI6Agent</span> <span class="o">&lt;</span> <span class="no">EnemyAgent</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;MI6 agent </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CiaAgent</span> <span class="o">&lt;</span> <span class="no">EnemyAgent</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;CIA agent </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MossadAgent</span> <span class="o">&lt;</span> <span class="no">EnemyAgent</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">turn</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Mossad agent </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> turned over to Spectre&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">NumberOne</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">dispose_of_cabinet_member</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_member</span> <span class="o">=</span> <span class="no">SpectreMember</span><span class="o">.</span><span class="n">find_by_id</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;A certain culprit has failed the absolute integrity of this fraternity. The appropriate act is to smoke number </span><span class="si">#{</span><span class="n">number</span><span class="si">}</span><span class="s2"> in his chair. His services won’t be greatly missed&quot;</span>
+</span><span class='line'>    <span class="n">spectre_member</span><span class="o">.</span><span class="n">die</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_agents</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_assignment</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Operation </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">’s objective is to </span><span class="si">#{</span><span class="n">objective</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SpectreAgent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">kill_james_bond</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Mr. Bond, I expect you to die!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SpectreMember</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">die</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Nooo, nooo, it wasn’t meeeeeeeee! ZCHUNK!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think the most important part that you should pay attention to is how we used a plain Ruby class like <code>Interrogator</code> to handle the turning of agents from different agencies. Real world examples could represent a converter that, say, transforms a HTML document into pdf and vice versa. If you don’t need the full functionality of Active Record classes, why use them if a simple Ruby class can do the trick as well? A little less rope to hang ourselves.</p>
+
+<p>The Spectre class leaves the nasty business of turning agents to the <code>Interrogator</code> class and just delegates to it. This one has now the single responsibility of torturing and brainwashing captured agents. So far so good. But why did we create separate classes for each agent? Simple. Instead of just directly extracting the various turn methods like <code>turn_mi6_agent</code> over to <code>Interrogator</code> we gave them a better home in their own respective class. As a result, we can make effective use of polymorphism and don’t care about individual cases for turning agents. We just tell these different agent objects to turn and each of them knows what to do. The <code>Interrogator</code> doesn’t need to know the specifics about how each agent turns.</p>
+
+<p>Since all these agents are Active Record objects, we created a generic one, <code>EnemyAgent</code>, that has a general sense of what turning an agent means and we encapsulate that bit for all agents in one place by subclassing it. We make use of this inheritance by supplying the <code>turn</code> methods of the various agents with <code>super</code> and get therefore access to the brainwashing and torture business—without duplication. Single responsibilities and no duplication is a good starting point for moving on.</p>
+
+<p>The other Active Record classes take on various responsibilities that Spectre doesn’t need to care about. “Number One” usually does the grilling of failed Spectre cabinet members himself so why not let a dedicated object handle electrocution. On the other hand, failing Spectre members know how to die themselves when being smoked in their chair by <code>NumberOne</code>. <code>Operation</code> now prints its assignments itself as well—no need to waste the time of Spectre with peanuts like that. Last but not least, killing James Bond is usually attempted by an agent in the field, so <code>kill_james_bond</code> is now a method on <code>SpectreAgent</code>. Goldfinger would have handled that differently of course—gotta play with that laser thingie if you have one I guess.</p>
+
+<p>As you can clearly see, we basically have now ten classes where we previously had only one. Isn’t that too much? It can be for sure. It’s an issue you’ll need to wrestle with most of the time you when split up such responsibilities. You can definitely overdue this. But looking at this from anther angle might help:</p>
+
+<ul>
+<li><p>Have we separated concerns? Absolutely!</p></li>
+<li><p>Do we have lightweight, skinny classes that are better suited to handle singular responsibilities. Pretty sure!</p></li>
+<li><p>Do we tell a “story”, are we painting a clearer picture of who is involved and is in charge for certain actions? I hope so!</p></li>
+<li><p>Is it easier to digest what each class is doing? For sure!</p></li>
+<li><p>Have we cut down on the number of private methods? Yup!</p></li>
+<li><p>Does this represent a better quality of object oriented programming? Since we used composition and referred to inheritance only where needed for setting up these objects, you bet!</p></li>
+<li><p>Does it feel more clean? Yes!</p></li>
+<li><p>Are we better equipped to change our code without making a mess? Sure thing!</p></li>
+<li><p>Was it worth it? What do you think?</p></li>
+</ul>
+
+
+<p>I’m not implying that these questions need to be checked off your list every time but these are the things you probably should start asking yourself while slimming down your models. Designing skinny models can be hard but it’s an essential measure to keep your applications healthy and agile. These are also not the only constructive ways to deal with fat models but it’s a good start, especially for newbies.</p>
+
+<ul>
+<li><h3>Missing Test Suite</h3></li>
+</ul>
+
+
+<p>That is probably the most obvious AntiPattern. Coming from the test-driven side of things, touching a mature app that has no test coverage can be one of the most painful experiences to encounter. If you wanna hate the world and your own profession more than anything, just spend six months on such a project and you’ll learn how much of a misanthrope is potentially in you. Kidding of course, but I doubt it will make you happier and that you wanna do it again—ever. Maybe a week will do as well. I’m pretty sure, the word torture will pop into your mind more often than you think. If testing was not part of your process so far and that kinda pain feels normal to your work, maybe you should consider that testing is not that bad nor your enemy. When your code related joy levels are more or less constantly above zero and you can fearlessly change your code then the overall quality of your work will be a lot higher compared to output that is tainted by anxiety and suffering.</p>
+
+<p>Am I overestimating? I really don’t think so! You want to have a very extensive test coverage, not only because it is a great design tool for only writing code that you actually need but also you will need to change your code at some point in the future. You will be a lot better equipped to engage with your codebase—and a lot more confident—if you have a test harness that aides and guides refactorings, maintenance and extensions. They will occur for sure down the road, zero doubts about that. This is also the point where a test suite starts to pay off the second round of dividends because the increased speed with which you can securely make these quality changes can not be achieved by a long shot in apps that are made by people who think writing tests is nonsense or cost too much time.</p>
+
+<ul>
+<li><h3>Voyeuristic Models</h3></li>
+</ul>
+
+
+<p>These are models that are super nosy and want to gather too much information about other objects / models. That is in stark contrast to one of the most fundamental ideas in Object Oriented Programming—encapsulation. We rather want to strive for self-contained classes / models that manage their internal affairs themselves as much as possible. In terms of programming concepts, these voyeuristic models basically violate the “Principle of Least Knowledge”, aka the “Law of Demeter”—however you wanna pronounce it.</p>
+
+<h3>Law of Demeter</h3>
+
+<p>Why is this a problem? It is a form of duplication—a subtle one—and also leads to code that is a lot more brittle than anticipated. The Law of Demeter is pretty much the most reliable code smell that you can always attack without being worried about the possible downsides. I guess calling this one a “law” was not as pretentious as it might sound at first. Dig into this smell, you will need it a lot in your projects. It basically states that in terms of objects, you can call methods on your objects friend but not on your friend’s friend. This is a common way to explain it and it all boils down to using not more than a single dot for your method calls. Btw, it is totally fine to use more dots or methods calls when you deal with a single object that does not try to reach further than that. Something like <code>@weapons.find_by_name('Poison dart').formula</code>. is just fine. Finders can pile up quite a few dots sometimes. Btw, encapsulating them in dedicated methods is nevertheless a good idea.</p>
+
+<h4>Law of Demeter violations</h4>
+
+<p>Let’s look at a couple of bad examples from the classes above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_agents</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">kill_james_bond</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">spectre_agents</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre</span><span class="o">.</span><span class="n">enemy_agents</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">agency</span><span class="o">.</span><span class="n">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To get the hang of it, here are a few more fictional ones.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@quartermaster</span><span class="o">.</span><span class="n">gizmos</span><span class="o">.</span><span class="n">non_lethal</span><span class="o">.</span><span class="n">favorite</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@mi6</span><span class="o">.</span><span class="n">operation</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">favorite_weapon</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@mission</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Bananas, right? Doesn’t look good, does it? As you can see, these method calls peek too much into the business of other objects. The most important and obvious negative consequence is changing a bunch of these method calls all over the place if the structure of these objects need to change—which they will eventually because the only constant in software development is—you guessed it—change (maybe feeling stupid every now and then as well but I’m not so sure about this one). Also, it looks really nasty, not easy on the eyes at all. When you don’t know that this is a problematic approach, Rails let’s you take this very far anyway—without screaming at you. A lot of rope, remember?</p>
+
+<p>So what can we do about this? After all we want to get that information somehow. On the one hand you can compose our objects to fit our needs and we can make clever use of delegation to keep our models slim at the same time. Let’s dive into some code to show you what I mean.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SpectreMember</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:operations</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_agents</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SpectreAgent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre_member</span><span class="o">.</span><span class="n">spectre_agents</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'><span class="vi">@spectre_member</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">print_assignment</span>
+</span><span class='line'><span class="vi">@spectre_member</span><span class="o">.</span><span class="n">spectre_agents</span><span class="o">.</span><span class="n">find_by_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member</span><span class="o">.</span><span class="n">number</span>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member</span><span class="o">.</span><span class="n">spectre_agents</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre_agent</span><span class="o">.</span><span class="n">spectre_member</span><span class="o">.</span><span class="n">number</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SpectreMember</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:operations</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:spectre_agents</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">list_of_agents</span>
+</span><span class='line'>    <span class="n">spectre_agents</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_operation_details</span>
+</span><span class='line'>    <span class="n">operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>    <span class="n">operation</span><span class="o">.</span><span class="n">print_operation_details</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">spectre_member_name</span>
+</span><span class='line'>    <span class="n">spectre_member</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">spectre_member_number</span>
+</span><span class='line'>    <span class="n">spectre_member</span><span class="o">.</span><span class="n">number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_operation_details</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;This operation’s objective is </span><span class="si">#{</span><span class="n">objective</span><span class="si">}</span><span class="s2">. The target is </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SpectreAgent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">superior_in_charge</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;My boss is number </span><span class="si">#{</span><span class="n">spectre_member</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre_member</span><span class="o">.</span><span class="n">list_of_agents</span>
+</span><span class='line'><span class="vi">@spectre_member</span><span class="o">.</span><span class="n">print_operation_details</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member_name</span>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member_number</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@spectre_agent</span><span class="o">.</span><span class="n">superior_in_charge</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is definitely a step in the right direction. As you can see, we packed the info we wanted to acquire in a bunch of wrapper methods. Instead of reaching across many objects directly, we abstracted these bridges and leave it to the respective models to talk to their friends about the infos we need. The downside to this approach is having all these extra wrapper methods lying around. Sometimes it’s fine but we really want to avoid maintaining these methods in a bunch of places if an object changes.</p>
+
+<p>If possible, the dedicated place for them to change is on their object—and on their object alone. Polluting objects with methods that have little to do with their own model itself is also something to look out for since this is always a potential hazard for watering down on single responsibilities. We can do better than that. Where possible, let’s delegate method calls directly to their objects in charge and try to cut down on wrapper methods as much as we can. Rails knows what we need and provides us with the handy <code>delegate</code> class method method to tell our object’s friends what methods we need called.</p>
+
+<p>Let’s zoom in on something from the previous code example and see where we can make proper use of delegation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:spectre_member</span><span class="p">,</span> <span class="ss">prefix</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># def spectre_member_name</span>
+</span><span class='line'><span class="c1">#   spectre_member.name</span>
+</span><span class='line'><span class="c1"># end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># def spectre_member_number</span>
+</span><span class='line'><span class="c1">#   spectre_member.number</span>
+</span><span class='line'><span class="c1"># end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member_name</span>
+</span><span class='line'><span class="vi">@operation</span><span class="o">.</span><span class="n">spectre_member_number</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SpectreAgent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:spectre_member</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:number</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:spectre_member</span><span class="p">,</span> <span class="ss">prefix</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">superior_in_charge</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;My boss is number </span><span class="si">#{</span><span class="n">spectre_member_number</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see we could simplify things a bit using method delegation. We got rid of <code>Operation#spectre_member_name</code> and <code>Operation#spectre_member_number</code> completely and <code>SpectreAgent</code> does not need call <code>number</code> on <code>spectre_member</code> anymore—<code>number</code> is delegated back directly to its “origin” class <code>SpectreMember</code>.</p>
+
+<p>In case this is a little confusing at first, how does this work exactly? You tell delegate which <code>:method_name</code> it should delegate <code>to:</code> which <code>:class_name</code> (multiple method names are fine too). The <code>prefix: true</code> part is optional. In our case, it prefixed the snake-cased class name of the receiving class before the method name and enabled us to call <code>operation.spectre_member_name</code> instead of the potentially ambiguous <code>operation.name</code>—if we had not used the prefix option. This works really nice with <code>belongs_to</code> and <code>has_one</code> associations. On the <code>has_many</code> side of things the music will stop and you will run into trouble though. These associations provide you with a collection proxy that will throw NameErrors or NoMethodErros at you when you delegate methods to these “collections”.</p>
+
+<ul>
+<li><h3>Spaghetti SQL</h3></li>
+</ul>
+
+
+<p>To round off this chapter about model AntiPatterns in Rails I’d like to spend a little time on what to avoid when SQL is involved. Active Record associations provide options that make your lives substantially easier when you are aware what you should stay away from. Finder methods are a whole topic on their own—and we won’t cover them in their full depth—but I wanted to mention a few common techniques that help you even when you write very simple ones.</p>
+
+<p>Things that we should be concerned about echo most of what we learned so far. We want to have intention-revealing, simple and reasonably named methods for finding stuff in our models. Let’s dive right into code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:agents</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@agents</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">operation_id</span><span class="p">:</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks harmless, no? We’re juuust looking for a bunch of agents that have the licence to kill for our ops page. Think again. Why should the <code>OperationsController</code> dig into the internals of <code>Agent</code>? Also, is this really the best we can do to encapsulate a finder on <code>Agent</code>? If you are thinking that you could add a class method like <code>Agent.find_licence_to_kill_agents</code> which encapsulates the finder logic you are definitely doing a step in the right direction—not nearly enough though.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_licence_to_kill_agents</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">operation_id</span><span class="p">:</span> <span class="n">operation</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@agents</span> <span class="o">=</span> <span class="no">Agent</span><span class="o">.</span><span class="n">find_licence_to_kill_agents</span><span class="p">(</span><span class="vi">@operation</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We have to be a bit more engaged than that. First of all, this is not using the associations to our advantage and encapsulation is also suboptimal. Associations like <code>has_many</code> come with the benefit that we can add on to the proxy array that we get returned. We could have done this instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Operation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:agents</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_licence_to_kill_agents</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@agents</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">find_licence_to_kill_agents</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works for sure but is also just another small step in the right direction. Yes, the controller is a bit better and we make good use of model associations but you should still be suspicious why <code>Operation</code> is concerned about the implementation of finding a certain type of <code>Agent</code>. This responsibility belongs back to the <code>Agent</code> model itself. Named scopes come in pretty handy with that. Scopes define chainable—very important—class methods for your models and thereby allow you the specify useful queries which you can use as additional method calls on top of your model associations. The following two approaches for scoping <code>Agent</code> are indifferent.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:licenced_to_kill</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">licenced_to_kill</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@agents</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>That is much better. In case the syntax of scopes is new to you, they are just (stabby) lambdas—not terribly important to look into them right away btw—and they are the proper way to call scopes since Rails 4. <code>Agent</code> is now in charge of managing its own search parameters and associations can just tuck on what they need to find. This approach let’s you achieve queries as single SQL calls. I personally like to use <code>scope</code> for its explicity and they are very handy to chain inside well-named finder methods—that way they increase the possiblity of reusing code and DRY-ing code. Let’s say we have something a bit more involved:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:licenced_to_kill</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:womanizer</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">womanizer</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:bond</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:gambler</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">gambler</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can now use all these scopes to custom build more comples queries.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@double_o_agents</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@bond</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">womanizer</span><span class="o">.</span><span class="n">gambler</span><span class="o">.</span><span class="n">licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sure that works but I’d like to suggest you go one step further.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Agent</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:operation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:licenced_to_kill</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:womanizer</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">womanizer</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:bond</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:gambler</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">gambler</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_licenced_to_kill</span>
+</span><span class='line'>    <span class="n">licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_licenced_to_kill_womanizer</span>
+</span><span class='line'>    <span class="n">womanizer</span><span class="o">.</span><span class="n">licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_gambling_womanizer</span>
+</span><span class='line'>    <span class="n">gambler</span><span class="o">.</span><span class="n">womanizer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OperationsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@double_o_agents</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">find_licenced_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@operation</span> <span class="o">=</span> <span class="no">Operation</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@bond</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">find_licenced_to_kill_womanizer</span>
+</span><span class='line'>    <span class="c1">#or</span>
+</span><span class='line'>    <span class="vi">@bond</span> <span class="o">=</span> <span class="vi">@operation</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">bond</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, through this approach we reap the benefits of proper encapsulation, model associations, code reuse and expressive naming of methods—and all while doing single SQL queries. No more spaghetti code, awesome! If you are worried about violating the Law of Demeter thingie you will be pleased to hear that since we are not adding dots by reaching into the associated model but chaining them only onto their own object we are not commiting any demeter crimes.</p>
+
+<ul>
+<li><h3>Final thoughts</h3></li>
+</ul>
+
+
+<p>From a beginner’s perspective I think you have learned a lot about better handling of Rails Models and how to model them more robustly without calling for a hangman. Don’t be fooled though in thinking that there isn’t a lot more to learn on this particular topic. I presented you with a few AntiPatterns that I think newbies are able to easily understand and handle in order to protect themselves early on. If you don’t know what you don’t know, plenty of rope is available for looping around your neck. Although this was a solid start into this topic, there are not only more aspects to AntiPatterns in Rails models but also more nuances which you’ll need to explore as well. These were the basics—very essential and important ones—and you should feel accomplished for a little while that you haven’t waited until much later in your career to figure them out.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-13T04:29:10+01:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/antipatterns/'>antipatterns</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/code-smells/'>code smells</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/object-oriented-programming/'>object oriented programming</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/11/28/Middleman-Basics-04-Podcast-02/" title="Previous Post: Middleman Basics 04-Podcast Site (Part 02)">&laquo; Middleman Basics 04-Podcast Site (Part 02)</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2015/12/28/Middleman-Basics-05-Podcast-03/" title="Next Post: Middleman Basics 05-Podcast Site (Part 03)">Middleman Basics 05-Podcast Site (Part 03) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

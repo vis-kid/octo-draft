@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby / Rails Code Smell Basics 04 - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Code-Smells-04/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby / Rails Code Smell Basics 04</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-28T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/code_smells/code_smell_01_600_mirrored.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it felt unnecessary foggy to get into code smells and refactorings. On the one hand, authors expect a certain level of proficiency and therefore might not feel super compelled to provide the reader with the same amount of context as a newbie might need to comfortably dive into this world sooner. As a consequence maybe, newbies on the other hand form the impression that they should wait a bit longer until they are more advanced to learn about smells and refactorings. I do not agree with that approach and think that making this topic more approachable will help them design better software earlier in their career. At least I hope it helps to provide junior peeps with a solid head start.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Comments</li>
+<li>Callbacks</li>
+<li>Shitty Names</li>
+<li>Mixins</li>
+<li><p>Data Clumps</p></li>
+<li><h3>A Final Whiff</h3></li>
+</ul>
+
+
+<p>The last article in this mini series is something like a bonus round. I wanted to introduce you to a another couple of smells that can be addressed quickly and without much fuzz. One for the road so to speak. I think with the knowledge you gathered from the previous articles, most of them won’t even need code examples to wrap your head around. When you open a book about refactoring you will easily find more smells than we have discussed. However, with these major ones under your belt you will be well prepared to deal with any of them.</p>
+
+<ul>
+<li><h3>Comments</h3></li>
+</ul>
+
+
+<p>Generously applied comments are rarely a good idea—probably never. Why not? Because it might suggest that your design is not speaking for itself. That means your code is probably so complicated to understand that it needs literal explanations. First of all, who wants to go through hoards of text in your code—or worse, through code that is hard to understand. Jackpot if both are a common occurrence. That’s just bad form and not very considerate of people who come after you—no offence masochists, torture your future self all you want.</p>
+
+<p>You want to write code that is expressive enough in itself. Create classes and methods that speak for themselves. In the best scenario, they tell a story that is easy to follow. That is probably one of the reasons <em>conventions over configurations</em> became so influential. Reinventing the wheel is certainly sometimes a good practice to sharpen your understanding and to explore new territory, but in fast-paced development environments your colleagues are looking for clarity and quick navigation—not only within your files but also within the mental map you create in your code.</p>
+
+<p>I don’t wanna drift off in a whole nother topic, but naming plays a big role in all of that. And excessive commenting within your code is a little bit contradicting good naming practices / conventions. Don’t get me wrong, it’s fine to add comments, just stay on the path that “illumintates” your code—not distract from it. They should certainly not be instructions for clever code that mostly you can decipher because you wanted to show off. If you keep your methods simple—as you should be—and name everything with consideration then you have little need to write whole novels in between your code.</p>
+
+<p>Stay away from the following:</p>
+
+<ul>
+<li>Todo lists</li>
+<li>Dead code commented out</li>
+<li>Comments in method bodies</li>
+<li>More than one comment per method</li>
+</ul>
+
+
+<p>It’s also useful to break out parts of methods via <em>extract method</em> and giving this part of a method a name that tells us about its responsibility—rather than have all the details clutter up a high-level understanding of what’s going on within the method’s body.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_new_agent</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="c1"># create new agent</span>
+</span><span class='line'><span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'><span class="n">click_on</span>     <span class="s1">&#39;Create Agent&#39;</span>
+</span><span class='line'><span class="n">fill_in</span>      <span class="s1">&#39;Agent Name&#39;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s1">&#39;Jinx&#39;</span>
+</span><span class='line'><span class="n">fill_in</span>      <span class="s1">&#39;Email&#39;</span><span class="p">,</span>      <span class="ss">with</span><span class="p">:</span> <span class="s1">&#39;jinx@nsa.com&#39;</span>
+</span><span class='line'><span class="n">fill_in</span>      <span class="s1">&#39;Password&#39;</span><span class="p">,</span>   <span class="ss">with</span><span class="p">:</span> <span class="s1">&#39;secretphrase&#39;</span>
+</span><span class='line'><span class="n">click_button</span> <span class="s1">&#39;Submit&#39;</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What is easier to read? A no brainer of course! Use the free mileage you get by naming things properly via extracted methods. It makes your code so much smarter and easier to digest—plus the benefits of refactoring in one place if reused of course. I bet this will help trim down your comments by a very significant amount.</p>
+
+<ul>
+<li><h3>Callbacks</h3></li>
+</ul>
+
+
+<p>This is a simple one. Don’t use callbacks that are not related to persistence logic! Your objects have a persistence life cycle—creating, saving and deleting objects so to speak—and you don’t want to “pollute” that logic with other behaviour like business logic of your classes. Keep it simple, remember? Typical examples of what to avoid is sending emails, processing  payments and stuff. Why not? Because debugging and refactoring your code should be as easy as possible and messy callbacks have a reputation of interfering with these plans. Callbacks make it a bit too easy to muddy the waters and to shoot yourself in the foot multiple times.</p>
+
+<p>Another problematic point about callbacks is that it can hide the implementation of business logic in methods like <strong>#save</strong> or <strong>#create</strong>. So don’t be lazy and abuse them just because it seems convenient!  The biggest concern is coupling of concerns of course. Why let the create method of <strong>SpectreAgent</strong> for example deal with the delivery of a <strong>#mission_assignment</strong> or something. As so often, just because we can do it—easily—doesn’t mean we should. It’s a guaranteed bite in the ass waiting to happen. The solution is actually pretty straightforward. If a callback’s behaviour has nothing to do with persistence simply create another method for it and you’re done.</p>
+
+<ul>
+<li><h3>Shitty Names</h3></li>
+</ul>
+
+
+<p>Sorry to be so blunt, but just calling poor naming choices uncommunicative or simply bad doesn’t do the consequences justice I think. In effect, you are wasting other peoples’s time with bad naming choices—or even better your own if you have to revisit that piece of code in the future. The code you write are instructions to be read by you and other people and therefore a purely logical, super prosaic, overly clever, or worse, a plain lazy approach to naming things is one of the worst things you can leave behind. Aim to make your code easier to understand by providing better names.</p>
+
+<p>Clarity trumps false cleverness or unneccessary conciseness any day of the week! Work hard on naming methods, variables! and classes that make it easy to follow some sort of thread. I don’t wanna go as far as to say that you should aim for trying to tell a story but if you can, go for it! Machines are not the ones who need to “read” your code—it’s run by them of course. Maybe it’s one reason why the term “Software Writer” grew on me a bit as of lately—not because the engineering aspect should be diminished—but writing software is more than writing soulless instructions for machines—at least software that is elegant and sparks joy to work with. Don’t freak out if this turns out to be a lot more difficult than you thought. Naming is notoriously hard!</p>
+
+<ul>
+<li><h3>Mixins</h3></li>
+</ul>
+
+
+<p>Mixins are a smell? Well, let’s say they can be smelly. Multiple inheritance through Mixins can be useful but there are a couple of things that make them less useful than you might have thought when you started out with OOP:</p>
+
+<ul>
+<li>They are trickier to test.</li>
+<li>They can’t have their own state.</li>
+<li>They “pollute” the namespace a bit.</li>
+<li>It’s not always super clear where functionality comes from—since it’s mixed in.</li>
+<li>They can inflate the size of classes / number of methods drastically. Small classes rule, remember?</li>
+</ul>
+
+
+<p>I suggest you read up a bit on “<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">Composition Over Inheritance</a>”. The gist of it is that you should rely more on reuse of your own, separately composed classes than on inheritance / subclassing. Mixins are a form of inheritance that can be put to good use but also something you should be a bit suspicious about.</p>
+
+<ul>
+<li><h3>Data Clumps</h3></li>
+</ul>
+
+
+<p>Watch out for repeatedly passing the same multiple arguments into your methods. That often suggests that they have a relationship that can be extracted into a class of its own—which can in turn often drastically simplify feeding these methods with data by reducing the size of arguments. If it’s worth introducing a new dependency is the thing you have to weigh though.</p>
+
+<p>This smell is another form of subtle duplication that we can handle better. A good example is passing a long list of arguments that make up an address and credit card info. Why not package these infos in an existing class or extract a new class first and pass in the address and credit card objects instead. Another way to think about is having a range object instead of a start and an end. In case you have instance variables that fall for that smell then extracing a class is worth considering. In other cases, a <em>parameter object</em> might offer the same quality of abstraction.</p>
+
+<p>You’ll know that you have achieved a small win if your system is easier to understand and that you found a new concept—like credit card—that you could encapsulate into an object.</p>
+
+<ul>
+<li><h3>Final Thoughts</h3></li>
+</ul>
+
+
+<p>Congratulations! You have leveled up your OOP skills significantly! Boss level status is approaching. No seriously, great job if this whole topic was rather new to you! As a final recommendation, I want you to take away one thing. Please remember that there is no recipe that will always work. You will need to weigh every problem differently and often mix different techniques to fit your needs. Also, for the rest of your career, this is most likely something you’ll never stop struggling with—I guess a good struggle though, a creative and challenging one. This is a little guess, but I feel that if you understood most of the topics we covered, you’ll be well on your way to write code other developers like to discover. Thanks for your time reading this little series and good luck becoming a happy hacker!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-28T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/code-smells/'>code smells</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/object-oriented-programming/'>object oriented programming</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Code-Smells-04/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Code-Smells-04/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/11/23/Code-Smells-03/" title="Previous Post: Ruby / Rails Code Smell Basics 03">&laquo; Ruby / Rails Code Smell Basics 03</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2015/11/28/Middleman-Basics-04-Podcast-02/" title="Next Post: Middleman Basics 04-Podcast Site (Part 02)">Middleman Basics 04-Podcast Site (Part 02) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

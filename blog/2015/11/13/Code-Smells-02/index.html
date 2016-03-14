@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby / Rails Code Smells 02 - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Code-Smells-02/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby / Rails Code Smells 02</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-13T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/code_smells/code_smell_01_600_mirrored.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it felt unneccessary foggy to get into code smells and refactorings. On the one hand, authors expect a certain level of proficiency and therefore might not feel super compelled to provide the reader with the same amount of context as a newbie might need to comfortably dive into this world sooner. As a consequence maybe, newbies on the other hand form the impression that they should wait a bit longer until they are more advanced to learn about smells and refactorings. I do not agree with that approach and think that making this topic more approachable will help them design better software earlier in their career. At least I hope it helps to provide junior peeps with a solid head start.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Feature Envy</li>
+<li>Shotgun Surgery</li>
+<li>Divergent Change</li>
+</ul>
+
+
+<p>What you’ll quickly realize with code smells is that some of them are very close cousins, even their refactorings are sometimes related—like <strong>Inline Class</strong> and <strong>Extract Class</strong> are not that very different. With inlining a class for example, you extract the whole class while you get rid of the original one. So kinda extract class with a little twist. The point I’m trying to make is that you shouldn’t feel overwhelmed with the number of smells, refactorings and certainly not get discouraged by their clever names. Things like <strong>Shotgun Surgery</strong>, <strong>Feature Envy</strong>, <strong>Divergent Change</strong> might sound fancy and intimidating to people who just got started. Maybe I’m wrong of course.</p>
+
+<p>If you dive a little into this whole topic and play with a couple of refactorings for code smells yourself you’ll quickly see that they often end up in the same ball park. A lot of refactorings are simply different strategies to get to a point where you have classes that are concise, well organized and focused on a small amount of responsibilites. I think its fair to say that if you can achieve that you’ll be ahead of the pack most of the time—not that being ahead of others is so important but such class design is simply often missing in code from people before they’re considered “experts”. So why not get into the game early and build a concrete foundation for designing your code. Don’t believe your possibly own narrative that this is an advanced topic that you should maybe put off for a while until you’re ready. Even if you’re a newbie, if you take small steps you can wrap your head around smells and their refactorings a lot earlier than you might think.</p>
+
+<p>Before we dive into the mechanics, I wanna repeat an important point from the first article. Not every smell is inherently bad and not every refactoring is always worth it. You gotta decide on the spot—when you have all the relevant information at your disposal—if your code is more stable after a refactoring and if its worth your time to fix the smell.</p>
+
+<ul>
+<li><h3>Feature Envy</h3></li>
+</ul>
+
+
+<p>Let’s revisit an example from the previous article. We extracted a long list of parameters for <strong>#assign_new_mission</strong> into a <em>parameter object</em> via the <strong>Mission</strong> class. So far so cool.</p>
+
+<p><strong>M with feature envy</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">M</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">assign_new_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;Mission </span><span class="si">#{</span><span class="n">mission</span><span class="o">.</span><span class="n">mission_name</span><span class="si">}</span><span class="s2"> has been assigned to </span><span class="si">#{</span><span class="n">mission</span><span class="o">.</span><span class="n">agent_name</span><span class="si">}</span><span class="s2"> with the objective to </span><span class="si">#{</span><span class="n">mission</span><span class="o">.</span><span class="n">objective</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">mission</span><span class="o">.</span><span class="n">licence_to_kill</span>
+</span><span class='line'>      <span class="nb">print</span> <span class="s2">&quot; The licence to kill has been granted.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">print</span> <span class="s2">&quot; The licence to kill has not been granted.&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Mission</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:agent_name</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:licence_to_kill</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="ss">mission_name</span><span class="p">:</span> <span class="n">mission_name</span><span class="p">,</span> <span class="ss">agent_name</span><span class="p">:</span> <span class="n">agent_name</span><span class="p">,</span> <span class="ss">objective</span><span class="p">:</span> <span class="n">objective</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="n">licence_to_kill</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@mission_name</span>    <span class="o">=</span> <span class="n">mission_name</span>
+</span><span class='line'>    <span class="vi">@agent_name</span>      <span class="o">=</span> <span class="n">agent_name</span>
+</span><span class='line'>    <span class="vi">@objective</span>       <span class="o">=</span> <span class="n">objective</span>
+</span><span class='line'>    <span class="vi">@licence_to_kill</span> <span class="o">=</span> <span class="n">licence_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mission_name</span><span class="p">:</span> <span class="s1">&#39;Octopussy&#39;</span><span class="p">,</span> <span class="ss">agent_name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">objective</span><span class="p">:</span> <span class="s1">&#39;find the nuclear device&#39;</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">m</span><span class="o">.</span><span class="n">assign_new_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># =&gt; &quot;Mission Octopussy has been assigned to James Bond with the objective to find the nuclear device. The licence to kill has been granted.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I briefly mentioned how we can simplyfy the <strong>M</strong> class even more by moving the method <strong>#assign_new_mission</strong> to the new class for the parameter object. What I didn’t address was the fact that <strong>M</strong> had an easily curable form of <em>feature envy</em> as well. <strong>M</strong> was way too nosy about attributes of <strong>Mission</strong>. Put differently, she asked way to many “questions” about the mission object. Its not only a bad case of micromanagement but also a very common code smell.</p>
+
+<p>Let me show you what I mean. In <strong>M#assign_new_mission</strong>, <strong>M</strong> is “envious” about the data in the new parameter object and wants to access it all over the place.</p>
+
+<ul>
+<li><strong>mission.mission_name</strong></li>
+<li><strong>mission.agent_name</strong></li>
+<li><strong>mission.objective</strong></li>
+<li><strong>mission.licence_to_kill</strong></li>
+</ul>
+
+
+<p>In addition to that, you also have a parameter object <strong>Mission</strong> that is only responsible for data right now—which is another smell, a <em>Data Class</em>.</p>
+
+<p>This whole situation tells you basically that <strong>#assign_new_mission</strong> wants to be somewhere else and <strong>M</strong> doesn’t need to know the details of how missions get assigned. After all, why wouldn’t it be a missions’ responsibility to assign new missions? Remember to always to put things together that also change together.</p>
+
+<p><strong>M without feature envy</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">M</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">assign_new_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mission</span><span class="o">.</span><span class="n">assign</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Mission</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:mission_name</span><span class="p">,</span> <span class="ss">:agent_name</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:licence_to_kill</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="ss">mission_name</span><span class="p">:</span> <span class="n">mission_name</span><span class="p">,</span> <span class="ss">agent_name</span><span class="p">:</span> <span class="n">agent_name</span><span class="p">,</span> <span class="ss">objective</span><span class="p">:</span> <span class="n">objective</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="n">licence_to_kill</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@mission_name</span>    <span class="o">=</span> <span class="n">mission_name</span>
+</span><span class='line'>    <span class="vi">@agent_name</span>      <span class="o">=</span> <span class="n">agent_name</span>
+</span><span class='line'>    <span class="vi">@objective</span>       <span class="o">=</span> <span class="n">objective</span>
+</span><span class='line'>    <span class="vi">@licence_to_kill</span> <span class="o">=</span> <span class="n">licence_to_kill</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">assign</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;Mission </span><span class="si">#{</span><span class="n">mission_name</span><span class="si">}</span><span class="s2"> has been assigned to </span><span class="si">#{</span><span class="n">agent_name</span><span class="si">}</span><span class="s2"> with the objective to </span><span class="si">#{</span><span class="n">objective</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">licence_to_kill</span>
+</span><span class='line'>      <span class="nb">print</span> <span class="s2">&quot; The licence to kill has been granted.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">print</span> <span class="s2">&quot; The licence to kill has not been granted.&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">mission</span> <span class="o">=</span> <span class="no">Mission</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mission_name</span><span class="p">:</span> <span class="s1">&#39;Octopussy&#39;</span><span class="p">,</span> <span class="ss">agent_name</span><span class="p">:</span> <span class="s1">&#39;James Bond&#39;</span><span class="p">,</span> <span class="ss">objective</span><span class="p">:</span> <span class="s1">&#39;find the nuclear device&#39;</span><span class="p">,</span> <span class="ss">licence_to_kill</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">m</span><span class="o">.</span><span class="n">assign_new_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, we simplified things quite a bit. The method slimmed down significantly and delegates the behaviour to the object in charge. <strong>M</strong> does not request mission data specifics anymore and certainly stays away from getting involved in how assigments get printed. Now she can focus on her real job and doesn’t need to be disturbed if any details of mission assignments change. More time for mind games and hunting down rogue agents. Win-win!</p>
+
+<p>Feature envy breeds entanglement—by that I don’t mean the good kind, the one that let’s information travel faster than light spookingly—I’m talking about the one that over time might let your development momentum grind to an every more approaching halt. Not good! Why so? Ripple effects throughout your code will create resitance! A change in one place butterflies through all kinds of stuff and you end up as a kite in a hurricane. (Ok, a bit overly dramatic, but I give myself a B+ for the Bond reference in there.)</p>
+
+<p>As a general antidote for feature envy, you wanna aim for designing classes that are concerned mostly about their own stuff and have—if possible—single responsibilities. In short, classes should be something like friendly otakus. Socially that might not be the healthiest of behaviours but for designing classes it often is a reasonable guideline to keep your momentum where it should be—moving forward!</p>
+
+<ul>
+<li><h3>Shotgun Surgery</h3></li>
+</ul>
+
+
+<p>The name is a little bit silly, isn’t? But at the same time its a pretty accurate description. Sounds like serious business and it kinda is! Luckily its not that hard to grasp but none the less its one of the nastier code smells. Why? Because it breeds dupliction like no other and its easy to loose sight of all the changes you’d need to make to fix things. What happens during shotgun surgery is you make a change in one class / file and you need to touch many other classes / files as wellthat need to be updated. Hope that doesn’t sound like a good time you’re in for.</p>
+
+<p>For example, if you’re in a situation where you think you can get away with one little change in one place and then realize that you have to wade through a whole bunch of files to make either the same change or fix something else that is broken because of it. NOT good, not at all! That sounds more like a good reason why people start to hate the code they’re dealing with. If you have a spectrum with DRY code on one side then code that often needs shotgun surgery is pretty much on the opposite end. Don’t be lazy and let yourself enter that territory. I’m sure you’d rather open one file and apply your changes there and be done with it. That’s the kind of lazy you should strive for!</p>
+
+<p>To avoid this smell here’s a short list of symptoms you can look out for:</p>
+
+<ul>
+<li>Feature Envy</li>
+<li>Tight coupling</li>
+<li>Long Parameter List</li>
+<li>Any form of code duplication</li>
+</ul>
+
+
+<p>What do we mean when we talk about code that is coupled. Let’s say we have objects <strong>A</strong> and <strong>B</strong>. If they are not coupled then you can change one of them without affecting the other. Otherwise you’ll more often than not also have to deal with the other object as well. This is a problem and shotgun surgery is a symptom for tight coupling as well. So always watch out how easy you can change your code. If its relatively easy it means that your level of coupling is acceptably low. Having said that, I realize that your expectations would be  unrealistic if you expect to be able to avoid coupling all the time at all costs. That’s not gonna happen! You will find good reasons to decide against that urge—like replacing conditionals with <em>Polymorphism</em>. In such a case, a litle bit of coupling, shotgun surgery and keeping the API of objects in sync is well worth getting rid of a ton of case statements via a <strong>Null Object</strong> (More on that in a later piece).</p>
+
+<p>Most commonly you can apply one of the following refactorings to heal the wounds:</p>
+
+<ul>
+<li>Move Field</li>
+<li>Inline Class</li>
+<li>Extract Class</li>
+<li>Move Method</li>
+</ul>
+
+
+<p>Let’s look at some code. This example is a slice of how a Spectre app handles payments between their contractors and evil clients. I simplified the payments a bit by having standard fees for both contractors and clients. So it doesn’t matter if Spectre is tasked to kidnap a cat or extort a whole country, the fee stays the same. Same goes for what they pay their contractors. In the rare case an operation goes south and another Nr. 2 has to literally jump the shark, Spectre offers a full refund to keep evil clients happy. Spectre uses some proprietory payment gem that is basically a placeholder for any kind of payment processor. In the first example below it would be a pain if Spectre decides to use another library to handle payments. There would be more moving parts involved but for demonstrating shotgun surgery this amount of complexity will do I think:</p>
+
+<p><strong>Example with shotgun surgery smell</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EvilClient</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">STANDARD_CHARGE</span> <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">BONUS_CHARGE</span>    <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">accept_new_client</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">STANDARD_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_successful_operation</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">BONUS_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">REFUND_AMOUNT</span> <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">refund</span>
+</span><span class='line'>    <span class="n">transaction_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_transaction</span><span class="p">(</span><span class="n">payments_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">refund</span><span class="p">(</span><span class="n">transaction_id</span><span class="p">,</span> <span class="no">REFUND_AMOUNT</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Contractor</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">STANDARD_PAYOUT</span> <span class="o">=</span> <span class="mi">200000</span>
+</span><span class='line'>  <span class="no">BONUS_PAYOUT</span>    <span class="o">=</span> <span class="mi">1000000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">process_payout</span>
+</span><span class='line'>    <span class="n">spectre_agent_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_contractor</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">enemy_agent</span> <span class="o">==</span> <span class="s1">&#39;James Bond&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">operation</span><span class="o">.</span><span class="n">enemy_agent_status</span> <span class="o">==</span> <span class="s1">&#39;Killed in action&#39;</span>
+</span><span class='line'>      <span class="no">PaymentGem</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">BONUS_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="no">PaymentGem</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">STANDARD_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you look at this code you should ask yourself, should the <strong>EvilClients</strong> class be really concerned about how the payment processor accepts new evil clients and how they are charged for operations? Of course not! Is it a good idea to spread the various amounts to pay all over the place? Should the implementation details of the payments processor be showing up in any of these classes. Most definitely not!</p>
+
+<p>Look at it from that way. If you wanna change stuff on the way you handle payments, why would you need to open the <strong>EvilClient</strong> class? In other cases it could be user or customer. If you think about it, it doesn’t make any sense to familiarize them with this process. In this example it should be easy to see that changes to the way you accept and transfer payments create ripple effects throughout your code. Also, if you wanna change the amount you charge or transfer to your contractors you’d need addtional changes all over the place. Prime examples of shotgun surgery. And in this case we’re only dealing with three classes. Imagine your pain if a bit more realistic complexity is involved. Yep, that’s the stuff nightmares are made of. Let’s look at an example that is a bit more sane:</p>
+
+<p><strong>Example without shotgun surgery smell and extracted class</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PaymentHandler</span>
+</span><span class='line'>  <span class="no">STANDARD_CHARGE</span>            <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">BONUS_CHARGE</span>               <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">REFUND_AMOUNT</span>              <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">STANDARD_CONTRACTOR_PAYOUT</span> <span class="o">=</span> <span class="mi">200000</span>
+</span><span class='line'>  <span class="no">BONUS_CONTRACTOR_PAYOUT</span>    <span class="o">=</span> <span class="mi">1000000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">payment_handler</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span> <span class="o">=</span> <span class="n">payment_handler</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">accept_new_client</span><span class="p">(</span><span class="n">evil_client</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">evil_client</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span><span class="p">(</span><span class="n">evil_client</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">evil_client</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">STANDARD_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_successful_operation</span><span class="p">(</span><span class="n">evil_client</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">evil_client</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">BONUS_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">refund</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">transaction_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_transaction</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">payments_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">refund</span><span class="p">(</span><span class="n">transaction_id</span><span class="p">,</span> <span class="no">REFUND_AMOUNT</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">contractor_payout</span><span class="p">(</span><span class="n">contractor</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_agent_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_contractor</span><span class="p">(</span><span class="n">contractor</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">enemy_agent</span> <span class="o">==</span> <span class="s1">&#39;James Bond&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">operation</span><span class="o">.</span><span class="n">enemy_agent_status</span> <span class="o">==</span> <span class="s1">&#39;Killed in action&#39;</span>
+</span><span class='line'>      <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">BONUS_CONTRACTOR_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">STANDARD_CONTRACTOR_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EvilClient</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">accept_new_client</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">accept_new_client</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">charge_for_initializing_operation</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_successful_operation</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">charge_for_successful_operation</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">refund</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">refund</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Contractor</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">process_payout</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">contractor_payout</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What we did here is wrap the <strong>PaymentGem</strong> API in our own class. Now we have one central place where we apply our changes if we decide that for example a <strong>SpectrePaymentGem</strong> would work better for us. No more touching of multiple—to payments’ internals unrelated—files if we need to adapt to changes. In the classes that deal with payments we simply instantiated the <strong>PaymentHandler</strong> and delegate the needed functionality. Easy, stable and no reason to change.</p>
+
+<p>And not only have we contained everything in a single file. Within the <strong>PaymentsHandler</strong> class, there is only one place we need to swap out and reference a possible new payement processor—in <strong>initialize</strong>. That is rad in my book. Sure, if the new payment service has a completely different API you need to tweak the bodies of a couple of methods in <strong>PaymentHandler</strong>. It’s a tiny price to pay compared to full on shotgun surgery—that’s more like surgery for a small splinter in your finger. Good deal!</p>
+
+<p>If you’re not careful when you write tests for a payment processor like this—or any external service you need to rely on—you are possibly in for serious headaches when they change their API. They “suffer from change” as well of course. And the question is not will they change their API, only when. Through our encapsulation we’re in a much better postion to stub our methods for the payment processor. Why? Because the methods we stub are our own and they only change when we want them to. That is a big win. If you’re new to testing and this is not completely clear to your don’t worry about it. Take your time, this topic can be tricky at first. Because its such an advantage I just wanted to mention it for completeness sake.</p>
+
+<p>As you can see I simplified payments processing quite a bit in this silly example. I could have cleaned the final result some more as well but the point was to clearly demonstrate the smell and how you can get rid of it through abstraction. If you’re not completely happy with this class and see opportunities for refactoring I salute you—and am happy take credit for it. I recommend you knock yourself out! A good start might be dealing with the way you find <strong>payments_id</strong>s. The class itself also got a bit crowded already…</p>
+
+<ul>
+<li><h3>Divergent Change</h3></li>
+</ul>
+
+
+<p>Divergent change is kinda the opposite of shotgun surgery—where you want to change one thing and need to blast that change through a bunch of different files. Here a single class is often changed for different reasons and in different ways. My recommendation is to identify parts that change together and extract them in a separate class that can focus on that single responsibility. These classes in turn should also have no more than one reason to change—if not, another divergent change smell is most likely waiting to bite you.</p>
+
+<p>Classes that suffer from divergent change are ones that get changed a lot. With tools like <a href="https://github.com/danmayer/churn">Churn</a> you can measure how often particular parts of your code needed to change in the past. The more points you find on a class the higher the probability that divergent change might be at work. I also wouldn’t be surprised if exactly these classes are ones that cause the most bugs overall.</p>
+
+<p>Don’t get me wrong, getting changed often itself is not directly the smell—its a useful symptom though. Another very common and more explicit symptom is that this object needs to juggle more than one responsibility. The <em>single responsibility principle</em> <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">SRP</a> is an excellent guideline to prevent this code smell and to write more stable code in general. It can be tricky to follow though—but nevertheless still worth the grind.</p>
+
+<p>Let’s look at this nasty example below. I modified the shotgun surgery example a bit. <a href="https://en.wikipedia.org/wiki/Ernst_Stavro_Blofeld">Blofeld</a>, head of <em>Spectre</em>, might be known to micromanage stuff but I doubt he would be interested in half the stuff this class is involved with.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Spectre</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">STANDARD_CHARGE</span> <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">STANDARD_PAYOUT</span> <span class="o">=</span> <span class="mi">200000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">STANDARD_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">contractor_payout</span><span class="p">(</span><span class="n">contractor</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_agent_id</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="o">.</span><span class="n">find_contractor</span><span class="p">(</span><span class="n">contractor</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="no">PaymentGem</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">STANDARD_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">assign_new_operation</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">operation</span><span class="o">.</span><span class="n">contractor</span> <span class="o">=</span> <span class="s1">&#39;Some evil dude&#39;</span>
+</span><span class='line'>    <span class="n">operation</span><span class="o">.</span><span class="n">objective</span>  <span class="o">=</span> <span class="s1">&#39;Steal a boatload of valuable stuff&#39;</span>
+</span><span class='line'>    <span class="n">operation</span><span class="o">.</span><span class="n">deadline</span>   <span class="o">=</span> <span class="s1">&#39;Midnight, November 18th&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_operation_assignment</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">operation</span><span class="o">.</span><span class="n">contractor</span><span class="si">}</span><span class="s2"> is assigned to </span><span class="si">#{</span><span class="n">operation</span><span class="o">.</span><span class="n">objective</span><span class="si">}</span><span class="s2">. The mission deadline ends at </span><span class="si">#{</span><span class="n">operation</span><span class="o">.</span><span class="n">deadline</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">dispose_of_agent</span><span class="p">(</span><span class="n">spectre_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;You disappointed this organisation. You know how Spectre handles failure. Good bye </span><span class="si">#{</span><span class="n">spectre_agent</span><span class="o">.</span><span class="n">code_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <strong>Spectre</strong> class has way too many different things it is concerned about:</p>
+
+<ul>
+<li>Assigning new operations</li>
+<li>Charging for their dirty work</li>
+<li>Printing mission assignments</li>
+<li>Killing unsuccessful spectre agents</li>
+<li>Dealing with the PaymentGem internals</li>
+<li>Paying their Spectre agents / contractors</li>
+<li>It also knows about the amounts of money for charging and payout</li>
+</ul>
+
+
+<p>Seven different responsibilities on a single class. Not good!  You need to change how agents are disposed of? One vector for changing the <strong>Spectre</strong> class. You wanna handle payouts differently? Another vector. You get the drift. Although this example is far from being realistic, it still tells the story how easy it is to uneccessarily amass behaviour that needs to change frequently in a single place. We can do better!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Spectre</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">dispose_of_agent</span><span class="p">(</span><span class="n">spectre_agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;You disappointed this organisation. You know how Spectre handles failure. Good bye </span><span class="si">#{</span><span class="n">spectre_agent</span><span class="o">.</span><span class="n">code_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">PaymentHandler</span>
+</span><span class='line'>  <span class="no">STANDARD_CHARGE</span>            <span class="o">=</span> <span class="mi">10000000</span>
+</span><span class='line'>  <span class="no">STANDARD_CONTRACTOR_PAYOUT</span> <span class="o">=</span> <span class="mi">200000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">payment_handler</span> <span class="o">=</span> <span class="no">PaymentGem</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span> <span class="o">=</span> <span class="n">payment_handler</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span><span class="p">(</span><span class="n">evil_client</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">evil_client_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_client</span><span class="p">(</span><span class="n">evil_client</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="n">evil_client_id</span><span class="p">,</span> <span class="no">STANDARD_CHARGE</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">contractor_payout</span><span class="p">(</span><span class="n">contractor</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">spectre_agent_id</span> <span class="o">=</span> <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">find_contractor</span><span class="p">(</span><span class="n">contractor</span><span class="o">.</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">payments_id</span>
+</span><span class='line'>    <span class="vi">@payment_handler</span><span class="o">.</span><span class="n">transfer_funds</span><span class="p">(</span><span class="n">spectre_agent_id</span><span class="p">,</span> <span class="no">STANDARD_CONTRACTOR_PAYOUT</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EvilClient</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">charge_for_initializing_operation</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">charge_for_initializing_operation</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Contractor</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">process_payout</span>
+</span><span class='line'>    <span class="no">PaymentHandler</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">contractor_payout</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Operation</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:contractor</span><span class="p">,</span> <span class="ss">:objective</span><span class="p">,</span> <span class="ss">:deadline</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@contractor</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">[</span><span class="ss">:contractor</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@objective</span>  <span class="o">=</span> <span class="n">attrs</span><span class="o">[</span><span class="ss">:objective</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@deadline</span>   <span class="o">=</span> <span class="n">attrs</span><span class="o">[</span><span class="ss">:deadline</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">print_operation_assignment</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">contractor</span><span class="si">}</span><span class="s2"> is assigned to </span><span class="si">#{</span><span class="n">objective</span><span class="si">}</span><span class="s2">. The mission deadline ends at </span><span class="si">#{</span><span class="n">deadline</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we extracted a bunch of classes and gave them their own unique responsiblities—and therefore their own contained reason to change. You want to handle payments differently? Now you won’t need to touch the <strong>Spectre</strong> class. You need to charge or payout differently? Again, no need to open the file for <strong>Spectre</strong>. Printing operation assignments is now the business of operation—where it belongs. That’s it. Not too complicated I think but definitely one of the more common smells you should learn to handle early imho.</p>
+
+<h3>Final Thoughts</h3>
+
+<p>I hope you got to the point where you feel ready to try these refactorings in your own code and have an easier time identifying code smells around you. Beware that we just got started but that you already tackled a couple of big ones. I bet it was not as tricky as you once might have thought! Sure, real world examples will be a lot more challenging, but if you have understood the mechanics and patterns to spot smells, you’ll surely be able to adapt quickly to realistic complexities.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-13T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/bdd/'>bdd</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/factory-girl/'>factory girl</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rspec/'>rspec</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/tdd/'>tdd</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/test-driven-design/'>test-driven-design</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/thoughtbot/'>thoughtbot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Code-Smells-02/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Code-Smells-02/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/11/05/Middleman-01/" title="Previous Post: Middleman Basics 01">&laquo; Middleman Basics 01</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2015/11/13/Middleman-Bascis-02/" title="Next Post: Middleman Basics 02">Middleman Basics 02 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

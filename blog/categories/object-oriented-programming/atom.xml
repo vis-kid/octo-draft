@@ -1,0 +1,2110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Object Oriented Programming | Drafts Previewer]]></title>
+  <link href="http://vis-kid.github.io/octo-draft/blog/categories/object-oriented-programming/atom.xml" rel="self"/>
+  <link href="http://vis-kid.github.io/octo-draft/"/>
+  <updated>2016-03-14T22:45:33+01:00</updated>
+  <id>http://vis-kid.github.io/octo-draft/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AntiPatterns Basics Rails—Tests]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/"/>
+    <updated>2016-02-10T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/02/10/AntiPattern-Basics-Rails-Tests</id>
+    <content type="html"><![CDATA[<p><img src="/images/AntiPatterns/Tests/electric-wiring.jpg" width="500"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Let</li>
+<li>Mystery Guests</li>
+<li>Obscure Tests</li>
+<li>Slow Tests</li>
+<li>Fixtures</li>
+<li>Brittle Tests</li>
+<li>Data Atributes</li>
+</ul>
+
+
+<h2>Let</h2>
+
+<pre><code class="ruby">
+describe Mission do
+  let(:james_bond)   { build_stubbed(:agent, name: 'James Bond', number: '007') }
+  let(:mission)      { build_stubbed(:mission, title: 'Moonraker') }
+
+...
+
+end
+</code></pre>
+
+<p>The <code>let</code> helper method in RSpec is very frequently used for creating instance variables that are available between multiple tests. As an eager student of TDD practices, you have probably written your fair share of these but following this practice can easily lead to having lots of mystery guests showing up—see below—which is definitely not something we need to have crashing our party! This particular side effect of <code>let</code> has gained a bit of a reputation to be possibly causing increased test maintenance and inferior readability throughout your test suite. <code>let</code> sure sounds enticing because it’s lazily evaluated and aids adhering to the usually zero-defect concept of DRY and all. Therefore it seems too good not to use on a regular basis. Its close cousin <code>subject</code> should also be avoided most of the time.</p>
+
+<p>It gets worse when you start nesting these things. An all-time favorite are let statements that are plastered all over nested <code>describe</code> blocks. I think it’s not unfair to call this a recipe for hanging yourself—quickly. More limited scope is generally easier to understand and follow. We don’t want to build a house of cards with semi-global let fixtures that obscure understanding and increase chances of breaking related tests. The odds of crafting quality code are stacked against us with such an approach. Extracting common object setup is also easier to do via plain old ruby methods or even classes if needed.</p>
+
+<p>This <code>let</code> creature is a widely shared fixture which will often need to be deciphered first before you know exactly what business this object has in your tests. Also going back and forth to understand what exactly they are made of and which relationships they have via associations can be a time consuming pain. The clarity of these details in your test setup usually help a lot to tell other developers all they need to work with every particular part of your test suite—don’t forget your future self! In a world where you never have to revisit particular tests and even never refactor parts of your test suite that might not matter as much—but that is a pipe dream for now!</p>
+
+<p>We want to have as few collaborators and as little data as possible for each test. <code>let</code> works not in your favor on that front as well. These let fixtures can amass a lot of attributes and methods that make them way too big as well. If you start going down the let road, you will often end up with pretty fat objects that try to make a lot of tests happy at the same time. Sure you can create lots of variations of these <code>let</code> thingies but that makes the whole idea of them a bit irrelevant I think. Why not go one step further, avoid let and rely on Ruby without RSpec DSL magic?</p>
+
+<p>I’m more in the camp of being rather on the side of repeated setup code for each test than being overly DRY, obscure or cryptic in my test suite. I’d always go for more readability. The test method should make clear the cause and effect of its involved pieces—using object collaborators that are possibly defined far away from your test exercise is not in your best interest. If you need to extract stuff, use expressive methods that encapsulate that knowledge. These are pretty much always a save bet. That way you can also supply the setup that you actually need for each test and not cause slow tests because you have unnecessary data involved. Good old variables, methods and classes are often all you need to provide faster, stable tests that are easier to read.</p>
+
+<h2>Mystery Guests</h2>
+
+<p>Mystery Guests are RSpec DSL Puzzles really. For a while, the various objects defined via RSpec DSL <code>let</code> are not that hard to keep in check but soon when the test suite grows, you invite a lot of mysterious guests into your specs. This gives your future self and others unnecessary context puzzles to solve. The result will be obscure tests that require you to go into full Sherlock Holmes mode. I guess that sounds way more fun than it is. Bottom line, it’s a waste of everybody’s time.</p>
+
+<p>Mystery Guests pose two problematic questions:</p>
+
+<ul>
+<li>Where is this object coming from?</li>
+<li>What exactly is it composed of?</li>
+</ul>
+
+
+<pre><code class="ruby">
+describe Mission do
+  let(:agent_01)   { build_stubbed(:agent, name: 'James Bond', number: '007') }
+  let(:agent_02)   { build_stubbed(:agent, name: 'Moneypenny', number: '243') }
+  let(:title)   { 'Moonraker' }
+  let(:mission) { build_stubbed(:mission, title: title) }
+  mission.agents &lt;&lt; agent_01 &lt;&lt; agent_02
+
+  #...
+  #...
+  #...
+  #lots of other tests
+
+  describe '#top_agent' do
+    it 'returns highest ranking agent associated to a mission' do
+      expect(mission.top_agent).to eq('James Bond')
+    end
+  end
+end
+</code></pre>
+
+<p>This describe block for <code>#top_agent</code> lacks clarity and context. What agent is involved and what mission are we talking about here? This forces developers to go hunting for objects that are suddenly popping up in your tests. Classic example of a mystery guest. When we have lots of code between the relevant test and the origin of these objects, you increase the chances of obscuring what’s going on in our tests.</p>
+
+<p>The solution is quite easy: You need fresh “fixtures” and build local versions of the objects with exactly the data that you need—and not more than that! Factory Girl is a good choice for handling this. This approach can be considered more verbose and you might be duplicating stuff sometimes—extracting stuff into a method is often a good idea—but it’s a lot more expressive and keeps tests focused while providing context.</p>
+
+<pre><code class="ruby">
+describe Mission do
+
+  #...
+  #...
+  #...
+  #lots of other tests
+
+  describe '#top_agent' do
+    it 'returns a list of all agents associated to a mission' do
+      agent_01 = build_stubbed(:agent, name: 'James Bond', number '007')
+      agent_02 = build_stubbed(:agent, name: 'Moneypenny', number '243')
+      mission  = build_stubbed(:mission, title: 'Moonraker')
+      mission.agents &lt;&lt; agent_01 &lt;&lt; agent_02
+
+      expect(mission.top_agent).to eq('James Bond')
+    end
+  end
+end
+</code></pre>
+
+<p>The example above builds all the objects needed for our tests in the actual test case and provides all the context wanted. The developer can stay focused on a particular test case and does not need to “download” another—possibly totally unrelated—test case for dealing with the situation at hand. No more obscurity!</p>
+
+<p>Yes, you are right, this approach means that we are not achieving the lowest level of duplication possible, but clarity in these cases is much more important for the quality of your test suite and therefore for the robustness of your project. The speed in which you can effectively apply changes to your tests plays also a role in that regard. Another important aspect of testing is that your test suite can not only function as documentation but absolutely should! Zero duplication is not a goal that has a positive effect for specs documenting your app. Keeping unnecessary duplication in check is nevertheless an important goal to not loose sight of—balance is king here!</p>
+
+<h2>Obscure Tests</h2>
+
+<p>Below is another example that tries to setup everything you need locally in the test but also fails because it’s not telling us the full story.</p>
+
+<pre><code class="ruby">
+context "agent status" do
+  it "returns the status of the mission’s agent" do
+    double_o_seven = build_stubbed(:agent)
+    mission = build_stubbed(:mission, agent: double_o_seven)
+
+    expect(mission.agent_status).to eq(double_o_seven.status)
+  end
+end
+</code></pre>
+
+<p>We are creating a generic agent. How do we know it’s 007? We are also testing for the agent’s status but it’s also nowhere to be found—neither in the setup nor explicitly during the verify phase in our <code>expect</code> statement. The relationship between the <code>double_o_seven.status</code> and the mission status could be confusing since it’s coming out of nowhere really. We can do better:</p>
+
+<pre><code class="ruby">
+context "agent status" do
+  it "returns the status of the mission’s agent" do
+    double_o_seven = build_stubbed(:agent, name: 'James Bond', status: 'Missing in action'))
+    mission = build_stubbed(:mission, agent: double_o_seven)
+
+    expect(mission.agent_status).to eq('James Bond: Missing in action')
+  end
+end
+</code></pre>
+
+<p>Again, here we have all we need to tell a story. All the data we need is right in front of us.</p>
+
+<h2>Slow Tests</h2>
+
+<p>So, you have started to get into Test-Driven-Development and you started to appreciate what if offers. Kudos, this is great! I’m sure, neither the decision to do it nor the learning curve to get there were exactly a piece of cake. But what often happens after this initial  step is that you try hard at having full test coverage and you start to realize that something is off when the speed of your specs start to annoy you. Why is your test suite getting slower and slower although you think you are doing all the right things? Feeling a bit punished for writing tests? Slow tests suck—big time! There are a couple of problems with them. The most important issue is that slow tests lead to skipping tests in the long run. Once you are at a point where your test suite takes forever to finish, you will be much more willing to think to yourself: “Screw this, I’ll run them later! I got better things to do than waiting for this stuff to finish.” And you are absolutely right, you have better things to do.</p>
+
+<p>The thing is, slow tests are more likely to welcome in compromises in the quality of your code than maybe obvious at first. Slow tests also fuel people’s arguments against TDD—unfairly so I think. I don’t even want to know what non-technical product managers have to say if you regularly have to step outside for a nice long coffee break just to run your test suite before you can continue your work. Let’s not go down that road! When you only need little time to exercise your tests and as a result get super quick feedback cycles for developing each step of new features, practicing TDD becomes a lot more attractive and less of an argument. With a little bit of work and care along the way, we can avoid slow mo tests quite effectively. Slow tests are also a killer for getting into the “zone”. If you get taken out of the flow this frequently in your process, the quality of your overall work might also suffer by having to wait for slow tests to return from an expensive round trip. You want to get as much “in-the-zone time” as possible—unbearably slow tests are major flow killers.</p>
+
+<p>Another issue worth mentioning in this context is that this might lead to having tests that cover your code, but because you won’t take time to finish exercising the whole suite, or write tests after the fact, your apps’ design won’t be driven by tests anymore. If you are not on the Test-Driven hype train this might not bother you much, but for TDD folks, that aspect is essential and should not be neglected. Bottom line, the faster your tests, the more you will be willing to exercise them—which is the best way to design apps as well as to catch bugs early and often. What can we do to speed up tests? There are two speeds that are important here:</p>
+
+<ul>
+<li>The speed in which your tests can really execute your suite.</li>
+<li>The speed for getting feedback from your test suite to design your app.</li>
+</ul>
+
+
+<h3>Avoid writing to the database as much as you can.</h3>
+
+<p>That does not mean that you should avoid it all costs. Often you don’t need to write tests that exercise the database and you can trim off a lot of time that your tests need to run. Using just <code>new</code> to instantiate an object is often sufficient for test setups. Faking out objects that are not directly under test is another viable option. Creating test doubles is a nice way to make your tests faster while keeping the collaborating objects you need for your setup super focused and lightweight. <a href="https://github.com/thoughtbot/factory_girl">Factory Girl</a> also gives you various options to smartly “create” your test data. But sometimes there is no way around to saving to the database (which is a lot less often than you might expect) and this is exactly where you should draw the line. Any other time, avoid it like hell and your test suite will stay fast and agile. In that regard you should also aim for a minimal amount of dependencies, which means the minimal amount of objects that you need collaborating to get your tests to pass—while saving as less as possible to the database along the way. Stubbing out objects—that are mere collaborators and not directly under test—often also make your setup easier to digest and simpler to create. A nice speed boost overall with very little effort.</p>
+
+<h3>Build your tests with the testing pyramid in mind.</h3>
+
+<p>This means that you want to have a majority of unit tests at the bottom of this hierarchy—which all focus on very specific parts of your application in isolation—and the smallest amount of integration tests at the top of this pyramid. Integration tests simulate a user going through your system while interacting with a bunch of components that are exercised around the same time. They are easy to write but not so easy to maintain—and the speed losses are not worth going the easy route. Integration tests are pretty much the opposite of unit tests in regard to being high level and sucking in a lot of components that you need to setup in your tests—which is one major reason why they are slower than unit tests. I guess this makes it clear why they should be at the top of your testing pyramid to avoid significant speed losses. Another important issue here is that you want to have as little overlap between these two test categories as possible—you ideally want to test things only once after all. You can’t expect to have perfect separation, but aiming for as little as possible is a reasonable and achievable goal.</p>
+
+<p>In contrast to unit tests, you want to test as few details as possible with integration tests. The inner mechanics should already be covered by extensive unit tests. Focus instead only on the most essential parts that the interactions need to be capable of exercising! The other main reason is that a webdriver needs to simulate going through a browser and interacting with a page. This approach fakes out nothing or very little, saves the stuff to the database and really goes through the UI. That’s also one reason they can be called acceptance tests because these tests try to simulate a real user experience. This is another major speed bump that you want to exercise as little as possible. If you have a ton of these tests—I guess more than 10% from your overall number of tests—you should slow down and reduce that number to the minimum amount possible. Also, keep in mind that sometimes you don’t need to exercise the whole app—a smaller, focused view test often does the trick as well. You will be much faster if you rewrite a couple of your integration tests that just test a little bit of logic that does not necessitate a full integration check. But don’t get into writing a ton of them either, they offer the least bang for the buck. That being said, intergration tests are vital to the quality of your test suite and you need to find a balance of being too stingy applying them and not having too much of them around.</p>
+
+<h3>Getting feedback from your app / tests fast.</h3>
+
+<p>Quick feedback and fast iteration cycles are key to designing your objects. Once you start to avoid running these tests frequently, you are loosing this advantage—which is a big aid for designing objects. Don’t wait until your Continuous Intergration service of choice kicks in to test your whole application. So what’s a magic number we should keep in mind when running tests? Well, different people will tell you different benchmarks for this. I think that staying under 30 seconds is a very reasonable number that makes it very likely to exercise a full test on a regular basis. If you leave that benchmark more and more behind, some refactoring might be in order. It will be worth it and it will make you feel much more comfortable because you can check in more regularly. You will most likely move forward a lot faster too.</p>
+
+<p>You want that dialog with your tests to be as fast as possible. Tightening this feedback cycle by using an editor that can also exercise your tests is not to be underestimated. Switching back and forth between your editor and your terminal is NOT the best solution to handle this. This gets old very quickly. If you like using Vim, you have one more reason to invest some time to become more efficient at using your editor. Lots of handy tools available for Vim peeps. I remember that Sublime Text also offers to run tests from within the editor but other than that, you need to do a little bit of research to find out what your editor of choice is capable of in that regard. The argument that you will hear frequently from TDD enthusiasts is that you don’t want to leave your editor because overall, you will be spending too much time doing that. You want to stay much more in the zone and not lose train of thought when you can do this sorta thing via a fast shortcut from inside your code editor.</p>
+
+<p>Another thing to note is that you also want to be able to slice the tests that you want to run. If you don’t need to run the whole file, it’s nice to run a single test or a block that focuses just on what you need to get feedback on right now. Having shortcuts that help you run single tests, single files or just the last test again saves you a ton of time and keeps you in the zone—not to mention the high degree of convenience and feeling super dandy cool as well. It’s just amazing how awesome coding tools can be sometimes.</p>
+
+<p>On last thing for the road. Use a preloader like <a href="https://github.com/rails/spring">Spring</a>. You will be surprised how much time you can shave off when you don’t have to load Rails for every test run. Your app will run in the background and does not need to boot all the time. DO it!</p>
+
+<h2>Fixtures</h2>
+
+<p>I’m not sure if fixtures are still an issue for newbies coming to Ruby / Rails land. In case nobody instructed you about them, I’ll try to get you up to speed in a jiffy on these dreaded things. ActiveRecord database fixtures are great examples of having tons of Mystery Guests in your test suite. In the early days of Rails and Ruby TDD, YAML fixtures were the de facto standard for setting up test data in your application. They played an important role and helped move the industry forward. Nowadays, they have a reasonable bad rep though.</p>
+
+<h4>YAML Fixtures</h4>
+
+<pre><code class="yaml">
+Quartermaster:
+  name: Q
+  favorite_gadget: Broom radio
+  skills: Inventing gizmos and hacking
+
+00 Agent:
+  name: James Bond
+  favorite_gadget: Submarine Lotus Esprit
+  skills: Getting Bond Girls killed and covert infiltration
+</code></pre>
+
+<p>The hash-like structure sure looks handy and easy to use. You can even reference other nodes if you want to simulate associations from your models. But that’s where the music stops and many say their pain begins. For data sets that are a bit more involved, YAML fixtures are difficult to maintain and hard to change without affecting other tests. I mean, you can make them work of course—after all, developers used them plenty in the past—but tons of developers will agree that the price to pay for managing fixtures is just a bit stingy.</p>
+
+<p>One scenario we definitely want to avoid is changing little details on an existing fixture and causing tons of tests to fail. If these failing tests are unrelated, the situation is even worse—a good example of tests being too brittle. In order to “protect” existing tests from this scenario, this can also lead to growing your fixture set beyond any reasonable size—being DRY with fixtures is most likely not on the table anymore at that point. To avoid breaking your test data when the inevitable changes occur, developers where happy to adopt newer strategies that offered more flexibility and dynamic behaviour. That’s where <a href="https://github.com/thoughtbot/factory_girl">Factory Girl</a> came in and kissed the YAML days goodbye. Another issue is the heavy dependency between the test and the .yml fixture file. Since the fixtures are defined in a separte .yml file, mystery guests are also a major pain waiting to bite you due to being obscure. Did I mention that fixtures are imported into the test database without running through any validations and don’t adhere to the Active Record life cycle? Yeah, that’s not awesome as well—from whatever angle you wanna look at it!</p>
+
+<p>Factory Girl let’s you avoid all that by creating objects relevant to the tests inline—and only with the data needed for that specific case. The motto is, only define the bare minimum in your factory definitions and add the rest on a test-by-test basis. Locally (in your tests) overriding default values defined in your factories is a much better approach than having tons of fixture unicorns waiting to be outdated in a fixture file. This approach is more scalable too. Factory Girl gives you plenty of tools to create all the data you need—as nuanced as you like—but also provides you tons of ammo to stay DRY where needed. The pros and cons are nicely balanced with this library I think. Not dealing with validations is also not a cause of concern anymore. I think using the factory pattern for test data is more than pretty reasonable and is one major cause why Factory Girl was so well received by the community. Complexity is a fast growing enemy that YAML fixtures are hardly equipped to take on effectively. In some way, I think of fixtures as <code>let</code> on steroids. You are not only placing them even further away—being in a separate file and all—you are also potentially preloading way more fixtures than you might actually need. RIP!</p>
+
+<h2>Brittle Tests</h2>
+
+<p>If changes in your specs lead to seemingly unrelated failures in other tests, you are likely looking at a test suite that has become fragile due to causes mentioned above. These often puzzle-like, mystery guest infested tests easily lead to an unstable house of cards. When objects necessary for tests are defined “far away” from the actual test scenario, it’s not that hard to overlook the relationships that these objects have with their tests. When code gets deleted, adjusted or simply the setup object in question gets accidentally overridden—unaware how this could influence other tests around—failing tests are not a rare encounter. They easily appear like totally unrelated failures. I think it’s fair to include such scenarios into the category of tightly coupled code.</p>
+
+<pre><code class="ruby">
+describe Mission do
+  let(:agent)   { build_stubbed(:agent, name: 'James Bond', number: '007') }
+  let(:title)   { 'Moonraker' }
+  let(:mission) { build_stubbed(:mission, title: title) }
+
+  #...
+  #...
+  #...
+  #lots of other tests
+
+  describe '#joint_operation_agent_name' do
+    let(:agent) { build_stubbed(:agent, name: 'Felix Leiter', agency: 'CIA')
+    mission.agents &lt;&lt; agent
+
+    it “returns mission’s joint operation’s agent name” do
+      expect(mission.joint_operation_agent_name).to eq('Felix Leiter')
+    end
+  end
+end
+</code></pre>
+
+<p>In this scenario we have clearly modified locally an objects’s state which was defined in our setup. The <code>agent</code> in question is now a CIA operative and has a different name. <code>mission</code> comes again out of nowhere as well. Nasty stuff really. No surprise when other tests that possibly rely on a different version of <code>agent</code> start to blow up. Let’s get rid of the <code>let</code> nonsense and build the objects we need again right where we test them—with only the attributes we need for the test case of course.</p>
+
+<pre><code class="ruby">
+describe Mission do
+
+  #...
+  #...
+  #...
+  #lots of other tests
+
+  describe '#joint_operation_agent_name' do
+    agent   = build_stubbed(:agent, name: 'Felix Leiter', agency: 'CIA')
+    mission = build_stubbed(:mission)
+    mission.agents &lt;&lt; agent
+
+    it “returns mission’s joint operation’s agent name” do
+      expect(mission.joint_operation_agent_name).to eq('Felix Leiter')
+    end
+  end
+end
+</code></pre>
+
+<p>It is important to understand how objects are related—ideally with the minimum amount of setup code. You don’t want to send other developers on a wild goose chase to figure this stuff out when they stumble over your code. If it’s super hard to get a grasp quickly and a new feature needed to be implemented yesterday, these puzzles can not expect to be dealt with the highest priority. This in turn often means that new stuff get’s developed on top of that unclear context—which is a brittle basis for going forward and also super inviting for bugs down the road. The lesson to take away here is not to override stuff where possible.</p>
+
+<h2>Data Attributes</h2>
+
+<p>A final useful tip for avoiding brittle tests is to use data attributes in your HTML tags. Just do yourself a favor and use them—you can thank me later. This lets you decouple the needed elements under test from the styling information that your designers might touch frequently without your involvement. If you hard code a class like <code>class='mission-wrapper'</code> in your test and a smart designer decides to change this poor name, your test will be affected unnecessarily. And the designer is not to blame of course. How in the world would she know that this affects part of your test suite—very unlikely at least.</p>
+
+<p>``` erb</p>
+
+<div class='mission data-role='single-mission'>
+  <h2><% = @mission.agent_status %></h2>
+  ...
+</div>
+
+
+<pre><code></code></pre>
+
+<p>context &ldquo;mission’s agent status&rdquo; do
+  it &lsquo;does something with a mission&rsquo; do
+    &hellip;</p>
+
+<pre><code>...
+
+expect(page).to have_css '[data-role=single-mission]'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>```</p>
+
+<p>We expect to see some HTML element on a page and marked it with  a <code>data-role</code>. Designers have no reason to touch that and you are protected against brittle tests that happen due to changes on the styling side of things. Pretty effective and useful strategy that basically costs you nothing in return. The only thing that might be necessary is to have a short conversation with designers. Piece of cake!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>We want to avoid distracting people who will read our tests or even worse, confuse them. That is opening the door for bugs but can also be expensive because it can cost valuable time and brain power. When you create your tests, try hard not to override things—it does not aid in creating clarity. More likely it will lead to subtle, time-consuming bugs and won’t affect the aspect of documenting your code positively. This creates an unnecessary burden we can avoid. Mutating test data more than absolutely necessary is also worth being a bit paranoid about. Keep it as simple as possible! This really helps avoiding sending other developers or your future self on wild goose chases. There is still a lot to learn about things you should avoid while testing but I believe this is a good start. Folks who are rather new to all things TDD should be able to handle these few AntiPatterns right away without diving into more advanced waters.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AntiPatterns Basics—Rails Controllers]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/"/>
+    <updated>2016-01-25T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers</id>
+    <content type="html"><![CDATA[<p><img src="/images/AntiPatterns/Controllers/LomaPrieta-Marina.jpeg"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Fat Controllers</li>
+<li>Non-RESTful Controllers</li>
+<li>Rat’s Nest Rsources</li>
+</ul>
+
+
+<h2>FAT Controllers</h2>
+
+<p>Well, “fat models, skinny controllers”, right? In case you haven’t read the previous AntiPattern articles, I should mention that aiming for models and controllers that stay skinny is a better guideline—no matter what. All that excess fat is not good for your projects—“skinny everything” makes much more sense. (Maybe I should disclaim that I’m not associated with the fashion industry in any way and don’t want to repeat the impression that you can’t be considered beautiful without fitting a certain type of imaginary body). As with models, you want controllers that have single responsibilities. Controllers should be dumb really, managing traffic and not much else. Also, if possible, we want to make our templates as dumb as possible—presenters can be handy in that regard.</p>
+
+<p>It is further important that you do not stray much from RESTful controller actions. Sure, every once in a while it can make sense to have additional methods in there, but most of the time, you should feel a little uneasy having them around. Controllers tend to get fat when they amass business logic that actually belongs into models or when inexperienced developers don’t make use of Rails’ conventions. You won’t be the first trying to reinvent the wheel and you certainly won’t be the last. Don’t feel bad about it, probably most of us have been there, but as a craftsman, you really should invest time and effort to know the conventions, benefits and limitations of the frameworks you work with—at least for commercial purposes where somebody pays for your expertise. Experiments are always fine of course.</p>
+
+<p>Since controllers are in charge of the flow of your application as well as for gathering the information that your views need, they already have a pretty important responsibility. They really do not need added complexity from the realm of your models. Controllers are closely working with your views to display the data provided by the model layer. Their relationship is tighter than with models. The model layer can potentially be developed much more independent from the others. The good thing about that is that a clean controller layer often has a positive effect on how tidy your views can be.</p>
+
+<p>What I want to get across is that fat controllers are super common in Rails land—especially among beginners and inexperienced developers—and with a little bit of love and care this can be optimized easily. The first step is straightforward. Ask yourself when a controller grows in size if the complexity comes from added business logic. If so, find a way to move it to the model layer where you have the added benefit of having a better home for testing complex code.</p>
+
+<h3>Presenters</h3>
+
+<p>To follow the above recommendation of moving aquired controller logic to models, presenters can be a handy technique. They can simulate a model while combining a couple of loosely related attributes together which can be useful for keeping controllers slim and sexy. On top of that, they are also good at keeping logic nastiness out of your views. Pretty good deal for crafting an extra object!</p>
+
+<p>Presenters can “imitate” a model which represents the state that your view needs and combines the attributes that need to move through the controller. They can be more complex, but then I feel they are drifting into “Decorator” territory. Sometimes a controller is in charge of creating multiple models simultaneously and we want to avoid is handling multiple instance variables in there. Why is this important? Because it helps us to keep the maintainability of our apps in check. The presenter aggregates behaviour and attributes which makes it easy for our controllers to focus on small, dead-simple jobs—with a single object. Also, formatting data in your view or other similar small functions are frequent jobs that often occur. Having this contained in a presenter is not only great for clean views but also for having a dedicated place that makes testing this  behaviour straightforward—the model layer is easier to test. More “bang for the buck” and all that jazz.</p>
+
+<p>If you stumble upon the Presenter Pattern and find multiple approaches or different ways to describe it, you are not going crazy. There is little clear cut agreement on what a presenter is I feel like. What is common knowledge though is that it sits between the MVC layers. We can use it to manage multiple model objects that need to be created at the same time. While combining these objects it imitates an ActiveRecord model.</p>
+
+<p>A commonly cited scenario is some sort of form that inputs information for various different models. Like a new user account that also has input fields for credit cards and addresses or something or something. Going full wizard by stepping through a couple of forms in sequence is not that different . Since these parts of your application tend to be very important ones, it is definitely a good idea to keep things tidy while having the best possible option available for testing at the same time. The user experience on this one is key too. In the example below, we want to create a simple mission that <code>has_one</code> <code>agent</code> and one <code>quartermaster</code>. No rocket science, but it’s a good example to see how quickly things can get out of hands. The controller needs to juggle multiple objects that the view needs in a nested form to tie things together. You will soon see that all of this can be cured with a nice “Form Object” which presents the objects needed and weaves things together in one central class.</p>
+
+<h5>app/models/mission.rb</h5>
+
+<pre><code class="ruby">
+class Mission &lt; ActiveRecord::Base
+  has_one :agent
+  has_one :quartermaster
+  accepts_nested_attributes_for :agent, :quartermaster, allow_destroy: true
+
+  validates :mission_name, presence: true
+  ...
+
+end
+
+class Agent &lt; ActiveRecord::Base
+  belongs_to :mission
+  validates :name, presence: true
+  ...
+
+end
+
+class Quartermaster &lt; ActiveRecord::Base
+  belongs_to :mission
+  validates :name, presence: true
+  ...
+
+end
+</code></pre>
+
+<p>I’m mentioning the models here just for completeness sake in case you never used <code>fields_for</code> before—a bit simplified but working. Below is the heart of the matter.</p>
+
+<h4>Too many instance variables</h4>
+
+<h5>app/controllers/missions_controller.rb</h5>
+
+<pre><code class="ruby">
+class MissionsController &lt; ApplicationController
+  def new
+    @mission = Mission.new
+    @agent = Agent.new
+    @quartermaster = Quartermaster.new
+  end
+
+  def create
+    @mission = Mission.new(mission_params)
+    @agent = Agent.new(agent_params)
+    @quartermaster = Quartermaster.new(quartermaster_params)
+
+    @mission.agent = @agent
+    @mission.quartermaster = @quartermaster
+
+    if @account.save and @agent.save and @quartermaster.save
+      flash[:notice] = 'Mission accepted'
+      redirect_to missions_path
+    else
+      flash[:alert] = 'Mission not accepted'
+      render :new     
+    end
+  end
+
+  private
+
+  def mission_params
+    params.require(:mission).permit(:mission_name, :objective, :enemy)
+  end
+
+  def agent_params
+    params.require(:agent).permit(:name, :number, :licence_to_kill)
+  end
+
+  def quartermaster_params
+    params.require(:quartermaster).permit(:name, :number, :hacker, :expertise, :humor)
+  end
+
+end
+</code></pre>
+
+<p>Overall, it’s easy to see that this is heading in the wrong direction. It already attracted quite a bit of mass and it only consists of <code>new</code> and <code>create</code> methods. Not good! The quickly growing amount of private methods are already piling up way too fast as well. <code>agent_params</code> and <code>quartermaster_params</code> in a <code>MissionsController</code> does not sound too slick to you I hope. A rare sight you think? I’m afraid not. “Single Responsibilities” in controllers truly are a golden guideline. You’ll see why in just a minute.</p>
+
+<p>Even if you squint your eyes, this looks super nasty. And during saving in the <code>create</code> action, with validations in place, if we can’t save every object due to some mistake or something, we’ll end up with orphaned objects that nobody wants to deal with. Yikes! Sure we could put this into a <code>transaction</code> block which successfully completes saving only if all objects are in order, but this is a bit like surfing against the current—also, why do model level stuff like this in the controller really? There are more elegant ways to catch a wave.</p>
+
+<p>Following this path, the view would have an accompanying <code>form_for</code> for <code>@mission</code> and the additional <code>fields_for</code> for <code>@agent</code> and <code>@quartermaster</code> of course.</p>
+
+<h3>Messy Form With Multiple Objects</h3>
+
+<h5>app/views/missions/new.html.erb</h5>
+
+<pre><code class="erb">
+&lt;%= form_for(@mission) do |mission| %&gt;
+
+  &lt;h3&gt;Mission&lt;/h3&gt;
+    &lt;%= mission.label      :mission_name %&gt;
+    &lt;%= mission.text_field :mission_name %&gt;
+
+    &lt;%= mission.label      :objective %&gt;
+    &lt;%= mission.text_field :objective %&gt;
+
+    &lt;%= mission.label      :enemy %&gt;
+    &lt;%= mission.text_field :enemy %&gt;
+
+  &lt;h3&gt;Agent&lt;/h3&gt;
+  &lt;%= fields_for @agent do |agent| %&gt;
+      &lt;%= agent.label      :name %&gt;
+      &lt;%= agent.text_field :name %&gt;
+
+      &lt;%= agent.label      :number %&gt;
+      &lt;%= agent.text_field :number %&gt;
+
+      &lt;%= agent.label      :licence_to_kill %&gt;
+      &lt;%= agent.check_box  :licence_to_kill %&gt;
+  &lt;% end %&gt;
+
+  &lt;h3&gt;Quartermaster&lt;/h3&gt;
+  &lt;%= fields_for @quartermaster do |quartermaster| %&gt;
+      &lt;%= quartermaster.label      :name %&gt;
+      &lt;%= quartermaster.text_field :name %&gt;
+
+      &lt;%= quartermaster.label      :number %&gt;
+      &lt;%= quartermaster.text_field :number %&gt;
+
+      &lt;%= quartermaster.label      :hacker %&gt;
+      &lt;%= quartermaster.check_box  :hacker %&gt;
+
+      &lt;%= quartermaster.label      :expertise %&gt;
+      &lt;%= quartermaster.text_field :expertise %&gt;
+
+      &lt;%= quartermaster.label      :humor %&gt;
+      &lt;%= quartermaster.check_box  :humor %&gt;
+  &lt;% end %&gt;
+
+  &lt;%= mission.submit %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>Sure, this works but I wouldn’t be too excited to stumble upon this. <code>fields_for</code> sure is handy and all but handling this with OOP is a lot more dope. For such a case, a presenter will also aid us in having a simpler view because the form will deal with just a single object. Nesting the form becomes unnecessary that way. Btw, I left out any wrappers for styling the form to make it easier to digest visually.</p>
+
+<h3>Form Object Presenter</h3>
+
+<h5>app/views/missions/new.html.erb</h5>
+
+<pre><code class="erb">
+&lt;%= form_for @mission_presenter, url: missions_path do |mission| %&gt;
+  &lt;h3&gt;Mission&lt;/h3&gt;
+    &lt;%= mission.label      :mission_name %&gt;
+    &lt;%= mission.text_field :mission_name %&gt;
+
+    &lt;%= mission.label      :objective %&gt;
+    &lt;%= mission.text_field :objective %&gt;
+
+    &lt;%= mission.label      :enemy %&gt;
+    &lt;%= mission.text_field :enemy %&gt;
+
+  &lt;h3&gt;Agent&lt;/h3&gt;
+    &lt;%= mission.label      :agent_name %&gt;
+    &lt;%= mission.text_field :agent_name %&gt;
+
+    &lt;%= mission.label      :agent_number %&gt;
+    &lt;%= mission.text_field :agent_number %&gt;
+
+    &lt;%= mission.label      :licence_to_kill %&gt;
+    &lt;%= mission.check_box  :licence_to_kill %&gt;
+
+  &lt;h3&gt;Quartermaster&lt;/h3&gt;
+    &lt;%= mission.label      :quartermaster_name %&gt;
+    &lt;%= mission.text_field :quartermaster_name %&gt;
+
+    &lt;%= mission.label      :quartermaster_number %&gt;
+    &lt;%= mission.text_field :quartermaster_number %&gt;
+
+    &lt;%= mission.label      :hacker %&gt;
+    &lt;%= mission.check_box  :hacker %&gt;
+
+    &lt;%= mission.label      :expertise %&gt;
+    &lt;%= mission.text_field :expertise %&gt;
+
+    &lt;%= mission.label      :humor %&gt;
+    &lt;%= mission.check_box  :humor %&gt;
+
+  &lt;%= mission.submit %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>As you can easily see, our view has become much simpler—no nestings and it’s a lot more straightforward this flat. The part you need to be a bit careful is this:</p>
+
+<pre><code class="erb">
+&lt;%= form_for @mission_presenter, url: missions_path do |mission| %&gt;
+</code></pre>
+
+<p>You need to provide <code>form_for</code> with a path via <code>url</code> so that it can <code>post</code> the params from this form to its proper controller—here <code>MissionsController</code>. Without that additional argument, Rails would try to find the controller for our presenter object <code>@mission_presenter</code> through conventions—in this case <code>MissionFormPresentersController</code>—and blow up without one.</p>
+
+<p>In general, we should try our best to keep controller actions mostly as simple as dealing with the CRUD manipulation of resources—that’s what a controller does for a living and is best equiped to do without muddying the MVC distinctions. As a nice side effect, the level of complexity in your controllers will go way down as well.</p>
+
+<h5>app/controllers/missions_controller.rb</h5>
+
+<pre><code class="ruby">
+class MissionsController &lt; ApplicationController
+
+  def new
+    @mission_presenter = MissionFormPresenter.new
+  end
+
+  def create
+    @mission_presenter = MissionFormPresenter.new(mission_params)
+    if
+      @mission_presenter.save
+      flash[:notice] = 'Mission accepted'
+      redirect_to missions_path
+    else
+      flash[:alert] = 'Mission not accepted'
+      render :new
+    end
+  end
+
+  private
+
+  def mission_params
+    params.require(:mission_form_presenter).permit(whitelisted)
+  end
+
+  def whitelisted
+    [:mission_name, :objective, :enemy, :agent_name, :agent_number, :licence_to_kill, :quartermaster_name, :quartermaster_number, :hacker, :expertise, :humor]
+  end
+end
+</code></pre>
+
+<p>The controller is also a lot easier on the eyes, isn’t it? Much cleaner and pretty much standard controller actions. We are dealing with a single object that has one job. We instantiate a single object, the presenter, and feed it the params as usual.</p>
+
+<p>The only thing that bugged me was sending this long list of whitelisted strong parameters. I extracted them into a method called <code>whitelisted</code> which just returns an array with the complete list of parameters. Otherwise, <code>mission_params</code> would have looked like the following—which felt too nasty:</p>
+
+<pre><code class="ruby">
+def mission_params
+  params.require(:mission_form_presenter).permit(:mission_name,
+                                                 :objective, :enemy,
+                                                 :agent_name, 
+                                                 :agent_number, 
+                                                 :licence_to_kill, 
+                                                 :quartermaster_name, 
+                                                 :quartermaster_number, 
+                                                 :hacker, 
+                                                 :expertise, 
+                                                 :humor)
+end
+</code></pre>
+
+<p>Oh, a word about the <code>:mission_form_presenter</code> argument for <code>params.require</code>. Although we named our instance variable for the presenter <code>@mission_presenter</code>, when we use it with <code>form_for</code>, Rails expects the key of the params hash for the form to be named after the object instantiated—not after the name given in a controller. I have seen newbies trip over this several times. That Rails is providing you with cryptic errors in such a case isn’t helping either. If you need a little refresher on params, this is a good place to dig in:</p>
+
+<ul>
+<li><a href="http://api.rubyonrails.org/classes/ActionController/Parameters.html">Documentation</a></li>
+<li><a href="https://www.youtube.com/watch?v=y57OnWV6dRE">Free screencast</a></li>
+</ul>
+
+
+<p>In our <code>Mission</code> model, we now have no need for <code>accepts_nested_attributes</code> anymore and can get rid of that harmless looking, dreaded thing. The <code>validates</code> method is also irrelevant here because we add this responsibility to our form object. Same goes for our validations on <code>Agent</code> and <code>Quartermaster</code> of course.</p>
+
+<h5>app/models/mission.rb</h5>
+
+<pre><code class="ruby">
+class Mission &lt; ActiveRecord::Base
+  has_one :agent
+  has_one :quartermaster
+  #accepts_nested_attributes_for :agent, :quartermaster, allow_destroy: true
+
+  #validates :mission_name, presence: true
+  ...
+
+end
+</code></pre>
+
+<p>Encapsulating this validation logic directly on our new object helps us keeping things clean and organized. In cases where you could also create these objects independently from each other, validations should stay where they currently are of course. This kind of duplication can also be dealt with—no worries. FYI, for example by using <code>validates_with</code> with a separate class for validation that inherits from <code>ActiveModel::Validator</code>.</p>
+
+<p>Now we have a skinny controller with a single responsibility and a flat form for creating multiple objects in parallel. Awesome! How did we achieve all this?  Below is the presenter that does all the work—not implying this class does a lot of work though. We want to have some sort of intermediary model without a database that juggles multiple objects. Take a look at this plain old ruby object (PORO).</p>
+
+<h5>app/presenters/mission_form_presenter.rb</h5>
+
+<pre><code class="ruby">
+class MissionFormPresenter
+  include ActiveModel::Model
+
+  attr_accessor  :mission_name, :objective, :enemy, :agent_name,
+                 :agent_number, :licence_to_kill, :quartermaster_name,
+                 :quartermaster_number, :hacker, :expertise, :humor
+
+  validates :mission_name, :agent_name, :quartermaster_name, presence: true
+
+  def save
+    ActiveRecord::Base.transaction do
+      @mission = Mission.create!(mission_attributes)
+      @mission.create_agent!(agent_attributes)
+      @mission.create_quartermaster!(quartermaster_attributes)
+    end
+  end
+
+  private 
+
+  def mission_attributes
+    { mission_name: mission_name, objective: objective, enemy: enemy }
+  end
+
+  def agent_attributes
+    { name: agent_name, number: agent_number, licence_to_kill: licence_to_kill }
+  end
+
+  def quartermaster_attributes
+    { name: quartermaster_name, number: quartermaster_number, hacker: hacker, expertise: expertise, humor: humor }
+  end
+end
+</code></pre>
+
+<p>I think it’s fair to say that it’s not very complicated. <code>MissionFormPresenter</code> is a form object that now encapsulates what made our controller unnecessarily fat. As a bonus, our view became flat and simple. What happens here is that we can aggregate all the info from our form and then we create all the objects we need sequentially.</p>
+
+<p>The most important piece happens in our new <code>save</code> method. First we create the new <code>Mission</code> object. After that, we can create the two objects assoicated with it: <code>Agent</code> and <code>Quartermaster</code>. Through our <code>has_one</code> / <code>belongs_to</code> associations, we can make use of of a <code>create_x</code> method that adapts to the name of the associated object. For example, if we use <code>has_one :agent</code> we get a <code>create_agent</code> method. Easy, right? (FYI, actually we also get a <code>build_agent</code> method.) I decided to use the version with a bang(!) because it raises an <code>ActiveRecord::RecordInvalid</code> error if the record is invalid while attempting to save. Wrapped inside a <code>transaction</code> block, these bang methods take care that no ophaned object gets saved if some validation kicks in. The transaction block will roll back if something goes wrong during save.</p>
+
+<p>How does this work with the attributes you might ask? We ask Rails for a little bit of love via <code>include ActiveModel::Model</code> (<a href="http://api.rubyonrails.org/classes/ActiveModel/Model.html">API</a>). This allows us to initialize objects with a hash of attributes—which is exactly what we do in the controller. After that, we can use our <code>attr_accessor</code> methods to extract our attributes to instantiate the objects we really need. <code>ActiveModel::Model</code> further enables us to interact with views and controllers. Among other goodies, you can also use this for validations in such classes. Putting these validations into such dedicated form objects is a good idea for organization and it also keeps your models a bit more tidy. I decided to extract the long list of parameters into private methods which feed the objects that get created in <code>save</code>. In such a presenter object, I have little concern of having a couple more private methods lying around. Why not? Feels cleaner!</p>
+
+<p>Testing these kind of scenarios where multiple models come together should be treated with utmost care—the simpler the objects in question, the better the testing experience. No rocket science really. Presenters operate in your favor on this one. Having these tests potentially tied to the controller is not the best way to approach this. Remember, unit tests are fast and cheap.</p>
+
+<p>A word of caution. Do not overuse presenters—they should not be your first choice. Usually, the need for a presenter grows over time. For me personally, they are best used when you have data represented by multiple models that need to come together in a single view. Without a presenter, you might more often than not prepare multiple instance variables in your controller for a single view. That alone can make them real fat real quick. A thing that you should consider and weigh is while presenters add objects to your codebase they can also reduce the number of objects a controller needs to deal with—less complexity and single responsibilities. It is probably a fairly advanced technique to lose some fat, but when you want to slim down, you need to put in the work.</p>
+
+<h2>Non-RESTful Controllers</h2>
+
+<p>Not trying to adhere to the standard controller actions is most likely a bad idea. Having tons of custom controller methods is an antipattern you can avoid pretty easily. Methods like <code>login_user</code>, <code>activate_admin</code>, <code>show_books</code>, and other funny business that stands in for <code>new</code>, <code>create</code>, <code>show</code> and so forth, should give you a reason to pause and to doubt your approach. Not following a REST-ful approach can easily lead to big, massive controllers, mostly likely because you’ll need to fight the framework or reinvent the wheel every once in a while. In short, not a good idea. Also, more often than not, it’s also a symptom of inexperience or carelessnes. Following the “Single Responsibility Principle” seems to be very hard under these circumstances as well—just an educated guess though.</p>
+
+<p>Approaching resources in your controller in a  restful manner is making your life a lot less complicated and your apps are becoming easier to maintain as well—which adds to the overall stability of your app. Think about handling resources REST-fully from the perspective of an object’s life cycle. You create, update, show (single or collections), update and destroy them. For most cases, this will do the job. FYI, <code>new</code> and <code>edit</code> actions aren’t really part of REST—they are more like different versions of the <code>show</code> action, helping you present different stages in the resource’s life cycle. Put together, most of the time, these seven standard controller actions give you all you need to manage your resources in your controllers. Another big advantage is that other Rails developers working with your code will be able to navigate your controllers much faster.</p>
+
+<p>Following that line of REST-ful cool aid, this also includes the way you name your controllers. The name of the resource you work on should be mirrored in the controller object. For example, having a <code>MissionsController</code> that handles other resources than <code>@mission</code> objects is a smell that something is off. The sheer size of a controller often is also a dead giveaway that REST was ignored. Should you encounter large controllers that implement tons of customized methods that break with conventions, it can be a very effective strategy to split them into multiple distinctive controllers that have focused responsibilities—and bascially manage only a single resource while adhering to a REST-ful style. Break them apart agressively and you will have an easier time to compose their methods the Rails way.</p>
+
+<h2>Rat’s Nest Resources</h2>
+
+<p>Look at the following example and ask yourself what’s wrong with this:</p>
+
+<h4>Nested AgentsController</h4>
+
+<h5>app/controllers/agents_controller.rb</h5>
+
+<pre><code class="ruby">
+class AgentsController &lt; ApplicationController
+  def index
+    if params[:mission_id]
+      @mission = Mission.find(params[:mission_id])
+      @agents = @mission.agents
+    else
+      @agents = Agent.all
+    end
+  end
+end
+</code></pre>
+
+<p>Here we check if we have a nested route that provides us with the id for a possible <code>@mission</code> object. If so, we want to use the associated object to get the <code>agents</code> from it. Otherwise, we’ll fetch a list of all agents for the view. Looks harmless, especially because it’s still concise, but it’s the start of a potentially way larger rat’s nest.</p>
+
+<h4>Nested Routes</h4>
+
+<pre><code class="ruby">
+resources :agents
+resources :missions do
+  resources :agents
+end
+</code></pre>
+
+<p>Nothing obtuse about the nested routes here. In general, there is nothing wrong about this approach. The thing we should be careful about is how the controller handles this business—and as a consequence, how the view needs to adapt to it. Not exactly squeaky clean as you can see below.</p>
+
+<h4>View With Unnecessary Conditional</h4>
+
+<h5>app/views/agents/index.html.erb</h5>
+
+<p>``` erb</p>
+
+<p>&lt;% if @mission %>
+  <h2>Mission</h2>
+  <div>&lt;%= @mission.name %></div>
+  <div>&lt;%= @mission.objective %></div>
+  <div>&lt;%= @mission.enemy %></div>
+&lt;% end %></p>
+
+<h2>Agents</h2>
+
+
+<ul>
+  <% @agents.each do |agent| %>
+    <li class='agent'>
+      <div>Name:            <%= agent.name %></div>
+      <div>Number:          <%= agent.number %></div>
+      <div>Licence to kill: <%= agent.licence_to_kill %></div>
+      <div>Status:          <%= agent.status %></div>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+Might also not look like a big deal, I get it. The level of complexity is not exactly real world though. Aside from that, the argument is more about dealing with resources in an object oriented way and about using Rails to your fullest advantage. I guess this is a little bit of an edge case regarding single responsibilities. It’s not exactly violating this idea too bad, even though we have a second object—@mission—for the association lingering around. But since we are using it for getting access to a specific set of agents, this is totally alright.
+
+The branching is the part that is inelegant and will most likely lead to poor design decisions—both in views and controllers. Creating two versions of ```@agents``` in the same method is the perpetrator here. I’ll make it short, this can get out of hand really quickly. Once you start nesting resources like this, chances are good new rats are hanging around soon. And the view above also needs a conditional that adapts to the situation for when you have ```@agents``` associated with a ```@mission```. As you can easily see, a little bit of sloppiness in your controller can lead to bloated views that have more code than needed. Let’s try another approach. Exterminator time! 
+
+#### Separate Controllers
+
+Instead of nesting these resources, we should be giving each version of this resource its own distinctive, focused controller—one controller for “simple”, unnested agents and one for agents that are associated with a mission. We can achieve this via namespacing one of them under a ```/missions``` folder. 
+
+##### app/controllers/missions/agents_controller.rb
+</code></pre>
+
+<p>module Missions
+  class AgentsController &lt; ApplicationController</p>
+
+<pre><code>def index
+  @mission = Mission.find(params[:mission_id])
+  @agents = @mission.agents
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<pre><code>
+By wrapping this controller inside a module, we can avoid that ```AgentsController``` inherits twice from ```ApplicationController```. Without it, we would run into an error like this: ```Unable to autoload constant Missions::AgentsController```. I think a module is a small price to pay for making Rails autoloading happy. The second ```AgentsController``` can stay in the same file as before. It now only deals with one possible resource in ```index```—prepping all agents without missions that are around. 
+
+##### app/controllers/agents_controller.rb
+</code></pre>
+
+<p>class AgentsController &lt; ApplicationController</p>
+
+<p>  def index
+    @agents = Agent.all
+  end
+end</p>
+
+<pre><code>
+Of course, we also need to instruct our routes to look for this new namespaced controller if agents are associated with a mission.
+</code></pre>
+
+<p>resources :agents
+resources :missions do
+  resources :agents, controller: &lsquo;missions/agents&rsquo;
+end</p>
+
+<pre><code>
+After we specified that our nested resource has a namespaced controller, we’re all set. When we do a ```rake routes``` check in the terminal, we’ll see that our new controller is namespaced and that we are good to go.
+
+#### New Routes
+</code></pre>
+
+<p> Prefix Verb   URI Pattern                                     Controller#Action
+              root GET    /                                               agents#index
+            agents GET    /agents(.:format)                               agents#index
+                   POST   /agents(.:format)                               agents#create
+         new_agent GET    /agents/new(.:format)                           agents#new
+        edit_agent GET    /agents/:id/edit(.:format)                      agents#edit
+             agent GET    /agents/:id(.:format)                           agents#show
+                   PATCH  /agents/:id(.:format)                           agents#update
+                   PUT    /agents/:id(.:format)                           agents#update
+                   DELETE /agents/:id(.:format)                           agents#destroy
+    mission_agents GET    /missions/:mission_id/agents(.:format)          missions/agents#index
+                   POST   /missions/:mission_id/agents(.:format)          missions/agents#create
+ new_mission_agent GET    /missions/:mission_id/agents/new(.:format)      missions/agents#new
+edit_mission_agent GET    /missions/:mission_id/agents/:id/edit(.:format) missions/agents#edit
+     mission_agent GET    /missions/:mission_id/agents/:id(.:format)      missions/agents#show
+                   PATCH  /missions/:mission_id/agents/:id(.:format)      missions/agents#update
+                   PUT    /missions/:mission_id/agents/:id(.:format)      missions/agents#update
+                   DELETE /missions/:mission_id/agents/:id(.:format)      missions/agents#destroy</p>
+
+<pre><code>
+Our nested resource for ```agents``` is now properly redirected to ```controllers/missions/agents_controller.rb``` and each action can take care of agents that are part of a mission. For completeness sake, let’s have a look at our final views as well:
+
+#### Agents With Mission
+
+##### app/views/missions/agents/index.html.erb 
+</code></pre>
+
+<h2>Mission</h2>
+
+
+<div><%= @mission.mission_name %></div>
+
+
+<div><%= @mission.objective %></div>
+
+
+<div><%= @mission.enemy %></div>
+
+
+
+
+<h2>Agents</h2>
+
+
+<ul>
+  <% @agents.each do |agent| %>
+    <li class='agent'>
+      <div>Name:            <%= agent.name %></div>
+      <div>Number:          <%= agent.number %></div>
+      <div>Licence to kill: <%= agent.licence_to_kill %></div>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+#### Agents Without Mission
+
+##### app/views/agents/index.html
+</code></pre>
+
+<h2>Agents</h2>
+
+
+<ul>
+  <% @agents.each do |agent| %>
+    <li class='agent'>
+      <div>Name:            <%= agent.name %></div>
+      <div>Number:          <%= agent.number %></div>
+      <div>Licence to kill: <%= agent.licence_to_kill %></div>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+Well, let’s get rid of that little bit of duplication where we iterate over ```@agents``` also. I created a partial for rendering a list of agents and put it into a new ```shared``` directory under ```views```. 
+
+##### app/views/shared/_agents.html.erb
+</code></pre>
+
+<h2>Agents</h2>
+
+
+<ul>
+  <% @agents.each do |agent| %>
+    <li class='agent'>
+      <div>Name: <%=            agent.name %></div>
+      <div>Number: <%=          agent.number %></div>
+      <div>Licence to kill: <%= agent.licence_to_kill %></div>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+Nothing new or surprising here but our views are now more DRY.
+
+#### Agents With Mission
+
+##### app/views/missions/agents/index.html.erb 
+</code></pre>
+
+<h2>Mission</h2>
+
+
+<div><%= @mission.mission_name %></div>
+
+
+<div><%= @mission.objective %></div>
+
+
+<div><%= @mission.enemy %></div>
+
+
+<p>&lt;%= render &ldquo;shared/agents&rdquo;, collection: @agents %></p>
+
+<pre><code>
+#### Agents Without Mission
+
+##### app/views/agents/index.html
+</code></pre>
+
+<p>&lt;%= render &ldquo;shared/agents&rdquo;, collection: @agents %></p>
+
+<p>```</p>
+
+<p>Dope!</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I think if you as a beginner can avoid these AntipPatterns in your controllers you are off to a very good start. There is still much left to learn for you in this regard but give it time, it’s nothing that comes too easy or overnight. On the other hand, if you you are hungry for more and like to explore more advanced techniques I’m all for it of course. Don’t let yourself be discouraged by the “advanced” name tag. Take your time, have fun and don’t get frustrated if you need to revisit the topic again because you don’t yet have all pieces of the puzzle in place yet. If you are early in the development game and started to play with design patterns, I believe you are way ahead of the game and made the right decision. Don’t wait and get out of your comfort zone to stretch your gray matter a bit.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AntiPatterns Basics—Rails Views]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/"/>
+    <updated>2016-01-03T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2016/01/03/AntiPatterns-Basics-Rails-Views</id>
+    <content type="html"><![CDATA[<p><img src="/images/AntiPatterns/Views/pisa-tower.1000x580.jpeg"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Rails Views</li>
+<li>PHPitis</li>
+<li>Extracting Helpers</li>
+<li>Helpful Helpers</li>
+<li>Forms</li>
+<li>Partials</li>
+<li>Conditional Content</li>
+<li>Semantic Markup</li>
+</ul>
+
+
+<h2>Rails Views</h2>
+
+<p>Rails comes with ERb out of the box and I think it’s not necessary to throw in cool view-rendering engines like Slim for our examples for now. When you think “convention over configuration” mostly applies to the model and controller layers you are missing out on a lot of the goodies that makes working with Rails so speedy and progressive. Taking good care of the view layer includes not only the way you compose your markup but also CSS / Sass, JavaScript, view helpers and your layout templates. Viewed from that angle it becomes a bit deeper than you might think at first. Alone that number of technologies which can be involved in creating your views suggest that care should be taken to keep things neat, clear and flexible.</p>
+
+<p>Since the way we write markup and styles is a lot less constrained than domain modeling, you want to be extra cautious to keep things as simple as possible. Maintenance should be pretty much your number one priority. Since redesigns or design iterations can be more frequent than extensive changes to your model layer, preparing for change gets a whole nother meaning when it comes to your user facing layer. My advice, don’t necessarily build for the future but also, by all means, do not underestimate the rate of change—especially if you have one of those “idea guys” who knows jack about implementations on the team. What I like about Rails’ approach towards views in MVC is that it is treated as equally important and the lessons learned from the model domain were incorporated into the view—whenever possible and useful. Other frameworks seem to agree since they integrated a lot of these ideas pioneered by Rails.</p>
+
+<p>Since the last article was a bit more extensive I chose this topic as a small breather. The following articles about Rails controllers and testing are again bigger in size. The AntiPatterns for views are not that many but they are nevertheless equally important—at least. We’ll focus on the main one, PHPitis, and work through a couple of techniques to keep your views lean and mean. Since the view is your presentation layer, maybe you should be especially careful to not create a hazardous mess. Let’s get to it!</p>
+
+<h2>PHPitis</h2>
+
+<p>Why do we have MVC in the first place? Yes, because the separation of concerns seemed like the most reasonable thing to do. Sure the implementations of this idea vary a bit here and there but the overall concept of having distinct responsibilities for each layer is the core motivation for building robust applications. Having tons of code in your view layer might not be alien to developers coming from the PHP side of things—although I hear their frameworks have caught up already (heavily influenced by things like Rails?)—but in Ruby land these things have been a loudly voiced AntiPattern—since forever I feel like.</p>
+
+<p>The obvious problems like mixing responsibilities and duplications aside, it simply feels nasty and lazy—a little stupid too to be frank. Sure, I get it, when you develop much within a framework, language or whatever ecosystem, it’s easy to become complicit or numb towards crap like that. What I like about the people pushing Ruby is that these things seem to have a lot less weight—might be a reason why innovating never seemed to be a problem within the community. Whatever works best wins the argument and we can move forward.</p>
+
+<p>So is this a whole section dedicated to bash PHP? Not at all! In the past, PHP apps had the reputation of having weak separations between models, views and controllers (Maybe this was one of the core reasons why people felt writing apps with Rails was much more appealing). Having single files with code for all three layers didn’t seem that sexy. So when we stuff tons of Ruby / domain code into our views it starts to look like the dreaded PHP style of structuring things—PHPitis. Only a few things are as bad as this when it comes to developing web apps I feel. When you care about happy developers and your own future sanity, I can’t see why anyone would go down that road—only pain ahead it seems.</p>
+
+<p>Rails offers a lot of goodies to minimize code in the view as much as possible. You must learn the ways of helpers, layouts and preprocessors in order to achieve a cleaner view. A simple rule of thumb is to keep domain logic out of your views—no shortcuts! The price to pay for being lazy on this is hard to overestimate. The Ruby code that must be in the presentation layer should be as little and as simple as possible as well as intelligently organized. Your reward will be code that is a joy to extend and to maintain—new team members will also have an easier time wrapping their heads around the new codebase. As a bonus, neat freak designers who code also won’t be angy and hide rotten food in your salad if you keep tons of Ruby code out of their markup.</p>
+
+<h3>Helpful Helpers</h3>
+
+<p>Knowing the myriad of helper methods in Rails will significantly improve the quality of your presentation layer. Not only will it clean things up and inject the occasional speed boost in productivity, but more importantly it helps you fight PHPitis. The thing that you should appreciate about these helpers is that they represent extractions from commonly needed code. Instead of reinventing the wheel, when in doubt, check if there isn’t already a helper around that solves your issue in the view—same goes for Models and Controllers as well of course.</p>
+
+<p>Here’s a list of helpers you should look into pretty much right away:</p>
+
+<ul>
+<li><code>form_for</code></li>
+<li>Other helpers for forms.</li>
+<li><code>fields_for</code></li>
+<li><code>link_to</code></li>
+<li><code>content_for</code></li>
+<li>And writing your very own of course.</li>
+</ul>
+
+
+<h3>Forms</h3>
+
+<p>Let’s have a look at <code>form_for</code> first. I know forms are a little bit boring and not that sexy for a topic, but I highly encourage you to read up on them to familiarize yourself with the finer details. It’s important to understand how they work. I remember often just glancing over them without giving them much attention. Sure you can get them to work quite easily without understanding what’s going on under the hood. In the future, I might take the time to write a complete article on them. In the meantime, I highly recommend that you spend a little time checking the documentation–at least you‘ll appreciate how convenient Rails makes it to deal with form stuff.</p>
+
+<h4>The Ugly</h4>
+
+<p>The example below shows you the HTML of a little form we need for creating agents. It only accepts three parameters as input: <code>name</code>, <code>number</code> and <code>licence_to_kill</code>. A lot of code for this little task actually. The <code>authenticity_token</code> comes from Rails–it’s a security thing that protects the app from “cross-site request forgery”.</p>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="html">
+&lt;form class="new_agent" id="new_agent" action="/agents" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;&lt;input type="hidden" name="authenticity_token" value="8tD8G9mBt5l34TcN6Tnt/Mbto32itOuS1fWbc3Ez1vKinUmdexxUQlFp7mXIYoazQJjjSgryFIuL4dioxtJw/g==" /&gt;
+
+  &lt;label for="agent_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="agent[name]" id="agent_name" /&gt;
+
+  &lt;label for="agent_number"&gt;Number&lt;/label&gt;
+  &lt;input type="text" name="agent[number]" id="agent_number" /&gt;
+
+  &lt;label for="agent_licence_to_kill"&gt;Licence to kill&lt;/label&gt;
+  &lt;input name="agent[licence_to_kill]" type="hidden" value="0" /&gt;&lt;input type="checkbox" value="1" name="agent[licence_to_kill]" id="agent_licence_to_kill" /&gt;
+
+  &lt;input type="submit" name="commit" value="Create Agent" /&gt;
+
+&lt;/form&gt;
+</code></pre>
+
+<p>Writing a form by hand is not only lengthy but error prone as well. Also, if we would approach it that way, we’d also have to solve the issue with the varying routes and  CSS classes that we might need for creating a new object and updating an existing one—in effect, we would need to duplicate forms to create and edit records. As you’ll see soon, Rails meets you more than halfway on that. Verdict, however you put it, the manual approach is nasty and lacks convenience.</p>
+
+<h4>The Bad</h4>
+
+<p>We could go down the following road which does not make perfect use of conventions in Rails. Heads up, don’t do it. It basically shows that you don’t handle the available tools to your advantage and you are duplicating the form for <code>new</code> and <code>edit</code> actions.</p>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="erb">
+&lt;%= form_for :agent,
+             url: agents_path(@agent),
+             html: {method: :post} do |form_object| %&gt;
+
+  &lt;%= form_object.label      :name %&gt;
+  &lt;%= form_object.text_field :name %&gt;
+
+  &lt;%= form_object.label      :number %&gt;
+  &lt;%= form_object.text_field :number %&gt;
+
+  &lt;%= form_object.label      :licence_to_kill %&gt;
+  &lt;%= form_object.check_box  :licence_to_kill %&gt;
+
+  &lt;%= form_object.submit 'Create New Agent' %&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>What happens here is that the form builder carries the model you need for the form.</p>
+
+<pre><code class="erb">
+&lt;%= form_object.text_field :name %&gt;
+</code></pre>
+
+<p>Behind the scences, the line above get’s expanded into the following:</p>
+
+<pre><code class="erb">
+&lt;%= text_field :agent, :name %&gt;
+</code></pre>
+
+<p>The <code>form_for</code> method takes a couple of arguments:</p>
+
+<ul>
+<li>A symbol or a string for specifying the object</li>
+<li>A <code>url</code> hash</li>
+<li>A <code>html</code> hash.</li>
+<li>A <code>namespace</code> hash</li>
+</ul>
+
+
+<p>The url hash is for specifing the routing options. That means that you can manually specify to which routing path you submit the form to—named routes come in handy with this. This style is called the “generic way” because you need to manually configure the <code>form_for</code> call. Why is this solution suboptimal? Because we want to keep business logic out of our Views and Controllers as much as we can. A side effect of that is that we need to change fewer parts when needed.</p>
+
+<h6>HTML</h6>
+
+<pre><code class="html">
+&lt;form action="/agents" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;&lt;input type="hidden" name="authenticity_token" value="FUjXyB+EKkwElmRNt//pUmzYa95qy+cBQWcUYJtOHIFFBWJOvRnJlyIevSWWpIId6q0r6cKNGBgfc1e7LK+6jQ==" /&gt;
+
+  &lt;label for="agent_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="agent[name]" id="agent_name" /&gt;
+
+  &lt;label for="agent_number"&gt;Number&lt;/label&gt;
+  &lt;input type="text" name="agent[number]" id="agent_number" /&gt;
+
+  &lt;label for="agent_licence_to_kill"&gt;Licence to kill&lt;/label&gt;
+  &lt;input name="agent[licence_to_kill]" type="hidden" value="0" /&gt;&lt;input type="checkbox" value="1" name="agent[licence_to_kill]" id="agent_licence_to_kill" /&gt;
+
+  &lt;input type="submit" name="commit" value="Create New Agent" /&gt;
+
+&lt;/form&gt;
+</code></pre>
+
+<p>In case you missed it, this approach did not provide us with ids and classes for the <code>form</code> tag automatically. The ones for <code>input</code> tags however were generated for you. We’ll fix that in a minute. Just know what you can get for free and that you probably should use this to your advantage. If you need something different or an additional namespace, you can use the <code>html</code> hash or the <code>namespace</code> hash to specify things a bit more.</p>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="erb">
+&lt;%= form_for :agent,
+             url: agents_path(@agent),
+             html: {method: :post, class: 'create_agent', id: 'unique_agent'},
+             namespace: 'mi6' do |form_object| %&gt;
+</code></pre>
+
+<h6>HTML</h6>
+
+<pre><code class="html">
+&lt;form class="create_agent" id="unique_agent" action="/agents" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;&lt;input type="hidden" name="authenticity_token" value="IAkMk58AJeTMbNHLf8wzYwf+seSpC8OfoHIJuu8M80FwRLkVPZ3GP+rkCKNel1gsgYvx0wFNPIb+ZkphWO1VTQ==" /&gt;
+
+  &lt;label for="mi6_agent_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="agent[name]" id="mi6_agent_name" /&gt;
+
+  &lt;label for="mi6_agent_number"&gt;Number&lt;/label&gt;
+  &lt;input type="text" name="agent[number]" id="mi6_agent_number" /&gt;
+
+  &lt;label for="mi6_agent_licence_to_kill"&gt;Licence to kill&lt;/label&gt;
+  &lt;input name="agent[licence_to_kill]" type="hidden" value="0" /&gt;&lt;input type="checkbox" value="1" name="agent[licence_to_kill]" id="mi6_agent_licence_to_kill" /&gt;
+
+  &lt;input type="submit" name="commit" value="Create New Agent" /&gt;
+
+&lt;/form&gt;
+</code></pre>
+
+<p>Not bad! Now the <code>form</code> tag has the specified class and id—whatever makes your blood flow—and the <code>input</code> tags are namespaced with <code>mi6</code>. Almost there.</p>
+
+<h4>The Good</h4>
+
+<p>This one is called the “resource-oriented style” and has the least amount of Ruby you need to write in your views. With that approach we want to rely on automated resource identification. Rails figures out which routes it needs based on the object itself. Not only that, it gives you a different HTML output for creating a new object or for editing an existing one. Behind the scenes, Rails just asks the object if it already exits and acts accordingly. Creating forms this way is a clever use of conventions and helps avoid duplication. One line and all the heavy lifting is done for you.</p>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="erb">
+&lt;%= form_for @agent do |form_object| %&gt;
+
+  &lt;%= form_object.label      :name %&gt;
+  &lt;%= form_object.text_field :name %&gt;
+
+  &lt;%= form_object.label      :number %&gt;
+  &lt;%= form_object.text_field :number %&gt;
+
+  &lt;%= form_object.label      :licence_to_kill %&gt;
+  &lt;%= form_object.check_box  :licence_to_kill %&gt;
+
+  &lt;%= form_object.submit %&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>Much better, isn’t it? Now we get exactly what we need for both existing and new objects. Also, we didn’t need to add text to our submit button. Rails took care of that and also adapts to new or existing objects.</p>
+
+<h6>HTML FOR NEW OBJECT</h6>
+
+<pre><code class="html">
+&lt;form class="new_agent" id="new_agent" action="/agents" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;&lt;input type="hidden" name="authenticity_token" value="4BwAH2OkTvD0hOPOO7NB6rT94PoENUI4MazyoY8RN7+wUbWZwTmtK9IMOqYa6CqlMoigzaxzvSFvuLF6OPCRsw==" /&gt;
+
+  &lt;label for="agent_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="agent[name]" id="agent_name" /&gt;
+
+  &lt;label for="agent_number"&gt;Number&lt;/label&gt;
+  &lt;input type="text" name="agent[number]" id="agent_number" /&gt;
+
+  &lt;label for="agent_licence_to_kill"&gt;Licence to kill&lt;/label&gt;
+  &lt;input name="agent[licence_to_kill]" type="hidden" value="0" /&gt;&lt;input type="checkbox" value="1" name="agent[licence_to_kill]" id="agent_licence_to_kill" /&gt;
+
+  &lt;input type="submit" name="commit" value="Create Agent" /&gt;
+
+&lt;/form&gt;
+</code></pre>
+
+<h6>HTML FOR EDITING OBJECTS</h6>
+
+<pre><code class="html">&lt;form class="edit_agent" id="edit_agent_7" action="/agents/7" accept-charset="UTF-8" method="post"&gt;&lt;input name="utf8" type="hidden" value="&amp;#x2713;" /&gt;&lt;input type="hidden" name="authenticity_token" value="4BwAH2OkTvD0hOPOO7NB6rT94PoENUI4MazyoY8RN7+wUbWZwTmtK9IMOqYa6CqlMoigzaxzvSFvuLF6OPCRsw==" /&gt;
+
+...
+</code></pre>
+
+<p>When editing objects, it is also reflected in the HTML output by adding the id to the form id and the route / action needed for updating a specific object.</p>
+
+<p> A word about Rails magic. When people argue in exactly these situations that Rails is too magical for their taste, I often think that this could simply mean that they haven’t spent enough time learning the tools of their trade. Because once you take the time to master these tools, you’ll often understand not only why a simplification or an extraction was made but they also appear a lot more sober and straightforward.</p>
+
+<h4>Attention!</h4>
+
+<p>The code examples above used <code>form_object</code> as a block parameter. This is not recommended best practice but was done to remind you what this object represents and what gets yielded from <code>form_for</code>. Most people just use a plain <code>|f|</code> or <code>|form|</code>—which looks much nicer and concise. Btw, stuff like <code>label</code>, <code>text_field</code>, <code>check_box</code> and the likes are just helper methods that are called on the form builder object. There are a ton of them which cover pretty much any possible need you might encounter.</p>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="erb">
+&lt;%= form_for @agent do |f| %&gt;
+
+  &lt;%= f.label      :name %&gt;
+  &lt;%= f.text_field :name %&gt;
+
+  &lt;%= f.label      :number %&gt;
+  &lt;%= f.text_field :number %&gt;
+
+  &lt;%= f.label      :licence_to_kill %&gt;
+  &lt;%= f.check_box  :licence_to_kill %&gt;
+
+  &lt;%= f.submit %&gt;
+
+&lt;% end %&gt;
+</code></pre>
+
+<p>Concise and reads nice, right?</p>
+
+<h3>Partials</h3>
+
+<p>Collections are another thing we don’t want to be too verbose about. Rendering partials for individual objects of collections is so concise and straightforward—if done right—that I feel you have very little excuse not to make use of Rails’ conventions to reduce Ruby view code. Let’s turn things around with this one and start with an example that shows you how you are encouraged to approach this. Along they way, I’ll explain what you can leave out as well.</p>
+
+<h4>The Good</h4>
+
+<h6>app/views/agents/index.html.erb</h6>
+
+<pre><code class="erb">
+&lt;%= render @agents %&gt;
+</code></pre>
+
+<p>The <code>render</code> method is quite smart. The line above is all you need to write for iterating over a collection. If you need to change something in this view, it will be a very small change—and therefore a small cause of error. What happens here is that the framework is able to determine which partial it needs. Through the name of the object, it knows where to look for the partial—given that you adhere to the conventional naming of things. The way I see it, this is a good example that Rails is not trying to impress you with wizardry. The Rails team works hard to make your lives easier by cutting through repetitive red tape of sorts.</p>
+
+<h6>app/views/agents/_agent.erb</h6>
+
+<p>``` erb</p>
+
+<h3>Agent name: <%= agent.name %></h3>
+
+
+<h4>Licence to kill: <%= agent.licence_to_kill %></h4>
+
+
+<h4>Number: <%= agent.number %></h4>
+
+
+<h4>Gambler: <%= agent.gambler %></h4>
+
+
+<h4>Womanizer: <%= agent.womanizer %></h4>
+
+
+<pre><code>
+The only other thing that is necessary to make this work is placing a partial template at the appropriate path in your objects’s directory and extract the attributes you need from the object. No need to write any loops on your own. Fast and easy, handy and pragmatic I’d say. This extraction was originally done because the name of the partial was most of the time the name of the iterated object anyway and so it was easy to create a convention that handles this common task more effectively.
+
+#### The Bad
+
+Ok, now that we know how to handle this, let’s look what you could do and should avoid. The example below is just a bad usage of Rails but I wouldn’t call it ugly this time.
+
+###### app/views/agents/index.html.erb
+</code></pre>
+
+<p>&lt;% @agents.each do |agent| %>
+  <h3>Agent name: &lt;%= agent.name %></h3>
+  <h4>Licence to kill: &lt;%= agent.licence_to_kill %></h4>
+  <h4>Number: &lt;%= agent.number %></h4>
+  <h4>Gambler: &lt;%= agent.gambler %></h4>
+  <h4>Womanizer: &lt;%= agent.womanizer %></h4>
+&lt;% end %></p>
+
+<pre><code>
+You get the same result as above but it’s definitely more verbose. Iterating over the collection in the view is not necessary anymore. When you use ```render``` as above, the block parameter ```agent``` is implied and you can just use it without the ```each``` loop. So, stay away from code like this—it does not make you look particularly good (but nobody will collect your head for it either). It’s just not elegant and adds to the PHPitis.
+
+### Extracting Helpers
+
+The most obvious solution to clean up code from your views is avoiding to write any or extracting them intelligently. Let’s say we want to scramble the names of our agents in the index list. We should not put this code directly in our views. If we decide that the model is also not the appropriate layer to place this, then a custom helper in the ```app/helpers``` directory might be the right choice.
+
+##### app/helpers/agents_helper.rb
+</code></pre>
+
+<p>module AgentsHelper
+  def scramble(agent)
+    agent.name.split(&lsquo;&rsquo;).shuffle.join
+  end
+end</p>
+
+<pre><code>
+By packaging this in a module inside the helpers directory we now have access to this method in our views. Please give specific helpers their own home and don’t put everything on ```ApplicationHelper``` (```app/helpers/application_helper.rb```) which is really meant for more “global” stuff.
+
+Now I can access this little fellow in my partial template—or any view—for rendering my collection of agents. 
+
+##### app/views/agents/_agent.erb 
+</code></pre>
+
+<h3>Agent name: <%= scramble(agent) %></h3>
+
+
+<h4>Licence to kill: <%= agent.licence_to_kill %></h4>
+
+
+<h4>Number: <%= agent.number %></h4>
+
+
+<h4>Gambler: <%= agent.gambler %></h4>
+
+
+<h4>Womanizer : <%= agent.womanizer %></h4>
+
+
+<pre><code>
+Your own custom helpers are a great way to keep your views clean and healthy. And as you have seen, it’s so quick and easy that there’s little excuse to be too lazy and not extract them for battling PHPitis.
+
+## Conditional Content
+
+The helper method ```content_for``` is a handy tool for extracting content that doesn’t really fit the bill for a partial but needs a bit of encapsulation. It’s a way to store a bit of markup that you can apply on a page per page basis—you yield it into the layout where needed. In size, it should be a lot smaller than partials or even layouts.
+
+This technique can also save you the step to create your own method for it. Navigational menues or sidebars are often examples where this helper becomes useful. Let’s say you want to have a spot in your menu that is only for admins but don’t need to adjust the whole layout. Or you have pages where the sidebar is not needed. With ```content_for``` you inject what you need where you need it on a page per page basis. Duplication no more!
+
+###### app/views/agents/index.html.erb
+</code></pre>
+
+<p>&lt;% content_for :double_o_navbar do %>
+  <li>&lt;%= link_to &lsquo;Operations&rsquo;, operations_path %></li>
+  <li>&lt;%= link_to &lsquo;Agents&rsquo;, agents_path %></li>
+  <li>&lt;%= link_to &lsquo;Messages&rsquo;, messages_path %></li>
+&lt;% end %></p>
+
+<p>&lt;%= render @agents %></p>
+
+<pre><code>
+###### app/views/layouts/application.html.erb
+</code></pre>
+
+<p>&hellip;</p>
+
+<p><body>
+  <header>
+    <ul class='navbar'>
+      <li>&lt;%= link_to &lsquo;Home&rsquo;, root_path %></li>
+      <li>&lt;%= link_to &lsquo;About&rsquo;, &lsquo;#&rsquo; %></li>
+      &lt;%= yield :double_o_navbar %>
+    </ul>
+  </header></p>
+
+<p>  &lt;%= yield %></p>
+
+<p></body>
+</html>
+```</p>
+
+<p>Aside from that fact that this <code>header</code> is a good candidate for extraction into a partial, look at the <code>yield :double_o_navbar</code> section. This is a yielding region that inserts code from a <code>content_for</code> block. It will only insert code if the symbol names match. Here we want only double-o agents to have access to certain links in the navbar. Everyone else sees just <code>Home</code> and <code>About</code>. Think about the special links an admin needs to see that should never face a public interface.</p>
+
+<p>You can also use this helper to insert <code>id</code> or <code>class</code> attributes on HTML tags if needed. Every once in a while this comes in handy.</p>
+
+<p>Another common use is populating the <code>&lt;title&gt;</code> of a page dynamically with a <code>content_for</code> block.</p>
+
+<h6>app/views/layouts/application.html.erb</h6>
+
+<pre><code class="erb">
+&lt;title&gt;
+  Spectre – &lt;%= yield(:title).presence || "Default" %&gt;
+&lt;/title&gt;
+</code></pre>
+
+<h6>some.html.erb</h6>
+
+<pre><code class="erb">
+&lt;% content_for :title do %&gt;
+  Some funky title
+&lt;% end %&gt;
+</code></pre>
+
+<p>You just place the title you want in a <code>content_for</code> block and the application layout will insert it for you. You can get more clever with it but that should suffice for now. Should you have no need for a title or forget to add one then the logical <code>||</code> will kick in and yield a default of your choice. In the example above we need to check for the presence of a title or the default won’t work.</p>
+
+<p>What you definitely don’t wanna do is create instance variables for that kinda thing. Single responsibilities, remember?</p>
+
+<pre><code class="ruby">
+def show
+  @title = "Some page title"
+end
+</code></pre>
+
+<p>One more thing, you can ask if pages have a <code>content_for</code> block.</p>
+
+<h6>app/views/layouts/application.html.erb</h6>
+
+<pre><code class="erb">
+&lt;% if content_for?(:q_navbar) %&gt;
+  &lt;%= yield :q_navbar %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>This can help you avoid duplicating markup that is relevant to styling a page which adapts if elements are present on a page or not.</p>
+
+<h2>Semantic Markup</h2>
+
+<p>This is stuff you definitely want to avoid.</p>
+
+<p>``` html</p>
+
+<p><div class='container'>
+  <div class='col-lg-6'>
+    <div class='col-md-4 col-md-offset-2'></p>
+
+<p>```</p>
+
+<p>The markup above is from the <a href="http://getbootstrap.com">bootstrap</a> documentation and specifies how the columns are supposed to &lsquo;look'—information that has no semantic meaning and actually belongs into your stylesheets. That’s the stuff designers have nightmares about.</p>
+
+<p>So what’s the deal with that? This is important because—besides the questionable naming of classes—unsemantic markup violates <strong>separation of concerns</strong>. Your markup should not be bothered with styling information, instead both should stand on their own and enable you to <strong>switch out styles effortlessly</strong>—without touching your HTML. It’s not as difficult as it might sound at first. It takes a bit of discipline though.</p>
+
+<p>When you are able to keep that styling information out of your markup you have effectively achieved reducing PHPitis on another front—for designers an essential one! Also, the use of <strong>generic divs</strong> without inherent meaning is another example of poor markup. <strong>HTML5</strong> gives you lots of useful elements that convey more information to your <strong>future self</strong>, <strong>other developers and search engines</strong>. Naming is supposedly hard, but HTML5 provides you with lots of <strong>semantic elements</strong> that make your options much easier in that regard.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I hope you have seen that Rails Views don’t need much love to shine. Developers can be a bit snobby about the frontend layer. Dealing with Markup sometimes seems to be a little beneath them—writing HTML, DUH! Well, I shouldn’t throw any stones, but I came to appreciate a fine tuned, well honed presentation layer. It makes it much more fun to work with and when done right, much faster to make the inevitable changes. Parsing tons of Ruby code mixed with badly written markup is not a fun experience.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AntiPatterns Basics—Rails Models]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/"/>
+    <updated>2015-12-13T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/12/13/AntiPatterns-Basics-Rails-Models</id>
+    <content type="html"><![CDATA[<p><img src="/images/AntiPatterns/Models/wheelchair-construction-fail.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to “classify” solutions that prevented them from reinventing the wheel all the time. It’s important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers. If this is rather new to you and you see yourself as being more on the beginner side of all things Ruby / Rails, then this one is exactly written for you. I think it’s best if you think of it as a quick skinny-dip into a much deeper topic whose mastery will not happen overnight.Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices and tools frameworks provide for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Fat Models</li>
+<li>Missing Test Suite</li>
+<li>Voyeuristic Models</li>
+<li>Law of Demeter</li>
+<li><p>Spaghetti SQL</p></li>
+<li><h3>Fat Models</h3></li>
+</ul>
+
+
+<p>I’m sure you have heard the “Fat models, skinny controllers” sing-song tons of times when you first started out with Rails. OK, now forget that! Sure, the business logic needs to be solved in the model layer but you shouldn’t feel inclined to stuff everything in there senselessly just to avoid crossing the lines into controller territory. Here’s a new target you should aim for: “Skinny models, skinny controllers”. You might ask, “well, how should we arrange code to achieve that—after all it’s a zero-sum game?” Good point! The name of the game is composition and Ruby is well equipped to give you lots of options to avoid model obesity.</p>
+
+<p>In most (Rails) web applications that are database backed, the majority of your attention and work will be centered around the model layer—given that you work with compentent designers who are able to implement their own stuff in the view I mean. Inherently your models will have more “gravity” and attract more complexity. The questions is just how you intend to manage that complexity. Active Record definitely gives you plenty of rope to hang yourself while making your lives incredibly easy. It is a tempting approach to design your model layer by just following the path of highest immediate convenience. Nevertheless, a future proof architecture takes a lot more consideration than cultivating huge classes and stuffing everything into Active Record objects.</p>
+
+<p>The real problem that you deal with here is complexity—unnecessarily so I’d say. Classes that amass tons of code become complex just by their size alone. They are more difficult to maintain, difficult to parse and understand as well as increasingly harder to change because their composition probably lacks decoupling. These models often exceed their recommended capacity of handling one single responsibility and are rather all over the place. Worst case they become like garbage trucks, handling every trash that is lazily thrown at them. We can do better! If you think complexity is not a big deal—after all you are special, smart and all—think again! Complexity is the most notorious serial project killer out there—not your friendly neighborhood “Dark Defender”.</p>
+
+<p>“Skinnier models” achieve one thing advanced folks in the coding business (probably a lot more professions than code and design) appreciate and what we all should absolutely strive for—simplicity! Or at least more of it which is a fair compromise if complexity is hard to eradicate. What tools does Ruby offer to make our lives easier in that regard and let’s us trim the fat out of our models? Simple, other classes and modules. You identify coherent code that you could extract into another object and thereby build a model layer that consists of reasonably sized agents that have their own unique, distinctive responsibilities. Think about it in terms of a talented performer. In real life, such a person might be able to rap, break, write lyrics and produce her own tunes. In programming, you prefer the dynamics of a band—here with at least four distinctive members—where each person is in charge of as few things as possible. You wanna build an orchestra of classes that can handle the complexity of the composer—not a micromanaging genius maestro class of all trades.</p>
+
+<p><img src="/images/AntiPatterns/Models/genuis-maestro.png"></p>
+
+<p>Let’s look at an example of a fat model and play with a couple of options to handle its obesity. The example is a dummy one of course and by telling this goofy little story I hope it will be easier to digest and follow for newbies. We have a Spectre class that has too many responsibilities and has therefore grown unnecessarily. Besides these methods, I think it’s easy to imagine that such a specimen already accumulated lots of other stuff as well—represented by the three little dots. Spectre is well under way to become a <a href="https://robots.thoughtbot.com/how-much-should-i-refactor">god class</a>. (Chances are pretty low to sensibly formulate such a sentence again anytime soon;)</p>
+
+<pre><code class="ruby">class Spectre &lt; ActiveRecord::Base
+  has_many :spectre_members
+  has_many :spectre_agents
+  has_many :enemy_agents
+  has_many :operations
+
+  ...
+
+  def turn_mi6_agent(enemy_agent)
+    puts "MI6 agent #{enemy_agent.name} turned over to Spectre"
+  end
+
+  def turn_cia_agent(enemy_agent)
+    puts "CIA agent #{enemy_agent.name} turned over to Spectre"
+  end
+
+  def turn_mossad_agent(enemy_agent)
+    puts "Mossad agent #{enemy_agent.name} turned over to Spectre"
+  end
+
+  def kill_double_o_seven(spectre_agent)
+    spectre_agent.kill_james_bond
+  end
+
+  def dispose_of_cabinet_member(number)
+    spectre_member = SpectreMember.find_by_id(number)
+
+    puts "A certain culprit has failed the absolute integrity of this fraternity. The appropriate act is to smoke number #{number} in his chair. His services won’t be greatly missed"
+    spectre_member.die
+  end
+
+  def print_assignment(operation)
+    puts "Operation #{operation.name}’s objective is to #{operation.objective}."
+  end
+
+  private
+
+  def enemy_agent
+    #clever code
+  end
+
+  def spectre_agent
+    #clever code
+  end
+
+  def operation
+    #clever code
+  end
+
+  ...
+
+end
+</code></pre>
+
+<p>Spectre turns various kinds of enemy agents, delegates killing 007, grills Spectre’s cabinet member when they fail and also prints out operational assignments. A clear case of micromanagement and definitely a violation of the “Single Responsibility Principle”. Private methods are also stashing up fast. This class doesn’t need to know most of the stuff that’s currently in it. We will split this functionality into a couple of classes and see if the complexity of having a couple more classes/objects is worth the liposuction.</p>
+
+<pre><code class="ruby">
+class Spectre &lt; ActiveRecord::Base
+  has_many :spectre_members
+  has_many :spectre_agents
+  has_many :enemy_agents
+  has_many :operations
+
+  ...
+
+  def turn_enemy_agent
+    Interrogator.new(enemy_agent).turn
+  end
+
+  private 
+
+  def enemy_agent
+    self.enemy_agents.last
+  end
+end
+
+class Interrogator
+  attr_reader :enemy_agent
+
+  def initialize(enemy_agent)
+    @enemy_agent = enemy_agent
+  end
+
+  def turn
+    enemy_agent.turn
+  end
+end
+
+class EnemyAgent &lt; ActiveRecord::Base
+  belongs_to :spectre
+  belongs_to :agency
+
+  def turn
+    puts 'After extensive brainwashing, torture and hoards of cash…'
+  end
+end
+
+class MI6Agent &lt; EnemyAgent
+  def turn
+    super
+    puts "MI6 agent #{name} turned over to Spectre"
+  end
+end
+
+class CiaAgent &lt; EnemyAgent
+  def turn
+    super
+    puts "CIA agent #{name} turned over to Spectre"
+  end
+end
+
+class MossadAgent &lt; EnemyAgent
+  def turn
+    super
+    puts "Mossad agent #{name} turned over to Spectre"
+  end
+end
+
+class NumberOne &lt; ActiveRecord::Base
+  def dispose_of_cabinet_member(number)
+    spectre_member = SpectreMember.find_by_id(number)
+
+    puts "A certain culprit has failed the absolute integrity of this fraternity. The appropriate act is to smoke number #{number} in his chair. His services won’t be greatly missed"
+    spectre_member.die
+  end
+end
+
+class Operation &lt; ActiveRecord::Base
+  has_many :spectre_agents
+  belongs_to :spectre
+
+  def print_assignment
+    puts "Operation #{name}’s objective is to #{objective}."
+  end
+end
+
+class SpectreAgent &lt; ActiveRecord::Base
+  belongs_to :operation
+  belongs_to :spectre
+
+  def kill_james_bond
+    puts "Mr. Bond, I expect you to die!"
+  end
+end
+
+class SpectreMember &lt; ActiveRecord::Base
+  belongs_to :spectre
+
+  def die
+    puts "Nooo, nooo, it wasn’t meeeeeeeee! ZCHUNK!"
+  end
+end
+</code></pre>
+
+<p>I think the most important part that you should pay attention to is how we used a plain Ruby class like <code>Interrogator</code> to handle the turning of agents from different agencies. Real world examples could represent a converter that, say, transforms a HTML document into pdf and vice versa. If you don’t need the full functionality of Active Record classes, why use them if a simple Ruby class can do the trick as well? A little less rope to hang ourselves.</p>
+
+<p>The Spectre class leaves the nasty business of turning agents to the <code>Interrogator</code> class and just delegates to it. This one has now the single responsibility of torturing and brainwashing captured agents. So far so good. But why did we create separate classes for each agent? Simple. Instead of just directly extracting the various turn methods like <code>turn_mi6_agent</code> over to <code>Interrogator</code> we gave them a better home in their own respective class. As a result, we can make effective use of polymorphism and don’t care about individual cases for turning agents. We just tell these different agent objects to turn and each of them knows what to do. The <code>Interrogator</code> doesn’t need to know the specifics about how each agent turns.</p>
+
+<p>Since all these agents are Active Record objects, we created a generic one, <code>EnemyAgent</code>, that has a general sense of what turning an agent means and we encapsulate that bit for all agents in one place by subclassing it. We make use of this inheritance by supplying the <code>turn</code> methods of the various agents with <code>super</code> and get therefore access to the brainwashing and torture business—without duplication. Single responsibilities and no duplication is a good starting point for moving on.</p>
+
+<p>The other Active Record classes take on various responsibilities that Spectre doesn’t need to care about. “Number One” usually does the grilling of failed Spectre cabinet members himself so why not let a dedicated object handle electrocution. On the other hand, failing Spectre members know how to die themselves when being smoked in their chair by <code>NumberOne</code>. <code>Operation</code> now prints its assignments itself as well—no need to waste the time of Spectre with peanuts like that. Last but not least, killing James Bond is usually attempted by an agent in the field, so <code>kill_james_bond</code> is now a method on <code>SpectreAgent</code>. Goldfinger would have handled that differently of course—gotta play with that laser thingie if you have one I guess.</p>
+
+<p>As you can clearly see, we basically have now ten classes where we previously had only one. Isn’t that too much? It can be for sure. It’s an issue you’ll need to wrestle with most of the time you when split up such responsibilities. You can definitely overdue this. But looking at this from anther angle might help:</p>
+
+<ul>
+<li><p>Have we separated concerns? Absolutely!</p></li>
+<li><p>Do we have lightweight, skinny classes that are better suited to handle singular responsibilities. Pretty sure!</p></li>
+<li><p>Do we tell a “story”, are we painting a clearer picture of who is involved and is in charge for certain actions? I hope so!</p></li>
+<li><p>Is it easier to digest what each class is doing? For sure!</p></li>
+<li><p>Have we cut down on the number of private methods? Yup!</p></li>
+<li><p>Does this represent a better quality of object oriented programming? Since we used composition and referred to inheritance only where needed for setting up these objects, you bet!</p></li>
+<li><p>Does it feel more clean? Yes!</p></li>
+<li><p>Are we better equipped to change our code without making a mess? Sure thing!</p></li>
+<li><p>Was it worth it? What do you think?</p></li>
+</ul>
+
+
+<p>I’m not implying that these questions need to be checked off your list every time but these are the things you probably should start asking yourself while slimming down your models. Designing skinny models can be hard but it’s an essential measure to keep your applications healthy and agile. These are also not the only constructive ways to deal with fat models but it’s a good start, especially for newbies.</p>
+
+<ul>
+<li><h3>Missing Test Suite</h3></li>
+</ul>
+
+
+<p>That is probably the most obvious AntiPattern. Coming from the test-driven side of things, touching a mature app that has no test coverage can be one of the most painful experiences to encounter. If you wanna hate the world and your own profession more than anything, just spend six months on such a project and you’ll learn how much of a misanthrope is potentially in you. Kidding of course, but I doubt it will make you happier and that you wanna do it again—ever. Maybe a week will do as well. I’m pretty sure, the word torture will pop into your mind more often than you think. If testing was not part of your process so far and that kinda pain feels normal to your work, maybe you should consider that testing is not that bad nor your enemy. When your code related joy levels are more or less constantly above zero and you can fearlessly change your code then the overall quality of your work will be a lot higher compared to output that is tainted by anxiety and suffering.</p>
+
+<p>Am I overestimating? I really don’t think so! You want to have a very extensive test coverage, not only because it is a great design tool for only writing code that you actually need but also you will need to change your code at some point in the future. You will be a lot better equipped to engage with your codebase—and a lot more confident—if you have a test harness that aides and guides refactorings, maintenance and extensions. They will occur for sure down the road, zero doubts about that. This is also the point where a test suite starts to pay off the second round of dividends because the increased speed with which you can securely make these quality changes can not be achieved by a long shot in apps that are made by people who think writing tests is nonsense or cost too much time.</p>
+
+<ul>
+<li><h3>Voyeuristic Models</h3></li>
+</ul>
+
+
+<p>These are models that are super nosy and want to gather too much information about other objects / models. That is in stark contrast to one of the most fundamental ideas in Object Oriented Programming—encapsulation. We rather want to strive for self-contained classes / models that manage their internal affairs themselves as much as possible. In terms of programming concepts, these voyeuristic models basically violate the “Principle of Least Knowledge”, aka the “Law of Demeter”—however you wanna pronounce it.</p>
+
+<h3>Law of Demeter</h3>
+
+<p>Why is this a problem? It is a form of duplication—a subtle one—and also leads to code that is a lot more brittle than anticipated. The Law of Demeter is pretty much the most reliable code smell that you can always attack without being worried about the possible downsides. I guess calling this one a “law” was not as pretentious as it might sound at first. Dig into this smell, you will need it a lot in your projects. It basically states that in terms of objects, you can call methods on your objects friend but not on your friend’s friend. This is a common way to explain it and it all boils down to using not more than a single dot for your method calls. Btw, it is totally fine to use more dots or methods calls when you deal with a single object that does not try to reach further than that. Something like <code>@weapons.find_by_name('Poison dart').formula</code>. is just fine. Finders can pile up quite a few dots sometimes. Btw, encapsulating them in dedicated methods is nevertheless a good idea.</p>
+
+<h4>Law of Demeter violations</h4>
+
+<p>Let’s look at a couple of bad examples from the classes above:</p>
+
+<pre><code class="ruby">
+@operation.spectre_agents.first.kill_james_bond
+
+@spectre.operations.last.spectre_agents.first.name
+
+@spectre.enemy_agents.last.agency.name
+</code></pre>
+
+<p>To get the hang of it, here are a few more fictional ones.</p>
+
+<pre><code class="ruby">
+@quartermaster.gizmos.non_lethal.favorite
+
+@mi6.operation.agent.favorite_weapon
+
+@mission.agent.name
+</code></pre>
+
+<p>Bananas, right? Doesn’t look good, does it? As you can see, these method calls peek too much into the business of other objects. The most important and obvious negative consequence is changing a bunch of these method calls all over the place if the structure of these objects need to change—which they will eventually because the only constant in software development is—you guessed it—change (maybe feeling stupid every now and then as well but I’m not so sure about this one). Also, it looks really nasty, not easy on the eyes at all. When you don’t know that this is a problematic approach, Rails let’s you take this very far anyway—without screaming at you. A lot of rope, remember?</p>
+
+<p>So what can we do about this? After all we want to get that information somehow. On the one hand you can compose our objects to fit our needs and we can make clever use of delegation to keep our models slim at the same time. Let’s dive into some code to show you what I mean.</p>
+
+<pre><code class="ruby">
+class SpectreMember &lt; ActiveRecord::Base
+  has_many :operations
+  has_many :spectre_agents
+
+  ...
+
+end
+
+class Operation &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  ...
+
+end
+
+class SpectreAgent &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  ...
+
+end
+
+@spectre_member.spectre_agents.all
+@spectre_member.operations.last.print_assignment
+@spectre_member.spectre_agents.find_by_id(1).name
+
+@operation.spectre_member.name
+@operation.spectre_member.number
+@operation.spectre_member.spectre_agents.first.name
+
+@spectre_agent.spectre_member.number
+</code></pre>
+
+<pre><code class="ruby">
+class SpectreMember &lt; ActiveRecord::Base
+  has_many :operations
+  has_many :spectre_agents
+
+  ...
+
+  def list_of_agents
+    spectre_agents.all
+  end
+
+  def print_operation_details
+    operation = Operation.last
+    operation.print_operation_details
+  end
+end
+
+class Operation &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  ...
+
+  def spectre_member_name
+    spectre_member.name
+  end
+
+  def spectre_member_number
+    spectre_member.number
+  end
+
+  def print_operation_details
+    puts "This operation’s objective is #{objective}. The target is #{target}"
+  end
+end
+
+class SpectreAgent &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  ...
+
+  def superior_in_charge
+    puts "My boss is number #{spectre_member.number}"
+  end
+end
+
+@spectre_member.list_of_agents
+@spectre_member.print_operation_details
+
+@operation.spectre_member_name
+@operation.spectre_member_number
+
+@spectre_agent.superior_in_charge
+</code></pre>
+
+<p>This is definitely a step in the right direction. As you can see, we packed the info we wanted to acquire in a bunch of wrapper methods. Instead of reaching across many objects directly, we abstracted these bridges and leave it to the respective models to talk to their friends about the infos we need. The downside to this approach is having all these extra wrapper methods lying around. Sometimes it’s fine but we really want to avoid maintaining these methods in a bunch of places if an object changes.</p>
+
+<p>If possible, the dedicated place for them to change is on their object—and on their object alone. Polluting objects with methods that have little to do with their own model itself is also something to look out for since this is always a potential hazard for watering down on single responsibilities. We can do better than that. Where possible, let’s delegate method calls directly to their objects in charge and try to cut down on wrapper methods as much as we can. Rails knows what we need and provides us with the handy <code>delegate</code> class method method to tell our object’s friends what methods we need called.</p>
+
+<p>Let’s zoom in on something from the previous code example and see where we can make proper use of delegation.</p>
+
+<pre><code class="ruby">
+class Operation &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  delegate :name, :number, to: :spectre_member, prefix: true
+
+  ...
+
+# def spectre_member_name
+#   spectre_member.name
+# end
+
+# def spectre_member_number
+#   spectre_member.number
+# end
+
+  ...
+
+end
+
+@operation.spectre_member_name
+@operation.spectre_member_number
+
+
+
+class SpectreAgent &lt; ActiveRecord::Base
+  belongs_to :spectre_member
+
+  delegate :number, to: :spectre_member, prefix: true
+
+  ...
+
+  def superior_in_charge
+    puts "My boss is number #{spectre_member_number}"
+  end
+
+  ...
+
+end
+</code></pre>
+
+<p>As you can see we could simplify things a bit using method delegation. We got rid of <code>Operation#spectre_member_name</code> and <code>Operation#spectre_member_number</code> completely and <code>SpectreAgent</code> does not need call <code>number</code> on <code>spectre_member</code> anymore—<code>number</code> is delegated back directly to its “origin” class <code>SpectreMember</code>.</p>
+
+<p>In case this is a little confusing at first, how does this work exactly? You tell delegate which <code>:method_name</code> it should delegate <code>to:</code> which <code>:class_name</code> (multiple method names are fine too). The <code>prefix: true</code> part is optional. In our case, it prefixed the snake-cased class name of the receiving class before the method name and enabled us to call <code>operation.spectre_member_name</code> instead of the potentially ambiguous <code>operation.name</code>—if we had not used the prefix option. This works really nice with <code>belongs_to</code> and <code>has_one</code> associations. On the <code>has_many</code> side of things the music will stop and you will run into trouble though. These associations provide you with a collection proxy that will throw NameErrors or NoMethodErros at you when you delegate methods to these “collections”.</p>
+
+<ul>
+<li><h3>Spaghetti SQL</h3></li>
+</ul>
+
+
+<p>To round off this chapter about model AntiPatterns in Rails I’d like to spend a little time on what to avoid when SQL is involved. Active Record associations provide options that make your lives substantially easier when you are aware what you should stay away from. Finder methods are a whole topic on their own—and we won’t cover them in their full depth—but I wanted to mention a few common techniques that help you even when you write very simple ones.</p>
+
+<p>Things that we should be concerned about echo most of what we learned so far. We want to have intention-revealing, simple and reasonably named methods for finding stuff in our models. Let’s dive right into code.</p>
+
+<pre><code class="ruby">
+class Operation &lt; ActiveRecord::Base
+
+  has_many :agents
+
+  ...
+
+end
+
+class Agent &lt; ActiveRecord::Base
+
+  belongs_to :operation
+
+  ...
+
+end
+
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @agents = Agent.where(operation_id: @operation.id, licence_to_kill: true)
+  end
+end
+</code></pre>
+
+<p>Looks harmless, no? We’re juuust looking for a bunch of agents that have the licence to kill for our ops page. Think again. Why should the <code>OperationsController</code> dig into the internals of <code>Agent</code>? Also, is this really the best we can do to encapsulate a finder on <code>Agent</code>? If you are thinking that you could add a class method like <code>Agent.find_licence_to_kill_agents</code> which encapsulates the finder logic you are definitely doing a step in the right direction—not nearly enough though.</p>
+
+<pre><code class="ruby">
+class Agent &lt; ActiveRecord::Base
+
+  belongs_to :operation
+
+  def self.find_licence_to_kill_agents(operation)
+    where(operation_id: operation.id, licence_to_kill: true)
+  end
+  ...
+
+end
+
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @agents = Agent.find_licence_to_kill_agents(@operation)
+  end
+end
+</code></pre>
+
+<p>We have to be a bit more engaged than that. First of all, this is not using the associations to our advantage and encapsulation is also suboptimal. Associations like <code>has_many</code> come with the benefit that we can add on to the proxy array that we get returned. We could have done this instead:</p>
+
+<pre><code class="ruby">
+class Operation &lt; ActiveRecord::Base
+
+  has_many :agents
+
+  def find_licence_to_kill_agents
+    self.agents.where(licence_to_kill: true)
+  end
+  ...
+
+end
+
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @agents = @operation.find_licence_to_kill_agents
+  end
+end
+</code></pre>
+
+<p>This works for sure but is also just another small step in the right direction. Yes, the controller is a bit better and we make good use of model associations but you should still be suspicious why <code>Operation</code> is concerned about the implementation of finding a certain type of <code>Agent</code>. This responsibility belongs back to the <code>Agent</code> model itself. Named scopes come in pretty handy with that. Scopes define chainable—very important—class methods for your models and thereby allow you the specify useful queries which you can use as additional method calls on top of your model associations. The following two approaches for scoping <code>Agent</code> are indifferent.</p>
+
+<pre><code class="ruby">
+class Agent &lt; ActiveRecord::Base
+  belongs_to :operation
+
+  scope :licenced_to_kill, -&gt; { where(licence_to_kill: true) }
+end
+
+class Agent &lt; ActiveRecord::Base
+  belongs_to :operation
+
+  def self.licenced_to_kill
+    where(licence_to_kill: true)
+  end
+end
+
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @agents = @operation.agents.licenced_to_kill
+  end
+end
+</code></pre>
+
+<p>That is much better. In case the syntax of scopes is new to you, they are just (stabby) lambdas—not terribly important to look into them right away btw—and they are the proper way to call scopes since Rails 4. <code>Agent</code> is now in charge of managing its own search parameters and associations can just tuck on what they need to find. This approach let’s you achieve queries as single SQL calls. I personally like to use <code>scope</code> for its explicity and they are very handy to chain inside well-named finder methods—that way they increase the possiblity of reusing code and DRY-ing code. Let’s say we have something a bit more involved:</p>
+
+<pre><code class="ruby">
+class Agent &lt; ActiveRecord::Base
+  belongs_to :operation
+
+  scope :licenced_to_kill, -&gt; { where(licence_to_kill: true) }
+  scope :womanizer, -&gt; { where(womanizer: true) }
+  scope :bond, -&gt; { where(name: 'James Bond') }
+  scope :gambler, -&gt; { where(gambler: true) }
+end
+</code></pre>
+
+<p>We can now use all these scopes to custom build more comples queries.</p>
+
+<pre><code class="ruby">
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @double_o_agents = @operation.agents.licenced_to_kill
+  end
+
+  def show
+    @operation = Operation.find(params[:id])
+    @bond = @operation.agents.womanizer.gambler.licenced_to_kill
+  end
+
+  ...
+end
+</code></pre>
+
+<p>Sure that works but I’d like to suggest you go one step further.</p>
+
+<pre><code class="ruby">
+class Agent &lt; ActiveRecord::Base
+  belongs_to :operation
+
+  scope :licenced_to_kill, -&gt; { where(licence_to_kill: true) }
+  scope :womanizer, -&gt; { where(womanizer: true) }
+  scope :bond, -&gt; { where(name: 'James Bond') }
+  scope :gambler, -&gt; { where(gambler: true) }
+
+  def self.find_licenced_to_kill
+    licenced_to_kill
+  end
+
+  def self.find_licenced_to_kill_womanizer
+    womanizer.licenced_to_kill
+  end
+
+  def self.find_gambling_womanizer
+    gambler.womanizer
+  end
+
+  ...
+
+end
+
+class OperationsController &lt; ApplicationController
+
+  def index
+    @operation = Operation.find(params[:id])
+    @double_o_agents = @operation.agents.find_licenced_to_kill
+  end
+
+  def show
+    @operation = Operation.find(params[:id])
+    @bond = @operation.agents.find_licenced_to_kill_womanizer
+    #or
+    @bond = @operation.agents.bond
+  end
+
+  ...
+
+end
+</code></pre>
+
+<p>As you can see, through this approach we reap the benefits of proper encapsulation, model associations, code reuse and expressive naming of methods—and all while doing single SQL queries. No more spaghetti code, awesome! If you are worried about violating the Law of Demeter thingie you will be pleased to hear that since we are not adding dots by reaching into the associated model but chaining them only onto their own object we are not commiting any demeter crimes.</p>
+
+<ul>
+<li><h3>Final thoughts</h3></li>
+</ul>
+
+
+<p>From a beginner’s perspective I think you have learned a lot about better handling of Rails Models and how to model them more robustly without calling for a hangman. Don’t be fooled though in thinking that there isn’t a lot more to learn on this particular topic. I presented you with a few AntiPatterns that I think newbies are able to easily understand and handle in order to protect themselves early on. If you don’t know what you don’t know, plenty of rope is available for looping around your neck. Although this was a solid start into this topic, there are not only more aspects to AntiPatterns in Rails models but also more nuances which you’ll need to explore as well. These were the basics—very essential and important ones—and you should feel accomplished for a little while that you haven’t waited until much later in your career to figure them out.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby / Rails Code Smell Basics 04]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Code-Smells-04/"/>
+    <updated>2015-11-28T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/28/Code-Smells-04</id>
+    <content type="html"><![CDATA[<p><img src="/images/code_smells/code_smell_01_600_mirrored.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it felt unnecessary foggy to get into code smells and refactorings. On the one hand, authors expect a certain level of proficiency and therefore might not feel super compelled to provide the reader with the same amount of context as a newbie might need to comfortably dive into this world sooner. As a consequence maybe, newbies on the other hand form the impression that they should wait a bit longer until they are more advanced to learn about smells and refactorings. I do not agree with that approach and think that making this topic more approachable will help them design better software earlier in their career. At least I hope it helps to provide junior peeps with a solid head start.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Comments</li>
+<li>Callbacks</li>
+<li>Shitty Names</li>
+<li>Mixins</li>
+<li><p>Data Clumps</p></li>
+<li><h3>A Final Whiff</h3></li>
+</ul>
+
+
+<p>The last article in this mini series is something like a bonus round. I wanted to introduce you to a another couple of smells that can be addressed quickly and without much fuzz. One for the road so to speak. I think with the knowledge you gathered from the previous articles, most of them won’t even need code examples to wrap your head around. When you open a book about refactoring you will easily find more smells than we have discussed. However, with these major ones under your belt you will be well prepared to deal with any of them.</p>
+
+<ul>
+<li><h3>Comments</h3></li>
+</ul>
+
+
+<p>Generously applied comments are rarely a good idea—probably never. Why not? Because it might suggest that your design is not speaking for itself. That means your code is probably so complicated to understand that it needs literal explanations. First of all, who wants to go through hoards of text in your code—or worse, through code that is hard to understand. Jackpot if both are a common occurrence. That’s just bad form and not very considerate of people who come after you—no offence masochists, torture your future self all you want.</p>
+
+<p>You want to write code that is expressive enough in itself. Create classes and methods that speak for themselves. In the best scenario, they tell a story that is easy to follow. That is probably one of the reasons <em>conventions over configurations</em> became so influential. Reinventing the wheel is certainly sometimes a good practice to sharpen your understanding and to explore new territory, but in fast-paced development environments your colleagues are looking for clarity and quick navigation—not only within your files but also within the mental map you create in your code.</p>
+
+<p>I don’t wanna drift off in a whole nother topic, but naming plays a big role in all of that. And excessive commenting within your code is a little bit contradicting good naming practices / conventions. Don’t get me wrong, it’s fine to add comments, just stay on the path that “illumintates” your code—not distract from it. They should certainly not be instructions for clever code that mostly you can decipher because you wanted to show off. If you keep your methods simple—as you should be—and name everything with consideration then you have little need to write whole novels in between your code.</p>
+
+<p>Stay away from the following:</p>
+
+<ul>
+<li>Todo lists</li>
+<li>Dead code commented out</li>
+<li>Comments in method bodies</li>
+<li>More than one comment per method</li>
+</ul>
+
+
+<p>It’s also useful to break out parts of methods via <em>extract method</em> and giving this part of a method a name that tells us about its responsibility—rather than have all the details clutter up a high-level understanding of what’s going on within the method’s body.</p>
+
+<pre><code class="ruby">
+def create_new_agent
+...
+end
+
+...
+# create new agent
+visit root_path
+click_on     'Create Agent'
+fill_in      'Agent Name', with: 'Jinx'
+fill_in      'Email',      with: 'jinx@nsa.com'
+fill_in      'Password',   with: 'secretphrase'
+click_button 'Submit'
+...
+</code></pre>
+
+<p>What is easier to read? A no brainer of course! Use the free mileage you get by naming things properly via extracted methods. It makes your code so much smarter and easier to digest—plus the benefits of refactoring in one place if reused of course. I bet this will help trim down your comments by a very significant amount.</p>
+
+<ul>
+<li><h3>Callbacks</h3></li>
+</ul>
+
+
+<p>This is a simple one. Don’t use callbacks that are not related to persistence logic! Your objects have a persistence life cycle—creating, saving and deleting objects so to speak—and you don’t want to “pollute” that logic with other behaviour like business logic of your classes. Keep it simple, remember? Typical examples of what to avoid is sending emails, processing  payments and stuff. Why not? Because debugging and refactoring your code should be as easy as possible and messy callbacks have a reputation of interfering with these plans. Callbacks make it a bit too easy to muddy the waters and to shoot yourself in the foot multiple times.</p>
+
+<p>Another problematic point about callbacks is that it can hide the implementation of business logic in methods like <strong>#save</strong> or <strong>#create</strong>. So don’t be lazy and abuse them just because it seems convenient!  The biggest concern is coupling of concerns of course. Why let the create method of <strong>SpectreAgent</strong> for example deal with the delivery of a <strong>#mission_assignment</strong> or something. As so often, just because we can do it—easily—doesn’t mean we should. It’s a guaranteed bite in the ass waiting to happen. The solution is actually pretty straightforward. If a callback’s behaviour has nothing to do with persistence simply create another method for it and you’re done.</p>
+
+<ul>
+<li><h3>Shitty Names</h3></li>
+</ul>
+
+
+<p>Sorry to be so blunt, but just calling poor naming choices uncommunicative or simply bad doesn’t do the consequences justice I think. In effect, you are wasting other peoples’s time with bad naming choices—or even better your own if you have to revisit that piece of code in the future. The code you write are instructions to be read by you and other people and therefore a purely logical, super prosaic, overly clever, or worse, a plain lazy approach to naming things is one of the worst things you can leave behind. Aim to make your code easier to understand by providing better names.</p>
+
+<p>Clarity trumps false cleverness or unneccessary conciseness any day of the week! Work hard on naming methods, variables! and classes that make it easy to follow some sort of thread. I don’t wanna go as far as to say that you should aim for trying to tell a story but if you can, go for it! Machines are not the ones who need to “read” your code—it’s run by them of course. Maybe it’s one reason why the term “Software Writer” grew on me a bit as of lately—not because the engineering aspect should be diminished—but writing software is more than writing soulless instructions for machines—at least software that is elegant and sparks joy to work with. Don’t freak out if this turns out to be a lot more difficult than you thought. Naming is notoriously hard!</p>
+
+<ul>
+<li><h3>Mixins</h3></li>
+</ul>
+
+
+<p>Mixins are a smell? Well, let’s say they can be smelly. Multiple inheritance through Mixins can be useful but there are a couple of things that make them less useful than you might have thought when you started out with OOP:</p>
+
+<ul>
+<li>They are trickier to test.</li>
+<li>They can’t have their own state.</li>
+<li>They “pollute” the namespace a bit.</li>
+<li>It’s not always super clear where functionality comes from—since it’s mixed in.</li>
+<li>They can inflate the size of classes / number of methods drastically. Small classes rule, remember?</li>
+</ul>
+
+
+<p>I suggest you read up a bit on “<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">Composition Over Inheritance</a>”. The gist of it is that you should rely more on reuse of your own, separately composed classes than on inheritance / subclassing. Mixins are a form of inheritance that can be put to good use but also something you should be a bit suspicious about.</p>
+
+<ul>
+<li><h3>Data Clumps</h3></li>
+</ul>
+
+
+<p>Watch out for repeatedly passing the same multiple arguments into your methods. That often suggests that they have a relationship that can be extracted into a class of its own—which can in turn often drastically simplify feeding these methods with data by reducing the size of arguments. If it’s worth introducing a new dependency is the thing you have to weigh though.</p>
+
+<p>This smell is another form of subtle duplication that we can handle better. A good example is passing a long list of arguments that make up an address and credit card info. Why not package these infos in an existing class or extract a new class first and pass in the address and credit card objects instead. Another way to think about is having a range object instead of a start and an end. In case you have instance variables that fall for that smell then extracing a class is worth considering. In other cases, a <em>parameter object</em> might offer the same quality of abstraction.</p>
+
+<p>You’ll know that you have achieved a small win if your system is easier to understand and that you found a new concept—like credit card—that you could encapsulate into an object.</p>
+
+<ul>
+<li><h3>Final Thoughts</h3></li>
+</ul>
+
+
+<p>Congratulations! You have leveled up your OOP skills significantly! Boss level status is approaching. No seriously, great job if this whole topic was rather new to you! As a final recommendation, I want you to take away one thing. Please remember that there is no recipe that will always work. You will need to weigh every problem differently and often mix different techniques to fit your needs. Also, for the rest of your career, this is most likely something you’ll never stop struggling with—I guess a good struggle though, a creative and challenging one. This is a little guess, but I feel that if you understood most of the topics we covered, you’ll be well on your way to write code other developers like to discover. Thanks for your time reading this little series and good luck becoming a happy hacker!</p>
+]]></content>
+  </entry>
+  
+</feed>

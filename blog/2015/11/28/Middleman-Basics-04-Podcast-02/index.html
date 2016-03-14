@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Middleman Basics 04-Podcast Site (Part 02) - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Topics Posts Index
+Footer
+Color
+Posts Index Where were we? Right now our site doesn’t look too sexy. Screenshot Currently our posts are not aligned &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Middleman-Basics-04-Podcast-02/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Middleman Basics 04-Podcast Site (Part 02)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-28T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Posts Index</li>
+<li>Footer</li>
+<li><p>Color</p></li>
+<li><h3>Posts Index</h3></li>
+</ul>
+
+
+<p>Where were we? Right now our site doesn’t look too sexy.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/before_neat_outer-container.png"></p>
+
+<p>Currently our posts are not aligned to anything other than the left side and we’re in need of a grid to fix this mess. Our beloved Bourbon Neat to the rescue! First we’ll add a class <strong>.posts</strong> as a wrapper for our posts and make it an <strong>outer-container</strong> that centers the content on the page.</p>
+
+<p><strong>source/index.html.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&#39;posts&#39;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">page_articles</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x"> &lt;span&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">    &lt;!-- use article.summary(250) if you have Nokogiri available to show just</span>
+</span><span class='line'><span class="x">         the first 250 characters --&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we need to create a new Sass partial for our index styles and apply some magic.</p>
+
+<p><strong>source/stylesheets/all.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;index_posts&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.posts</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also added a background color to make our outer container easily visible—for now.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/after_neat_outer-container.png"></p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add -all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds Sass partial for index posts</span>
+</span><span class='line'><span class="s1">               Centers content&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Recent articles, tags, and calendar stuff is in <strong>layout.erb</strong> and doesn’t concern us atm. We’ll leave it as is for now. Let’s focus instead of making this index list of posts pop. Let’s give the <strong>h2</strong> title a class <strong>post-title</strong> and let title and paragraphs of body copy span for 8 (out of twelve) columns across the page. The posts need to shift two columns over as well because we want to avoid having our copy running across the whole page and thereby exceeding a healthy line width (measure) for reading of 45-75 characters.</p>
+
+<p><strong>source/index.html.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&#39;posts&#39;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">page_articles</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;h2 class=&#39;post-title&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x"> &lt;span&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">    &lt;!-- use article.summary(250) if you have Nokogiri available to show just</span>
+</span><span class='line'><span class="x">         the first 250 characters --&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.post-title</span><span class="o">,</span> <span class="nc">.posts</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/after_shift_span-columns.png"></p>
+
+<p>Now we’re talking. Our content is aligned and nicely centered on the page. What we’re missing though is any form of visual hierarchy. Our <strong>h2</strong> titles are not much bigger than the content of our posts. To provide a better reading experience, we want to make sure titles and their corresponding text have better visual contrast than that.</p>
+
+<p>We need better text to work with first. Let’s make use of a Middleman helper for dummy text. Let’s add an <strong>erb</strong> extension to our blogposts and add the following to our test posts. Btw, we need the <strong>.erb</strong> extension only because we want to run some ruby code between this construct <code>&lt;%= %&gt;</code>.</p>
+
+<p><strong>source/posts/2012-01-01-example-article.html.markdown.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">This is an example article. You probably want to delete it and write your own articles!</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">lorem</span><span class="o">.</span><span class="n">sentences</span> <span class="mi">5</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I’ll show you in a minute what what got here, but first a few more styles.</p>
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.post-title</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.05</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/after_title_p_font-sized.png"></p>
+
+<p>A bit easier on the eyes isn’t it? We have adjusted the headers and paragraphs to a reasonable. A little extra margin in between posts makes all the difference. In terms of hierachy, its a good start.</p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adjusts size for title and body text</span>
+</span><span class='line'><span class="s1">               Adds dummy text</span>
+</span><span class='line'><span class="s1">               Adds .erb extension to dummy posts&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><h3>Footer</h3></li>
+</ul>
+
+
+<p>I think we should take care of these ghastly floating elements on the bottom first. Let’s pack “Recent Articles” and “Tags” in a footer and get rid of “By Year”. The relevant markup is part of the global layout in <strong>source/layouts/layout.erb</strong>. Find the code in the <strong>aside</strong> tag below <strong>yield</strong> and adapt it like this:</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;footer&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;recent-posts&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Recent Posts&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">articles</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x"> &lt;span&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;footer-tags&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Tags&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag</span><span class="p">,</span> <span class="n">articles</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">articles</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;/footer&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above default business of just looping through our posts and tags that comes with Middleman is fine. I want to have it a bit smarter though and introduce shuffling to both recent posts and tags. That way, the user doesn’t only see the last ten articles or a huge list of tags but a randomized version of both that is always ten items long. They also don’t consume a whole lot of space and let me align both items consistently in the footer. I renamed the <strong>h3</strong> for posts as well.</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;footer&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;recent-posts&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Random Posts&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">articles</span><span class="o">.</span><span class="n">shuffle</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x"> &lt;span&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;footer-tags&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Tags&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">shuffle</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag</span><span class="p">,</span> <span class="n">articles</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">articles</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;/footer&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think we improved the user experience quite a bit through that little enhancement. Ruby made our job super easy. Now this markup only needs a little push for better alignment. We create a new Sass partial for just the footer.</p>
+
+<p><strong>source/stylesheets/all.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@import</span> <span class="s">&#39;footer&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/stylesheets/_footer.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">footer</span>
+</span><span class='line'>  <span class="nd">+outer-container</span>
+</span><span class='line'>  <span class="na">border-top</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$base-border-color</span>
+</span><span class='line'>  <span class="na">padding</span><span class="o">:</span>
+</span><span class='line'>    <span class="na">top</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span><span class='line'>    <span class="na">bottom</span><span class="o">:</span> <span class="mi">4</span><span class="kt">em</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.recent-posts</span>
+</span><span class='line'>  <span class="nd">+shift</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.footer-tags</span>
+</span><span class='line'>  <span class="nd">+span-columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.recent-posts</span><span class="o">,</span> <span class="nc">.footer-tags</span>
+</span><span class='line'>  <span class="nt">h3</span>
+</span><span class='line'>    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>  <span class="nt">li</span>
+</span><span class='line'>    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.05</span><span class="kt">em</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to have some tangible test data, I added a couple more example posts via the middleman generator and gave it some dummy lorem text.</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman article <span class="s1">&#39;Your fancy title&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I should probably mention that I also needed to add an <strong>.erb</strong> extension to these new posts for the dummy lorem text generator. The frontmatter contains a couple more tags to play with as well.</p>
+
+<p><strong>source/posts/2015-12-01-your-fancy-title.html.markdown.erb"</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">---</span>
+</span><span class='line'><span class="x">title: Example Post</span>
+</span><span class='line'><span class="x">date: 2015-12-01</span>
+</span><span class='line'><span class="x">tags: example, bourbon, neat, middleman</span>
+</span><span class='line'><span class="x">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">This is an example article. You probably want to delete it and write your own articles!</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">lorem</span><span class="o">.</span><span class="n">sentences</span> <span class="mi">5</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The goal was to have at least ten posts and tags to see if everything aligns properly. Let’s see what we got here:</p>
+
+<p><strong>Screenshot with dummy background</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/footer-shuffled-10-items-span-columns.png"></p>
+
+<p>Ok, now the background colors have fullfilled their duty for now. Let’s kill them and check if we’re happy with the actual result:</p>
+
+<p><strong>Screenshot without dummy background</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/footer-shuffled-10-items-span-columns-without-bg.png"></p>
+
+<p>I think it looks decent and we can leave it like that for now. Time to commit our changes.</p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add  ../layouts/layout.erb
+</span><span class='line'>gco -m <span class="s1">&#39;Adapts layout and adds footer&#39;</span>
+</span><span class='line'>
+</span><span class='line'>git add ../stylesheets/_footer.sass ../stylesheets/all.sass
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds styles for footer and imports Sass partial&#39;</span>
+</span><span class='line'>
+</span><span class='line'>git add ../posts/*.markdown.erb
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds a bunch of dummy posts with:</span>
+</span><span class='line'><span class="s1">              dummy lorem text</span>
+</span><span class='line'><span class="s1">              dummy tags&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before we move on, we should deploy to GitHub Pages, check our progress and make sure we’re not running into any surprises.</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Open your browser and go to <code>yourusername.github.io/your_project_name</code> and see if you’re happy with your site so far.</p>
+
+<p>What should we do next? You’re right, the footer screams in bigh letters EXTRACTION! We’re gonna take the <strong>footer</strong>, create a new folder for partials and put the markup in there. In turn, we need to render that partial from <strong>layout.erb</strong>.</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;body&gt;</span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">  &lt;div id=&quot;main&quot; role=&quot;main&quot;&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="s2">&quot;partials/footer&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">&lt;/body&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/partials/_footer.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;footer&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;recent-posts&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Random Posts&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">articles</span><span class="o">.</span><span class="n">shuffle</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;div class=&#39;footer-tags&#39;&gt;</span>
+</span><span class='line'><span class="x">    &lt;h3&gt;Tags&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">    &lt;ol&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">blog</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">shuffle</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag</span><span class="p">,</span> <span class="n">articles</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ol&gt;</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;/footer&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I suppose you paid close attention and saw that I got rid of the date for the list of articles in the footer. I did this for two reasons. First of all, we’re gonna save a bit more space so that we don’t easily run in the scenario that the alignment with the tags breaks when the title for the post is a bit longer. Secondly, I thought it is a bit distracting and doesn’t add too much.</p>
+
+<p>This list of randomzied articles in the footer is a handy way to introduce new stuff to the audience. The date doesn’t play a big role in that. The same goes for the number of articles for the tag links. They waste space without adding too much value. Also, if you don’t have too many articles for a certain tag, it doesn’t look empty right away. I’d rather have more space for a stable layout. It also feels a bit more clean, but that is clearly very subjective.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/footer-posts-without-date-tagnumbers.png"></p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Extracts footer into partial </span>
+</span><span class='line'><span class="s1">               Removes date from post links in footer</span>
+</span><span class='line'><span class="s1">               Removes number of articles for tags in footer</span>
+</span><span class='line'><span class="s1">                 Didn’t provide enough value to sacrifice space&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While we’re at it. Let’s take care of the date in our index titles. I think their size is way too prominent which does not improve our visual hierarchy and I don’t like having it at the end of the title. I’d rather stick it on the other side and use it as a visual anchor that doesn’t jump around with varying title lengths.</p>
+
+<p><strong>source/index.html.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&#39;posts&#39;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">page_articles</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;h2 class=&#39;post-title&#39;&gt;&lt;span class=&#39;post-date&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b %e&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.post-date</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>  <span class="na">margin</span><span class="o">:</span>
+</span><span class='line'>    <span class="na">left</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">-80</span><span class="kt">px</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">right</span><span class="o">:</span> <span class="nf">em</span><span class="p">(</span><span class="mi">20</span><span class="kt">px</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The title of the post is reordered and starts with the span hat contains the date. I left a little whitespace between the span with the date and the title itself because if I align the date with the article body text for smaller screens then I have a natural one character space between the date and the title—and don’t need to use Sass unnecessarily.</p>
+
+<p>The Sass code is straightforward. The negative margins help me to visually anchor the date to the left of the title and I used a Bourbon function to convert their pixel values into ems. Simple but I like the hierarchy we achieved. The eyes have something to jump to via the dates and the rest has enough whitespace so that we can stay away from using borders to divide our posts. Me, happy!</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/post-title-smaller-anchors.png"></p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add ../index.html.erb ../stylesheets/_index_posts.sass
+</span><span class='line'>git commit -m <span class="s1">&#39;Changes order for date and post title on index page</span>
+</span><span class='line'><span class="s1">               Styles date to create visual anchor&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><h3>Color</h3></li>
+</ul>
+
+
+<p>Let’s bring this thing to life a bit—but not too much. Less is more! I went to <a href="http://www.colourlovers.com/">COLOURlovers</a> and played with a couple of color palettes. Sites with various palletes can help to give you ideas where you wanna go. Watch out for solutions that can enhance your visual hierarchy but stay away from colors that are screamishly loud. I realize that this is vague since colors can be very subjective and culturally loaded but that’s how I approach it atm anyway.</p>
+
+<p>Overall, it’s not an easy topic and I wish web peeps would pay more attention to it. You certainly shouldn’t just poke around on a color wheel when you lack the experience. If you’re new to this, educate yourself and don’t just pick a color because you feel like it or because it looks cool or something. A reasonable use of color can be very powerful—on the other hand, it can look very comical very quickly as well.</p>
+
+<p><strong>source/stylesheets/base/_variables.scss</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$matcha-green</span><span class="o">:</span> <span class="mh">#78B69D</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$text-color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$medium-gray</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Back to business, after playing with some ideas, I added two new global colors to my Sass variables file from Bitters. <strong>$matcha-green</strong> is now the color I wanna use for my identity and placed in this file I can reuse this variable wherever I please. Should I change my mind about what green I want, I will need to change it only in once place! Also, I wasn’t too happy with the default color for text. Using a Sass function I darkened one of the preset colors from Bitters by 20 percent and stored that as <strong>$text-color</strong>. Post titles on hover, as well as dates and body copy got the new text color. The default was too dark imho.</p>
+
+<p><strong>source/stylesheets/base_typography.scss</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="c1">// transition: color $base-duration $base-timing;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.post-title</span>
+</span><span class='line'>  <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.7</span><span class="kt">em</span>
+</span><span class='line'>  <span class="nt">a</span>
+</span><span class='line'>    <span class="nd">+transition</span><span class="p">(</span><span class="no">color</span> <span class="mf">.4</span><span class="kt">s</span> <span class="n">ease-in-out</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nv">$matcha-green</span>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:hover</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.post-date</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.posts</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also added a slight transition through a Bourbon mixin for hovering over <strong>.post-title</strong>. This changes from <strong>$matcha-green</strong> to <strong>$text-color</strong> over <strong>.4</strong> seconds. Check my articles about Bourbon Mixins if you wanna know more. In case you wonder about the <strong>ease-in-out</strong> part, it’s one of 32 ways to time transitional behaviour. ($ease-in-out, as a <strong>$</strong>variable, like in the documentation will through an error) It’s a small enhancement but looks a lot better than browser defaults. To make this work I also had to uncomment the default transition behaviour from Bitters first in <strong>base_typography.scss</strong>.</p>
+
+<p><strong>source/stylesheets/_footer.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nt">footer</span>
+</span><span class='line'>  <span class="na">border-top</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">rgba</span><span class="p">(</span><span class="nv">$text-color</span><span class="o">,</span> <span class="mf">.3</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.recent-posts</span><span class="o">,</span> <span class="nc">.footer-tags</span>
+</span><span class='line'>  <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$medium-gray</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span>
+</span><span class='line'>  <span class="nt">a</span>
+</span><span class='line'>    <span class="nd">+transition</span><span class="p">(</span><span class="n">all</span> <span class="mf">.1</span><span class="kt">s</span> <span class="n">ease-in-out</span><span class="p">)</span>
+</span><span class='line'>    <span class="na">color</span><span class="o">:</span> <span class="nv">$text-color</span>
+</span><span class='line'>    <span class="k">&amp;</span><span class="nd">:hover</span>
+</span><span class='line'>      <span class="na">color</span><span class="o">:</span> <span class="nv">$matcha-green</span>
+</span><span class='line'>      <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$matcha-green</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lastly, I adapted the colors for the footer as well. This gives us a coherent appearance and hopefully a bit understatement. The transitional behavior needed to be sped up for the links in the footer. Since they are grouped so tight together I felt it wold be better if they are a bit snappier and underlined as well.</p>
+
+<p>In terms of color, I did the oposite as with the titles in the index list. Since the footer list doesn’t need to be as present on the page—especially with so little distance between them—I gave them the default gray text color and only use the <strong>$matcha-green</strong> when hovering. In this example we “only” use whitespace and the sizing of type to achieve hierarchy.</p>
+
+<p>Oh, and the border above the footer needed a bit opacity via the Sass <strong>rgba</strong> function. I figured that 30 percent opacity is just enough to do its job without sticking out that much.</p>
+
+<p>Not too shabby looking for such a small amount of code. Exactly how I like it—the less “code” you write the less bugs you bite!</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/after-color-changes-index.png"></p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>
+</span><span class='line'>git commit -m <span class="s1">&#39;First attempt at tuning colors</span>
+</span><span class='line'><span class="s1">               Adds new brand color as $matcha-green</span>
+</span><span class='line'><span class="s1">               Adds new $text-color:</span>
+</span><span class='line'><span class="s1">                 Body copy</span>
+</span><span class='line'><span class="s1">                 Post titles hover</span>
+</span><span class='line'><span class="s1">                 Footer headers</span>
+</span><span class='line'><span class="s1">               Takes care of hover transitions</span>
+</span><span class='line'><span class="s1">                 Comments out Bitters default transition&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One more little thing that bugs me is the line height of the body copy. Let’s tweak that too.</p>
+
+<p><strong>source/stylesheets/_index_posts.sass</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.posts</span> <span class="nt">p</span>
+</span><span class='line'>  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.35</span><span class="kt">em</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/middleman_04_build/index-body-copy-line-height.png"></p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add ../source/stylesheets/_index_posts.sass
+</span><span class='line'>git commit -m <span class="s1">&#39;Adjusts line-height for body copy on index&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<ul>
+<li><h3>Break</h3></li>
+</ul>
+
+
+<p>Good job so far! Time for another break. In the next article we’re gonna add a navbar and a “hero unit” on top—maybe more. See you there! Get yourself a snack and chill for a bit!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-28T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/bourbon/'>bourbon</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/middleman/'>middleman</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/neat/'>neat</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refills/'>refills</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/thoughtbot/'>thoughtbot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Middleman-Basics-04-Podcast-02/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/11/28/Middleman-Basics-04-Podcast-02/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/11/28/Code-Smells-04/" title="Previous Post: Ruby / Rails Code Smell Basics 04">&laquo; Ruby / Rails Code Smell Basics 04</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2015/12/13/AntiPatterns-Basics-Rails-Models/" title="Next Post: AntiPatterns Basics—Rails Models">AntiPatterns Basics—Rails Models &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

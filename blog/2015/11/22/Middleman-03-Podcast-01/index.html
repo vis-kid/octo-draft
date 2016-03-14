@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Middleman Basics 03-Podcast Site (Part 01) - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Topics Roadmap
+Basic Blog Setup
+LiveReload
+Organizing Posts
+GitHub Pages Deployment
+Smarter Assets
+Bourbon Setup
+Normalize &amp; jQuery
+Roadmap Let’ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2015/11/22/Middleman-03-Podcast-01/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Middleman Basics 03-Podcast Site (Part 01)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-22T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/Middleman_Bourbon_Banner.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Roadmap</li>
+<li>Basic Blog Setup</li>
+<li>LiveReload</li>
+<li>Organizing Posts</li>
+<li>GitHub Pages Deployment</li>
+<li>Smarter Assets</li>
+<li>Bourbon Setup</li>
+<li><p>Normalize &amp; jQuery</p></li>
+<li><h3>Roadmap</h3></li>
+</ul>
+
+
+<p>Let’s start with a little heads up where this is going. Over the next couple of articles I’m gonna build a small static site for a fictitious podcast called “Matcha Nerdz”—a podcast for people who wanna dive into all things powdered green tea. It will have the following pages:</p>
+
+<ul>
+<li>A page for each tag</li>
+<li>A detail page for every episode</li>
+<li>An index page for previous podcasts</li>
+</ul>
+
+
+<p>We will use Middleman for generating the static site and the Bourbon suite for all things styling. I expect / hope that you have taken a look at my articles about Bourbon, Neat and Middleman before you came here. If not, see you in a bit—unless you feel you are already prepared enough of course. I will explain what’s going on along the way but I will not cover the basics as I did previously.</p>
+
+<p>For all things styling, I heavily rely on Bourbon for quite a while. Also I really dig the indented Sass syntax—I never really got why people are keen to write all that extra junk with the <strong>.scss</strong> syntax. The <strong>.sass</strong> syntax is the only (probably) unfamiliar bit I wanna throw at newbies because it’s really worth it and I’d kick myself writing it “sassyly”. Originally I wanted to use Slim instead of HTML and ERB but I decided against that since I don’t want to introduce too many unknowns for newbies. I want to do something similar with Slim though in the future—mainly because I feel it’s the best solution to write concise and intelligent markup out there at the moment. So raincheck. Why not Haml? Simple, Slim is more awesome!</p>
+
+<ul>
+<li><h3>Basic Blog Setup</h3></li>
+</ul>
+
+
+<p>Let’s initiate a new app for our podcast site:</p>
+
+<p><strong>Shell:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman init matcha_nerdz
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and of course</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>matcha_nerdz
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git init
+</span><span class='line'><span class="c"># =&gt; to initiate new Git repo</span>
+</span><span class='line'>
+</span><span class='line'>git add --all
+</span><span class='line'><span class="c"># =&gt; adds all the files for staging</span>
+</span><span class='line'>
+</span><span class='line'>git commit -m <span class="s1">&#39;Initital commit&#39;</span>
+</span><span class='line'><span class="c"># =&gt; commits changes</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we add the blog template to the mix. The blog template is a good basis for our podcast site. Later we will adjust the articles to display podcast audio tracks from SoundCloud. For now, it’s just a blog though:</p>
+
+<p><strong>Gemfile</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;middleman-blog&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span><span class='line'><span class="c"># or</span>
+</span><span class='line'>bundle <span class="nb">exec </span>middleman
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman init --template<span class="o">=</span>blog
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will update your <strong>matcha_nerdz</strong> folder. <strong>.config.rb</strong> and your index template get a little update as well. On top of that you get new templates for your feed, tags page, calendar page, an example article and a new layout. Check the output from the terminal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>identical  .gitignore
+</span><span class='line'>   update  config.rb
+</span><span class='line'>    exist  <span class="nb">source</span>
+</span><span class='line'><span class="nb">   </span>create  <span class="nb">source</span>/2012-01-01-example-article.html.markdown
+</span><span class='line'>   create  <span class="nb">source</span>/calendar.html.erb
+</span><span class='line'>   create  <span class="nb">source</span>/feed.xml.builder
+</span><span class='line'>   update  <span class="nb">source</span>/index.html.erb
+</span><span class='line'>   create  <span class="nb">source</span>/layout.erb
+</span><span class='line'>   create  <span class="nb">source</span>/tag.html.erb
+</span><span class='line'>    exist  <span class="nb">source</span>/stylesheets
+</span><span class='line'>    exist  <span class="nb">source</span>/javascripts
+</span><span class='line'>    exist  <span class="nb">source</span>/images
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Adds blog template&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What you can do now is create new articles via the command line. Pretty handy if you ask me if you can spare yourself typing all these dates and stuff.</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman article <span class="s1">&#39;My new fancy second article&#39;</span>
+</span><span class='line'><span class="c">#=&gt; create  source/2015-11-22-my-wonderful-second-article.html.markdown</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This creates a new markdown article under <strong>/source</strong>. Not optimal storage-wise but we’ll get there. Fire up your server to see your first example blog article:</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman
+</span><span class='line'><span class="c">#or</span>
+</span><span class='line'>middleman server
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we need have some housekeeping to do. The blog template created a new layout under <strong>source/layout.erb</strong>. We wanna delete the orginal one in <strong>source/layouts/layout.erb</strong> and move the new one in there:</p>
+
+<p><strong>Shell:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rm <span class="nb">source</span>/layouts/layout.erb
+</span><span class='line'>mv <span class="nb">source</span>/layout.erb <span class="nb">source</span>/layouts/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also need to update the new <strong>layout.erb</strong> with stuff that was deleted in the layout file. Add this to your <strong>head</strong> tag:</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;meta content=&quot;IE=edge,chrome=1&quot; http-equiv=&quot;X-UA-Compatible&quot;&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span>  <span class="s2">&quot;all&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Most importantly, this makes sure that your JS and style assets are avaiable.</p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rm <span class="nb">source</span>/layout.erb
+</span><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Moves new layout into /layouts</span>
+</span><span class='line'><span class="s1">               Adds asset links</span>
+</span><span class='line'><span class="s1">               Removes old layout&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>LiveReload</h3>
+
+<p>To make our lives a tad more convenient we’ll add LiveReload to the mix. We need the gem and then activate it in your <strong>config.rb</strong> file:</p>
+
+<p><strong>Gemfile</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;middleman-livereload&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><strong>config.rb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#uncomment</span>
+</span><span class='line'><span class="n">activate</span> <span class="ss">:livereload</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Activates LiveReload&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this activated, restart your server and your page refreshes automatically whenever you change content on the page, styles or behaviour. Life saver, trust me!</p>
+
+<h3>Attention!</h3>
+
+<p>Word of caution. If you have another local server running, LiveReload may not play ball. So you’d need to kill that other server for now. Weird bug to hunt down if you don’t expect ports being already taken. Also, sometimes killing the Wi-Fi and restarting the server solved local host issues. But to be honest I don’t remember if I ran into that issue in the past with Middleman or Jekyll. Anyway, keep it in mind.</p>
+
+<h3>Organizing Posts</h3>
+
+<p>When you look where articles are stored right now, you’ll quickly realize that this organization directly under <strong>/source</strong> becomes very quickly very tedious. Couple of articles and you drown in posts. No need to be that messy. What we can do is create a dirctory under /source for all your posts, move your article(s) in there and let Middleman know where to find them.</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir <span class="nb">source</span>/posts
+</span><span class='line'>mv <span class="nb">source</span>/2012-01-01-example-article.html.markdown <span class="nb">source</span>/posts/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we add <strong>/posts</strong> as a source for your blog articles:</p>
+
+<p><strong>config.rb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">blog</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="s2">&quot;posts/:year-:title.html&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rm <span class="nb">source</span>/2012-01-01-example-article.html.markdown
+</span><span class='line'><span class="c"># Removes moved file from repo</span>
+</span><span class='line'>
+</span><span class='line'>git add --all
+</span><span class='line'>gco -m <span class="s1">&#39;Adds new folder for posts and adds source in config.rb&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That’s it. Nothing should have changed and you should see the example article as before. Storage of posts however is a lot more sane. What’s also cool is that if you create new articles via the command line, your new posts will get stored in <strong>/post</strong> automatically. Awesome!</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman article <span class="s1">&#39;My awesome 3rd article&#39;</span>
+</span><span class='line'><span class="c"># =&gt; create  source/posts/2015-my-awesome-3rd-article.html.markdown</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>GitHub Pages Deployment</h3>
+
+<p>For me, pushing static sites to GitHub Pages is such a convenient solution that I don’t wanna put you through deploying via Heroku or Amazon’s S3 service. Let’s keep it simple!</p>
+
+<p><strong>Gemfile</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;middleman-deploy&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We need to add a deploy block to <strong>config.rb</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">deploy</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="ss">:git</span>
+</span><span class='line'>  <span class="n">deploy</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="s1">&#39;gh-pages&#39;</span>
+</span><span class='line'>  <span class="n">deploy</span><span class="o">.</span><span class="n">build_before</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order for GitHub Pages to find your CSS and JS assets you need to activate the following in <strong>config.rb</strong> as well:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">configure</span> <span class="ss">:build</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">activate</span> <span class="ss">:relative_assets</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then create a repo on GitHub, add the remote and deploy:</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git remote add origin https://github.com/yourusername/repositoryname.git
+</span><span class='line'>
+</span><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Boom! Your site is live under <code>yourusername.github.io/projectname</code> and your assets should be sorted out. I love this process—couldn’t be easier and more user friendly. Great job GitHub!</p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>gco -m <span class="s1">&#39;Adds setup for GitHub Pages deployment&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Smarter Assets</h3>
+
+<p>In the last step before we get into the Bourbon setup, I’d like to get rid of the styles that come with Middleman and optimize the assets for a better performance in the browser—asset minification and concatenation. Go to <strong>source/stylesheets/all.css</strong> and delete it’s content. Just keep the first line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@charset</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Removes unneccessary Middleman styles&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we want to activate a couple of options to optimize for performance in <strong>config.rb</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">configure</span> <span class="ss">:build</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">activate</span> <span class="ss">:asset_hash</span>
+</span><span class='line'>  <span class="n">activate</span> <span class="ss">:minify_javascript</span>
+</span><span class='line'>  <span class="n">activate</span> <span class="ss">:css</span>
+</span><span class='line'>  <span class="n">activate</span> <span class="ss">:gzip</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Activates performance optimizations&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let me quickly explain what we did here:</p>
+
+<ul>
+<li><strong>:gzip</strong></li>
+</ul>
+
+
+<p>At the moment, gzip is the most popular and effective compression method. It’s compression algorithm finds similar strings within a file and compresses them. For HTML, which is full of white space and matching tags, this is very effective and adds up to reducing the HTTP response size by a whopping 70%. Activating this, not only gzips your HTML, but also CSS and JSS files. During build, Middleman creates your files as usual but also duplicates them with a <strong>.gz</strong> version. When a browser gets in touch with your files, it can choose if it can serve gzip compressed files or regular ones. gzipping is supported heavily by web and mobile browsers.</p>
+
+<ul>
+<li><strong>:minify_css</strong></li>
+</ul>
+
+
+<p>This process strips out all unneccessary junk from your styles and reduces their file size significantly. Bascially, your CSS becomes one big blob—optimized for being read by a machine. Definitely not friendly on the eyes.</p>
+
+<ul>
+<li><strong>:minify_javascript</strong></li>
+</ul>
+
+
+<p>Same as <strong>minify_css</strong> but a bit more involved and sophisticated.</p>
+
+<ul>
+<li><strong>:asset_hash</strong></li>
+</ul>
+
+
+<p>This activates hashing of your assets. It means that your asset filenames change and receive some extra information—during the build process—that informs browsers if they need to re-download assets or not. Now, the name of a file is dependent on the contents of that file. Hashed assets get cached by browsers and your sites get rendered faster. Another word for this is “fingerprinting” because it provides a simple solution to inform browsers whether or not two versions of a file are indentical. The deployment date does not matter—only the contents. Take a look below how hashed assets’ files look like:</p>
+
+<p><strong>Screenshots</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/asset_hash_css.png"></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/asset_hash_images.png"></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/asset_hash_js.png"></p>
+
+<p>Looks nasty, but now your images, stylesheets and JavaScript files get a unique name through this added “random” code—what is called a (unique) hash. Every time you change an asset and go through the build process again, this hash changes which in turn signals to browsers that then, and only then, they need to re-download that particular file. The files then sorta expired. This is called “cache busting”. Btw, you can refer to your files the same way as before but during build the references in your HTML and what not get updated to use these hashed names. Take a look:</p>
+
+<p><strong>/build/index.html(.gz)</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&#39;X-UA-Compatible&#39;</span> <span class="na">content=</span><span class="s">&#39;IE=edge;chrome=1&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">&quot;IE=edge,chrome=1&quot;</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>Blog Title<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;alternate&quot;</span> <span class="na">type=</span><span class="s">&quot;application/atom+xml&quot;</span> <span class="na">title=</span><span class="s">&quot;Atom Feed&quot;</span> <span class="na">href=</span><span class="s">&quot;/feed.xml&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;stylesheets/normalize-6197e73d.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;&lt;link</span> <span class="na">href=</span><span class="s">&quot;stylesheets/all-0355b587.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;javascripts/all-da39a3ee.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  ...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See, in your <strong>/build</strong> folder, JS and CSS files get referenced with the hashed asset names automatically. As a result of this hashing business, when you go through different pages in the same session or revisit a page again later, these assets have been cached and don’t need to be requested again—only until you change something. This process cuts down your number of requests by a staggering amount. Isn’t that cool? All of that with one line of code in <strong>config.rb</strong> and some <em>Sprockets</em> wizardry. Booyakasha!</p>
+
+<p>The key with all these asset optimization techniques is to minimize the number of requests and the request size of your files / assets. Middleman offers great performance boosts right out the box without any work on your end really. Just activate this stuff and sleep tight. GitHub Pages has everthing gzipped and minified out of the box btw. Doesn’t hurt though to make sure everything is in place—especially if you later decide to host your app somewhere else. By then, you don’t need to think about solving this problem again.</p>
+
+<p>Let’s have a look where we’re at. Your index page should look pretty barebones now:</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/matchanerdz_screen_01.png"></p>
+
+<ul>
+<li><h3>Bourbon Setup</h3></li>
+</ul>
+
+
+<p>For this project I want to use three gems from Bourbon:</p>
+
+<ul>
+<li>Bourbon</li>
+<li>Neat</li>
+<li>Bitters</li>
+</ul>
+
+
+<p>Let’s add them to our <strong>Gemfile</strong> and bundle:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;bourbon&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;neat&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;bitters&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Bourbon and Neat are now good to go (almost). Bitters needs to install a few things first though. You need to change into your stylesheets directory and activate a generator that places a bunch of Bitters files in a <strong>/base</strong> folder.</p>
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd source</span>/styleheets
+</span><span class='line'>bitters install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Take a look what we got after this:</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/install_bitters_base.png"></p>
+
+<p>Bitters is something like a baseline for your designs. It gives you a couple of sane designs for stuff like buttons, type, forms, error messages and so on. Bitters also prepared a <strong>grid-settings</strong> file for your <strong>Neat</strong> grid which we also have to set up by uncommenting the following line in <strong>source/stylesheets/base/_base.scss</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;grid-settings&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To complete our Bourbon settings for now I’d like to add the following variables to our grid-settings. They lay the groundwork for sizing our grid and activate a visual grid that helps us to better align our design.</p>
+
+<p><strong>/source/stylesheets/base/_grid-settings.scss</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$column</span><span class="o">:</span> <span class="mi">90</span><span class="kt">px</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$gutter</span><span class="o">:</span> <span class="mi">30</span><span class="kt">px</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$grid-columns</span><span class="o">:</span> <span class="mi">12</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$max-width</span><span class="o">:</span> <span class="mi">1200</span><span class="kt">px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$visual-grid</span><span class="o">:</span> <span class="n-Pseudo">true</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$visual-grid-index</span><span class="o">:</span> <span class="n">back</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$visual-grid-opacity</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.15</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$visual-grid-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The final step to make this work is rename <strong>/stylesheets/all.css</strong> to <strong>/stylesheets.all.sass</strong> and import our Bourbon files.(Since we switched to the indented Sass syntax, we also need to kill the semicolon at the end of the <strong>@charset</strong> line.)</p>
+
+<p><strong>all.css.scss</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@charset</span> <span class="s2">&quot;utf-8&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;bourbon&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;base/base&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;neat&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We import Bitters’ base file here right after Bourbon because we need access to Neat’s <strong>grid-settings</strong> file—which is in the <strong>/base</strong> folder—before we import Neat.</p>
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Sets up Bourbon and activates grid settings&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let’s have a look! You can see the red visual grid and also that thanks to Bitters, our typography already improved a bit beyond browser defaults.</p>
+
+<p><strong>Screenshot</strong></p>
+
+<p><img src="/octopress_drafts_previewer/images/middleman/basics_03_build/bourbon_installed_visual_grid.png"></p>
+
+<ul>
+<li><h3>Normalize &amp; jQuery</h3></li>
+</ul>
+
+
+<p>Let’s get this out of the way also, shall we? Middleman comes with a <a href="https://necolas.github.io/normalize.css/">Normalize</a> file which gets not imported into <strong>all.css</strong> by default. That’s one unneccessary asset request we can easily get rid of. Rename <strong>source/stylesheets/normalize.css</strong> to <strong>source/stylesheets/_normalize.css.scss</strong> first. Now we have a partial that we need to import right at the top after <strong>@charset</strong> in <strong>source/stylesheets/all.sass</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="k">@charset</span> <span class="s2">&quot;utf-8&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;normalize&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;bourbon&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;base/base&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;neat&#39;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s">&#39;normalize&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In case you’re wondering about what <em>Normalize</em> does, think of it as leveling the playing field between the default styles that browsers like to add. One browser likes to add padding here, another has useless margins there, etc. Projects like Normalize try to reset that behaviour so that all elements / designs get rendered more consistently across browsers.</p>
+
+<p>One thing we shouldn’t overlook is the link for our stylesheets in our layout. Since we’re using Sass partials that all get imported into a final, “global” stylesheet, we do not need a link to <strong>normalize.css</strong> anymore—a link to <strong>all.sass</strong> is enough:</p>
+
+<p><strong>source/layouts/layout.erb</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">&quot;all&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rm <span class="nb">source</span>/stylesheets/normalize.css
+</span><span class='line'>git add --all
+</span><span class='line'>git commit -m <span class="s1">&#39;Imports normalize partial properly&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, before we take a break, we need to add jQuery which we’ll need later on.</p>
+
+<p><strong>Gemfile</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;jquery-middleman&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since I wanna use CoffeeScript for this project, we need to rename <strong>source/javascripts/all.js</strong> to <strong>source/javascripts/all.coffee</strong>. In there we require jQuery for Sprockets / Asset Pipeline and we’re all set.</p>
+
+<p><strong>all.coffee</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//= require jquery</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Git</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rm <span class="nb">source</span>/javascripts/all.js
+</span><span class='line'>git add -all
+</span><span class='line'>git commit <span class="s1">&#39;Adds jQuery to the Mix</span>
+</span><span class='line'><span class="s1">            Renames gobal js file to coffee&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Shell</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>middleman deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After deploying, open your site on GitHub Pages to see if everyting works as expected. Nice job!</p>
+
+<ul>
+<li><h3>Break</h3></li>
+</ul>
+
+
+<p>Let’s take a break. We got quite a few boring setup steps out of the way with this one. Hope you got a clear picture what you need for a solid basis when you start a new Middleman project. Next we’ll expand on what we’ve built here and continue working towards a decent site for our podcast.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-22T04:29:10+01:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/bourbon/'>bourbon</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/middleman/'>middleman</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/neat/'>neat</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refills/'>refills</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/thoughtbot/'>thoughtbot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2015/11/22/Middleman-03-Podcast-01/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2015/11/22/Middleman-03-Podcast-01/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2015/11/13/Middleman-Bascis-02/" title="Previous Post: Middleman Basics 02">&laquo; Middleman Basics 02</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2015/11/23/Code-Smells-03/" title="Next Post: Ruby / Rails Code Smell Basics 03">Ruby / Rails Code Smell Basics 03 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

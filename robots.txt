@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+Sitemap: http://vis-kid.github.io/octo-draft/sitemap.xml 

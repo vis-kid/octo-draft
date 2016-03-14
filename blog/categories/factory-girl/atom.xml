@@ -1,0 +1,2152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Factory Girl | Drafts Previewer]]></title>
+  <link href="http://vis-kid.github.io/octo-draft/blog/categories/factory-girl/atom.xml" rel="self"/>
+  <link href="http://vis-kid.github.io/octo-draft/"/>
+  <updated>2016-03-14T22:45:33+01:00</updated>
+  <id>http://vis-kid.github.io/octo-draft/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 02]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Middleman-Bascis-02/"/>
+    <updated>2015-11-13T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/13/Middleman-Bascis-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/3Stooges_600_mirrored.jpg"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Data Files</li>
+<li>Pretty URLs</li>
+<li>Asset Pipleline</li>
+<li><p>Project Templates</p></li>
+<li><h3>Data Files</h3></li>
+</ul>
+
+
+<p>So you have already learned how to play with data that you stored in the triple-hyphen-delimited frontmatter sections of individual pages. You can write separate data files in YAML or JSON and put them in a <strong>/data</strong> directory. I guess this is mostly useful if you have more complex sites with data that rarely changes and where you don’t want to maintain that data directly in your HTML.</p>
+
+<p>Let’s say you have the rights to sell all James Bond movies. We could put a list of them in a data file and iterate over them in our view. If we’d need to change or update that data when a new movie is available you’d only need to apply that change in your <strong>.yaml</strong> or <strong>.json</strong> data file. I would not recommend doing that for data that is in any way complex—to a degree doable, but feels very iffy and wrong.</p>
+
+<p><strong>/data/bond.yaml</strong></p>
+
+<pre><code class="ruby">
+movies:
+- title: "Dr. No"
+  year:  "1962"
+  text:  "John Strangways, the British Intelligence (SIS) Station Chief in Jamaica, is killed. In response, British agent James Bond—also known as 007—is sent to Jamaica to investigate the circumstances. During his investigation Bond meets Quarrel, a Cayman fisherman, who had been working with Strangways around the nearby islands to collect mineral samples. One of the islands was Crab Key, home to the reclusive Dr. No."
+  image: "bond_movie_01.png"
+- title: "From Russia with Love"
+  year:  "1963"
+  text:  "SPECTRE's expert planner Kronsteen devises a plot to steal a Lektor cryptographic device from the Soviets and sell it back to them while exacting revenge on Bond for killing their agent Dr. No; ex-SMERSH operative Rosa Klebb is in charge of the mission. She recruits Donald "Red" Grant as an assassin and Tatiana Romanova, a cipher clerk at the Soviet consulate in Istanbul, as the unwitting bait."
+  image: "bond_movie_02.png"
+- title: "Goldfinger"
+  year:  "1964"
+  text:  "Bond is ordered to observe bullion dealer Auric Goldfinger: he sees Goldfinger cheating at cards and stops him by distracting his employee, who is subsequently killed by Goldfinger's Korean manservant Oddjob. Bond is then instructed to investigate Goldfinger's gold smuggling and he follows the dealer to Switzerland. Bond is captured when he reconnoitres Goldfinger's plant and is drugged; he is taken to Goldfinger's Kentucky stud farm and is imprisoned. He escapes briefly to witness Goldfinger's meeting with U.S. mafiosi, who have brought the materials he needs for an operation to rob Fort Knox."
+  image: "bond_movie_03.png"
+...
+</code></pre>
+
+<p><strong>source/bond-movies.html.erb</strong></p>
+
+<p>``` erb</p>
+
+<h2>Bond movies</h2>
+
+
+<ol>
+<% data.bond.movies.each do |movie| %>
+  <li>
+  <%= image_tag movie.image %>
+    <h3><%= movie.title %></h3>
+    <h6><%= movie.year %></h6>
+    <p> <%= movie.text %></p>
+  </li>
+<% end %>
+</ol>
+
+
+<pre><code>
+One of the advantages of these data files is surely that they aren’t very susceptible to getting hacked. Even better, your **/data** directory with all the YAML or JSON data won’t get pushed to your branch that is responsible for hosting—like your **gh-pages** branch if you host your Middleman app on GitHub Pages. During the **build** phase, your data gets injected into your templates localy before it gets deployed. After that, the data in your views is just plain static HTML. Pretty cool!
+
+A word about naming conventions here. When you have data files in a **data** directory you get access to a **data** object. Middleman then creates “objects” for every **.yml**, **.yaml** or **.json** file which you can access through the inital **data** object by chaining it on. Lastly, the object stored in your data files are added on to that—which in turn give you access to the attributes you have stored on that object. In our case, we have a **movies** YAML “object” with the attributes **title**, **year**, **text** and **image**.
+</code></pre>
+
+<p>&lt;%= data.data_file_name.yaml_or_json_object.attribute %></p>
+
+<p>&lt;%= data.bond.movies.image %>
+&lt;%= data.bond.movies.title %>
+&lt;%= data.bond.movies.year %>
+&lt;%= data.bond.movies.text %></p>
+
+<pre><code>
+If you have subdirectories, you just need to tuck them on. Let’s say you have your bond movies data file under a **spy_movies** directory (**/data/spy_movies/bond.yaml**) You’d now access it like so:
+</code></pre>
+
+<p>&lt;%= data.spy_movies.bond.movies.title %></p>
+
+<pre><code>
+Lastly I should add that storing it in JSON might be cooler but all the excess commas, brackets and braces turn me off tbh. Not only in data files but in frontmatter sections as well. Up to you what suits you best of course. See for yourself:
+
+**some_file.yaml**
+</code></pre>
+
+<p>bond_girls:
+- Strawberry Fields
+- Jill Masterson
+- Tiffany Case</p>
+
+<pre><code>
+**some_file.json**
+</code></pre>
+
+<p>{
+  &ldquo;bond_girls&rdquo;: [
+    &ldquo;Strawberry Fields&rdquo;,
+    &ldquo;Jill Masterson&rdquo;,
+    &ldquo;Tiffany Case&rdquo;
+  ]
+}</p>
+
+<pre><code>
++ ### Pretty URLs
+
+If you have a file like **source/bond-movies.html.erb** it will end up as http://appname.com/bond-movies.html. During the build process we loose the **.erb** file extension and end up with the final **html** version of that page which is mirrored in the URL. That’s alright, normal stuff. For fancier URLs like http://appname.com/bond-movies we gotta work a little.
+
+You need to activate the **Directory Indexes** extension in your config.rb. This creates a folder for every **.html** file. During **middleman build** the finished page ends up as the index file of that folder—meaning that as an index file its extension won’t need to show up in the URL. If you paid attention, you might have already seen this at work with the standard **index.html** file that gets created for every Middleman project as a landing page. It also does not show up in the final URL. Fire up your server and see for yourself.
+
+**config.rb**
+</code></pre>
+
+<p>activate :directory_indexes</p>
+
+<pre><code>
+Let’s see what happened after **middleman build** to your **bond-movies.html.erb** file if you activated that extension. Middleman created a **build/bond-movies** folder and your original filename changed to **index.html** =&gt; **build/bond-movies/index.html**.
+
+**Shell output**
+</code></pre>
+
+<p>create  build/bond-movies/index.html</p>
+
+<pre><code>
+There is one little caveat though. Before you activated pretty URLs you could rely on using the assets path. Now with directory indexes in place you need to supply assets with their full absolute path. So calling an image just by its name for example won’t fly anymore. 
+
+If for some reason you want to override the behaviour of that extension for a particular file you can.
+
+**config.rb**
+</code></pre>
+
+<p>page &ldquo;/bond-movies.html&rdquo;, :directory_index => false</p>
+
+<pre><code>
+**Shell output** if you change it back for **bond-movies.html.erb**:
+</code></pre>
+
+<p>create  build/bond-movies.html
+remove  build/bond-movies/index.html
+remove  build/bond-movies</p>
+
+<pre><code>
+Now its’ URL is back to normal for that file again. (http://appname.com/bond-movies.html)
+
+Btw, you can opt-out of the directory index naming scheme locally in your individual pages’ frontmatter as well.
+
+**source/bond-movies.html.erb**
+</code></pre>
+
+<hr />
+
+<h2>directory_index: false</h2>
+
+<h1>Bond movies</h1>
+
+
+<p>&hellip;</p>
+
+<pre><code>
+If you wanna build that structure with folder and their respective index files yourself, Middleman is not gonna mess with you. It functions the same way and middleman ignores them if you mix and match that approach.
+
++ ### Asset Pipleline
+
+I wanna cut to the chase with this one and only show you the pieces that I think are really relevant about the asset pipeline. You can do stuff with Bower and Compass for example but since I’m personally not a huge fan I spare us both the time. O.K. then.
+
+The “asset pipleline” is Rails lingo imported into Middleman and under the hood a gem called [Sprockets](https://github.com/sstephenson/sprockets) does all the heavy lifting. It helps you with handling dependency management, combining assets plus with minification—which helps slimming down your assets significantly. A few helper methods to concisely reference assets are also at your disposal. Beyond that you are also provided with the means to write Sass and CoffeeScript code—right out of the box. Awesome! 
+
+### Concatenation
+
+Concatenation is one of the most important features of the asset pipline. Instead of having a lot of separate HTML requests for every CSS and JS file, you can reduce them drastically by concatenating them into one or a handful of files. The fewer requests you cause the faster your application will load. Simple math. 
+
+### JS Concatenation
+
+By default, Sprockets will press all JS files into a single **.js** file. After **middleman build**, this file will be under **/build/javascripts/all.js**. The same goes for your CSS. After the build process, you’ll have all Sass files concatenated together in **build/stylesheets/all.css**.
+
+You combine your JS assets by using partials—whoose filenames start with an underscore—for all your JS files and then **require** them at the very top in your **source/javascripts/all.js** file (Files with an added **.coffee** extension work exactly the same). As you can imagine order does matter for this process.
+
+**source/javascript/all.js**
+</code></pre>
+
+<p>//= require &ldquo;<em>jquery&rdquo;
+//= require &ldquo;</em>lib_code&rdquo;
+//= require &ldquo;_animations&rdquo;</p>
+
+<pre><code>
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/source_javascripts_screenshot.png">
+
+When you take a look into your new **/build** directory, you’ll only find one **.js** file under **/javascripts** which “digested” the rest of your files—namely **all.js**. 
+
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/build_javascripts_screenshot.png">
+
+### CSS Concatenation
+
+For your Sass code its bascially the same but you should use Sass’s **@import** for importing your partials—instead of require from Sprockets. Again, place the “required” files at the very top and order matters here as well. Unlike requiring JS partials, you leave off the underscore from the partial name when you import Sass partials.
+
+**/source/stylesheets/all.css.scss**
+</code></pre>
+
+<p>@import &lsquo;normalize&rsquo;;
+@import &lsquo;header&rsquo;;
+@import &lsquo;navigation&rsquo;;
+@import &lsquo;footer&rsquo;;</p>
+
+<pre><code>
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/source_stylesheets_screenshot.png">
+
+**Screenshot**:
+
+<img src="/images/middleman/basics_02/build_stylesheets_screenshot.png">
+
+### Compression / Minification
+
+Another cool feature of sprockets is compression of these files—also called minification. This process cuts out a lot of the fat like getting rid of unnecessary whitespace and comments. People also call this process *uglify*—and of course there is a gem called [uglifier](https://github.com/lautis/uglifier) which does a beautiful job at this. Names like this makes me love programming even more. Compared to JS asset minification CSS uglification is not that complicated. FYI, behind the scenes , the JS part is a bit more involved and needs more finesse.
+
+To get started you’ll need to add the following to your **config.rb** file:
+</code></pre>
+
+<p>configure :build do
+  activate :minify_css
+  activate :minify_javascript
+end</p>
+
+<pre><code>Actually you just need to uncomment these lines under your **:build** block. The next time you use **middleman build** the assets in your **/build** folder will all be uglified and slim. Below are two small examples how this code actually ends up looking:
+
+**Minified CSS under /build/stylesheets/all.css**:
+</code></pre>
+
+<p>body{background-color:#d0e4fe}h1{color:orange;text-align:center}p{font-family:&ldquo;Times New Roman&rdquo;;font-size:20px}</p>
+
+<pre><code>
+**Minified JS under /build/javascripts/all.js**:
+</code></pre>
+
+<p>switch((new Date).getDay()){case 0:day=&ldquo;Sunday&rdquo;;break;case 1:day=&ldquo;Monday&rdquo;;break;case 2:day=&ldquo;Tuesday&rdquo;;break;case 3:day=&ldquo;Wednesday&rdquo;;break;case 4:day=&ldquo;Thursday&rdquo;;break;case 5:day=&ldquo;Friday&rdquo;;break;case 6:day=&ldquo;Saturday&rdquo;}</p>
+
+<pre><code>
+Without the asset pipleline you’d have to set up your own thing to write your JS and CSS via a higher-level language like CoffeeScript and Sass. I believe for beginners this setup part can be a pain and therefore the asset pipleline helps newbies to get going and play with cool toys faster. Doing this by hand is a good exercise and important to grasp—but not right away. CoffeeScript and Sass are supported by default.
+
+Awesome, minified, faster websites with fewer requests right out of the gate without any extra work. Take that 2010!
+
+### Asset Pipeline Helpers
+
+For your Sass files you have four helpers at your disposal:
+
++ image_path()
++ font_path()
++ image_url()
++ font_url()
+
+Because you followed conventions so far you can use these helpers to prepend the correct directory path to your assets. 
+
+Some Sass file:
+</code></pre>
+
+<p>image_path(&lsquo;logo.png&rsquo;)</p>
+
+<h1>=> images/logo.png</h1>
+
+<p>image_path(&lsquo;nested_folder/some.png&rsquo;)</p>
+
+<h1>=> images/nested_folder/some.png</h1>
+
+<pre><code>
+### Import Path
+
+The asset pipeline uses *import paths* via Sprockets for your assets. By default **:js_dir** and **:css_dir** are already added to that path. That means that files put in **/source/javascripts** and **/source/stylesheets** are available and automatically imported. On the other hand, if you have assets that you wanna keep in other directories you can also add them to the import path like this:
+
+**config.rb**
+</code></pre>
+
+<p>sprockets.append_path &lsquo;/some/other/assets_folder/&rsquo;</p>
+
+<pre><code>
+In this example, other assets in **source/some/other/assets_folder/other.css** are also at Middleman’s disposal via this path. Same goes for **.js** files as well of course.
+
++ ### Project Templates
+
+Middleman comes with a couple of handy project templates that you should at least know about. These templates give you a good starting point when you initiate a new Middleman app for example. You can add these templates at any time later as well though.
+
++ **SMACSS** Template
++ **Mobile** Boilerplate Template
++ **HTML5** Boilerplate  Template
++ **Blog** Template(needs extra gem)
+
+You can use them like this:
+
+**Shell**
+</code></pre>
+
+<p>middleman init your_fancy_app &ndash;template=smacss</p>
+
+<pre><code>The template will provide you with all the files and folders that it needs. If you already have an app and want to add a template you use the same command without mentioning your app’s name. Same deal:
+</code></pre>
+
+<p>middleman init &ndash;template=smacss</p>
+
+<pre><code>
+Now comes my favorite part of Middleman. Its super straightforward to build your own templates and reuse them whenever you like. You start by creating a **~/.middleman** folder in your root directory (Don’t forget the dot in front of the name). Within that directory you create new folders for your templates. For example **/.middleman/podcast** would be a *podcast* template. Then you fill this podcast dirctory with all the files and folders you need. For example, if you want to have additional stylesheets available for your Middleman app then you need to simulate Middleman’s filepath to make it super easy to use them.
+
+In the screenshot below I have prepared a dummy example that has a couple of files that I might need for every project and put them in a **bourbon** folder. Now I have a bourbon template.
+
+**Screenshot for ~/.middleman/bourbon**:
+
+<img src="/images/middleman/basics_02/bourbon_template_screenshot.png">
+
+Since I simulated Middleman’s file structure, these stylesheets will show up exactly where I need them after I initiated that template. After initiating the template, my files are now under **/source/stylesheets** and also ready to be imported into my **/source/stylesheets/all.css.scss** file. 
+
+**Screenshot for /middleman_app/source/stylesheets**:
+
+<img src="/images/middleman/basics_02/source_bourbon_screenshot.png">
+
+Since I already made my template styles partials its business as usual:
+
+**source/stylesheets/all.css.scss**
+</code></pre>
+
+<p>@import &lsquo;bourbon_mixins/mixins&rsquo;;
+@import &lsquo;bourbon_neat/grids&rsquo;;
+@import &lsquo;bourbon_refills/cards&rsquo;;
+&hellip;</p>
+
+<pre><code>
+Boom! Finished! One thing you should be careful about though. When we use **middleman build** now to create our new **build** directory these files will get absorbed by **all.css** and none of the bourbon template folders will show up there. However, if you forget to have a leading underscore in your filenames for these styles, the complete folder will transfer into **/build**—with the prospective **.css** files of course. The **@import** statements in **all.css.scss** didn’t make a difference in that case either. 
+
+If you have a ton of templates and wanna just check the list for a name you can use the following command:
+
+**Shell**:
+</code></pre>
+
+<p>middleman init &ndash;help</p>
+
+<h1>=>  # Use a project template: default, html5, mobile, smacss, bourbon</h1>
+
+<p>```</p>
+
+<p>In case you wanna reinvent the wheel, take a look at these open sourced <a href="https://directory.middlemanapp.com/#/templates/all/">templates</a>. If you have never played much with templates, I recommend initiating a dummy app and take them for a spin. See what files get created or overwritten. Poke around a little bit. Then build a dummy folder with a couple of Sass files for a template under <strong>~/.middleman</strong> and see what happens when you initiate this template. Nothing beats learning by doing these little experiments along the way!</p>
+
+<h3>Final Thoughts</h3>
+
+<p>I believe you are now more than ready to start building some little app with Middleman. There are a few things left for you to learn on your own but I presented you with the most important pieces of the puzzle. Middleman is a lot of fun and a good choice technology-wise. Sure there are the purists who mumble about technical implementations but these people are rarely satisfied with implementations other than their own. They might be right, but at this stage in your career you’re most likely not at that point yet where you need to worry about this and therefore should selectively ignore this snobbery. Middleman is powerful, easy to use and has a straightforward API that is beginner friendly—that’s all that matters for now. Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby / Rails Code Smells 02]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/13/Code-Smells-02/"/>
+    <updated>2015-11-13T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/13/Code-Smells-02</id>
+    <content type="html"><![CDATA[<p><img src="/images/code_smells/code_smell_01_600_mirrored.jpg"></p>
+
+<h3>Heads Up</h3>
+
+<p>This article was mostly written for folks a little more new to coding. Having obviously walked in these shoes myself, I remembered that it felt unneccessary foggy to get into code smells and refactorings. On the one hand, authors expect a certain level of proficiency and therefore might not feel super compelled to provide the reader with the same amount of context as a newbie might need to comfortably dive into this world sooner. As a consequence maybe, newbies on the other hand form the impression that they should wait a bit longer until they are more advanced to learn about smells and refactorings. I do not agree with that approach and think that making this topic more approachable will help them design better software earlier in their career. At least I hope it helps to provide junior peeps with a solid head start.</p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Feature Envy</li>
+<li>Shotgun Surgery</li>
+<li>Divergent Change</li>
+</ul>
+
+
+<p>What you’ll quickly realize with code smells is that some of them are very close cousins, even their refactorings are sometimes related—like <strong>Inline Class</strong> and <strong>Extract Class</strong> are not that very different. With inlining a class for example, you extract the whole class while you get rid of the original one. So kinda extract class with a little twist. The point I’m trying to make is that you shouldn’t feel overwhelmed with the number of smells, refactorings and certainly not get discouraged by their clever names. Things like <strong>Shotgun Surgery</strong>, <strong>Feature Envy</strong>, <strong>Divergent Change</strong> might sound fancy and intimidating to people who just got started. Maybe I’m wrong of course.</p>
+
+<p>If you dive a little into this whole topic and play with a couple of refactorings for code smells yourself you’ll quickly see that they often end up in the same ball park. A lot of refactorings are simply different strategies to get to a point where you have classes that are concise, well organized and focused on a small amount of responsibilites. I think its fair to say that if you can achieve that you’ll be ahead of the pack most of the time—not that being ahead of others is so important but such class design is simply often missing in code from people before they’re considered “experts”. So why not get into the game early and build a concrete foundation for designing your code. Don’t believe your possibly own narrative that this is an advanced topic that you should maybe put off for a while until you’re ready. Even if you’re a newbie, if you take small steps you can wrap your head around smells and their refactorings a lot earlier than you might think.</p>
+
+<p>Before we dive into the mechanics, I wanna repeat an important point from the first article. Not every smell is inherently bad and not every refactoring is always worth it. You gotta decide on the spot—when you have all the relevant information at your disposal—if your code is more stable after a refactoring and if its worth your time to fix the smell.</p>
+
+<ul>
+<li><h3>Feature Envy</h3></li>
+</ul>
+
+
+<p>Let’s revisit an example from the previous article. We extracted a long list of parameters for <strong>#assign_new_mission</strong> into a <em>parameter object</em> via the <strong>Mission</strong> class. So far so cool.</p>
+
+<p><strong>M with feature envy</strong></p>
+
+<pre><code class="ruby">class M
+  def assign_new_mission(mission)
+    print "Mission #{mission.mission_name} has been assigned to #{mission.agent_name} with the objective to #{mission.objective}."
+    if mission.licence_to_kill
+      print " The licence to kill has been granted."
+    else
+      print " The licence to kill has not been granted."
+    end
+  end
+end
+
+class Mission
+  attr_reader :mission_name, :agent_name, :objective, :licence_to_kill
+
+  def initialize(mission_name: mission_name, agent_name: agent_name, objective: objective, licence_to_kill: licence_to_kill)
+    @mission_name    = mission_name
+    @agent_name      = agent_name
+    @objective       = objective
+    @licence_to_kill = licence_to_kill
+  end
+end
+
+m = M.new
+
+mission = Mission.new(mission_name: 'Octopussy', agent_name: 'James Bond', objective: 'find the nuclear device', licence_to_kill: true)
+
+m.assign_new_mission(mission)
+
+# =&gt; "Mission Octopussy has been assigned to James Bond with the objective to find the nuclear device. The licence to kill has been granted."
+</code></pre>
+
+<p>I briefly mentioned how we can simplyfy the <strong>M</strong> class even more by moving the method <strong>#assign_new_mission</strong> to the new class for the parameter object. What I didn’t address was the fact that <strong>M</strong> had an easily curable form of <em>feature envy</em> as well. <strong>M</strong> was way too nosy about attributes of <strong>Mission</strong>. Put differently, she asked way to many “questions” about the mission object. Its not only a bad case of micromanagement but also a very common code smell.</p>
+
+<p>Let me show you what I mean. In <strong>M#assign_new_mission</strong>, <strong>M</strong> is “envious” about the data in the new parameter object and wants to access it all over the place.</p>
+
+<ul>
+<li><strong>mission.mission_name</strong></li>
+<li><strong>mission.agent_name</strong></li>
+<li><strong>mission.objective</strong></li>
+<li><strong>mission.licence_to_kill</strong></li>
+</ul>
+
+
+<p>In addition to that, you also have a parameter object <strong>Mission</strong> that is only responsible for data right now—which is another smell, a <em>Data Class</em>.</p>
+
+<p>This whole situation tells you basically that <strong>#assign_new_mission</strong> wants to be somewhere else and <strong>M</strong> doesn’t need to know the details of how missions get assigned. After all, why wouldn’t it be a missions’ responsibility to assign new missions? Remember to always to put things together that also change together.</p>
+
+<p><strong>M without feature envy</strong></p>
+
+<pre><code class="ruby">class M
+  def assign_new_mission(mission)
+    mission.assign
+  end
+end
+
+class Mission
+  attr_reader :mission_name, :agent_name, :objective, :licence_to_kill
+
+  def initialize(mission_name: mission_name, agent_name: agent_name, objective: objective, licence_to_kill: licence_to_kill)
+    @mission_name    = mission_name
+    @agent_name      = agent_name
+    @objective       = objective
+    @licence_to_kill = licence_to_kill
+  end
+
+  def assign
+    print "Mission #{mission_name} has been assigned to #{agent_name} with the objective to #{objective}."
+    if licence_to_kill
+      print " The licence to kill has been granted."
+    else
+      print " The licence to kill has not been granted."
+    end
+  end
+end
+
+m = M.new
+mission = Mission.new(mission_name: 'Octopussy', agent_name: 'James Bond', objective: 'find the nuclear device', licence_to_kill: true)
+m.assign_new_mission(mission)
+</code></pre>
+
+<p>As you can see, we simplified things quite a bit. The method slimmed down significantly and delegates the behaviour to the object in charge. <strong>M</strong> does not request mission data specifics anymore and certainly stays away from getting involved in how assigments get printed. Now she can focus on her real job and doesn’t need to be disturbed if any details of mission assignments change. More time for mind games and hunting down rogue agents. Win-win!</p>
+
+<p>Feature envy breeds entanglement—by that I don’t mean the good kind, the one that let’s information travel faster than light spookingly—I’m talking about the one that over time might let your development momentum grind to an every more approaching halt. Not good! Why so? Ripple effects throughout your code will create resitance! A change in one place butterflies through all kinds of stuff and you end up as a kite in a hurricane. (Ok, a bit overly dramatic, but I give myself a B+ for the Bond reference in there.)</p>
+
+<p>As a general antidote for feature envy, you wanna aim for designing classes that are concerned mostly about their own stuff and have—if possible—single responsibilities. In short, classes should be something like friendly otakus. Socially that might not be the healthiest of behaviours but for designing classes it often is a reasonable guideline to keep your momentum where it should be—moving forward!</p>
+
+<ul>
+<li><h3>Shotgun Surgery</h3></li>
+</ul>
+
+
+<p>The name is a little bit silly, isn’t? But at the same time its a pretty accurate description. Sounds like serious business and it kinda is! Luckily its not that hard to grasp but none the less its one of the nastier code smells. Why? Because it breeds dupliction like no other and its easy to loose sight of all the changes you’d need to make to fix things. What happens during shotgun surgery is you make a change in one class / file and you need to touch many other classes / files as wellthat need to be updated. Hope that doesn’t sound like a good time you’re in for.</p>
+
+<p>For example, if you’re in a situation where you think you can get away with one little change in one place and then realize that you have to wade through a whole bunch of files to make either the same change or fix something else that is broken because of it. NOT good, not at all! That sounds more like a good reason why people start to hate the code they’re dealing with. If you have a spectrum with DRY code on one side then code that often needs shotgun surgery is pretty much on the opposite end. Don’t be lazy and let yourself enter that territory. I’m sure you’d rather open one file and apply your changes there and be done with it. That’s the kind of lazy you should strive for!</p>
+
+<p>To avoid this smell here’s a short list of symptoms you can look out for:</p>
+
+<ul>
+<li>Feature Envy</li>
+<li>Tight coupling</li>
+<li>Long Parameter List</li>
+<li>Any form of code duplication</li>
+</ul>
+
+
+<p>What do we mean when we talk about code that is coupled. Let’s say we have objects <strong>A</strong> and <strong>B</strong>. If they are not coupled then you can change one of them without affecting the other. Otherwise you’ll more often than not also have to deal with the other object as well. This is a problem and shotgun surgery is a symptom for tight coupling as well. So always watch out how easy you can change your code. If its relatively easy it means that your level of coupling is acceptably low. Having said that, I realize that your expectations would be  unrealistic if you expect to be able to avoid coupling all the time at all costs. That’s not gonna happen! You will find good reasons to decide against that urge—like replacing conditionals with <em>Polymorphism</em>. In such a case, a litle bit of coupling, shotgun surgery and keeping the API of objects in sync is well worth getting rid of a ton of case statements via a <strong>Null Object</strong> (More on that in a later piece).</p>
+
+<p>Most commonly you can apply one of the following refactorings to heal the wounds:</p>
+
+<ul>
+<li>Move Field</li>
+<li>Inline Class</li>
+<li>Extract Class</li>
+<li>Move Method</li>
+</ul>
+
+
+<p>Let’s look at some code. This example is a slice of how a Spectre app handles payments between their contractors and evil clients. I simplified the payments a bit by having standard fees for both contractors and clients. So it doesn’t matter if Spectre is tasked to kidnap a cat or extort a whole country, the fee stays the same. Same goes for what they pay their contractors. In the rare case an operation goes south and another Nr. 2 has to literally jump the shark, Spectre offers a full refund to keep evil clients happy. Spectre uses some proprietory payment gem that is basically a placeholder for any kind of payment processor. In the first example below it would be a pain if Spectre decides to use another library to handle payments. There would be more moving parts involved but for demonstrating shotgun surgery this amount of complexity will do I think:</p>
+
+<p><strong>Example with shotgun surgery smell</strong>:</p>
+
+<pre><code class="ruby">class EvilClient
+  #...
+
+  STANDARD_CHARGE = 10000000
+  BONUS_CHARGE    = 10000000
+
+  def accept_new_client
+    PaymentGem.create_client(email)
+  end
+
+  def charge_for_initializing_operation
+    evil_client_id = PaymentGem.find_client(email).payments_id
+    PaymentGem.charge(evil_client_id, STANDARD_CHARGE)
+  end
+
+  def charge_for_successful_operation
+    evil_client_id = PaymentGem.find_client(email).payments_id
+    PaymentGem.charge(evil_client_id, BONUS_CHARGE)
+  end
+end
+
+class Operation
+  #...
+
+  REFUND_AMOUNT = 10000000
+
+  def refund
+    transaction_id = PaymentGem.find_transaction(payments_id)
+    PaymentGem.refund(transaction_id, REFUND_AMOUNT)
+  end
+end 
+
+class Contractor
+  #...
+
+  STANDARD_PAYOUT = 200000
+  BONUS_PAYOUT    = 1000000
+
+  def process_payout
+    spectre_agent_id = PaymentGem.find_contractor(email).payments_id
+    if operation.enemy_agent == 'James Bond' &amp;&amp; operation.enemy_agent_status == 'Killed in action'
+      PaymentGem.transfer_funds(spectre_agent_id, BONUS_PAYOUT)
+    else
+      PaymentGem.transfer_funds(spectre_agent_id, STANDARD_PAYOUT)
+    end
+  end
+end
+</code></pre>
+
+<p>When you look at this code you should ask yourself, should the <strong>EvilClients</strong> class be really concerned about how the payment processor accepts new evil clients and how they are charged for operations? Of course not! Is it a good idea to spread the various amounts to pay all over the place? Should the implementation details of the payments processor be showing up in any of these classes. Most definitely not!</p>
+
+<p>Look at it from that way. If you wanna change stuff on the way you handle payments, why would you need to open the <strong>EvilClient</strong> class? In other cases it could be user or customer. If you think about it, it doesn’t make any sense to familiarize them with this process. In this example it should be easy to see that changes to the way you accept and transfer payments create ripple effects throughout your code. Also, if you wanna change the amount you charge or transfer to your contractors you’d need addtional changes all over the place. Prime examples of shotgun surgery. And in this case we’re only dealing with three classes. Imagine your pain if a bit more realistic complexity is involved. Yep, that’s the stuff nightmares are made of. Let’s look at an example that is a bit more sane:</p>
+
+<p><strong>Example without shotgun surgery smell and extracted class</strong>:</p>
+
+<pre><code class="ruby">class PaymentHandler
+  STANDARD_CHARGE            = 10000000
+  BONUS_CHARGE               = 10000000
+  REFUND_AMOUNT              = 10000000
+  STANDARD_CONTRACTOR_PAYOUT = 200000
+  BONUS_CONTRACTOR_PAYOUT    = 1000000
+
+  def initialize(payment_handler = PaymentGem)
+    @payment_handler = payment_handler
+  end
+
+  def accept_new_client(evil_client)
+    @payment_handler.create_client(evil_client.email)
+  end
+
+  def charge_for_initializing_operation(evil_client)
+    evil_client_id = @payment_handler.find_client(evil_client.email).payments_id
+    @payment_handler.charge(evil_client_id, STANDARD_CHARGE)
+  end
+
+  def charge_for_successful_operation(evil_client)
+    evil_client_id = @payment_handler.find_client(evil_client.email).payments_id
+    @payment_handler.charge(evil_client_id, BONUS_CHARGE)
+  end
+
+  def refund(operation)
+    transaction_id = @payment_handler.find_transaction(operation.payments_id)
+    @payment_handler.refund(transaction_id, REFUND_AMOUNT)
+  end
+
+  def contractor_payout(contractor)
+    spectre_agent_id = @payment_handler.find_contractor(contractor.email).payments_id
+    if operation.enemy_agent == 'James Bond' &amp;&amp; operation.enemy_agent_status == 'Killed in action'
+      @payment_handler.transfer_funds(spectre_agent_id, BONUS_CONTRACTOR_PAYOUT)
+    else
+      @payment_handler.transfer_funds(spectre_agent_id, STANDARD_CONTRACTOR_PAYOUT)
+    end
+  end
+end
+
+class EvilClient
+  #...
+
+  def accept_new_client
+    PaymentHandler.new.accept_new_client(self)
+  end
+
+  def charge_for_initializing_operation
+    PaymentHandler.new.charge_for_initializing_operation(self)
+  end
+
+  def charge_for_successful_operation(operation)
+    PaymentHandler.new.charge_for_successful_operation(self)
+  end
+end
+
+class Operation
+  #...
+
+  def refund
+    PaymentHandler.new.refund(self)
+  end
+end
+
+class Contractor
+  #...
+
+  def process_payout
+    PaymentHandler.new.contractor_payout(self)
+  end
+end
+</code></pre>
+
+<p>What we did here is wrap the <strong>PaymentGem</strong> API in our own class. Now we have one central place where we apply our changes if we decide that for example a <strong>SpectrePaymentGem</strong> would work better for us. No more touching of multiple—to payments’ internals unrelated—files if we need to adapt to changes. In the classes that deal with payments we simply instantiated the <strong>PaymentHandler</strong> and delegate the needed functionality. Easy, stable and no reason to change.</p>
+
+<p>And not only have we contained everything in a single file. Within the <strong>PaymentsHandler</strong> class, there is only one place we need to swap out and reference a possible new payement processor—in <strong>initialize</strong>. That is rad in my book. Sure, if the new payment service has a completely different API you need to tweak the bodies of a couple of methods in <strong>PaymentHandler</strong>. It’s a tiny price to pay compared to full on shotgun surgery—that’s more like surgery for a small splinter in your finger. Good deal!</p>
+
+<p>If you’re not careful when you write tests for a payment processor like this—or any external service you need to rely on—you are possibly in for serious headaches when they change their API. They “suffer from change” as well of course. And the question is not will they change their API, only when. Through our encapsulation we’re in a much better postion to stub our methods for the payment processor. Why? Because the methods we stub are our own and they only change when we want them to. That is a big win. If you’re new to testing and this is not completely clear to your don’t worry about it. Take your time, this topic can be tricky at first. Because its such an advantage I just wanted to mention it for completeness sake.</p>
+
+<p>As you can see I simplified payments processing quite a bit in this silly example. I could have cleaned the final result some more as well but the point was to clearly demonstrate the smell and how you can get rid of it through abstraction. If you’re not completely happy with this class and see opportunities for refactoring I salute you—and am happy take credit for it. I recommend you knock yourself out! A good start might be dealing with the way you find <strong>payments_id</strong>s. The class itself also got a bit crowded already…</p>
+
+<ul>
+<li><h3>Divergent Change</h3></li>
+</ul>
+
+
+<p>Divergent change is kinda the opposite of shotgun surgery—where you want to change one thing and need to blast that change through a bunch of different files. Here a single class is often changed for different reasons and in different ways. My recommendation is to identify parts that change together and extract them in a separate class that can focus on that single responsibility. These classes in turn should also have no more than one reason to change—if not, another divergent change smell is most likely waiting to bite you.</p>
+
+<p>Classes that suffer from divergent change are ones that get changed a lot. With tools like <a href="https://github.com/danmayer/churn">Churn</a> you can measure how often particular parts of your code needed to change in the past. The more points you find on a class the higher the probability that divergent change might be at work. I also wouldn’t be surprised if exactly these classes are ones that cause the most bugs overall.</p>
+
+<p>Don’t get me wrong, getting changed often itself is not directly the smell—its a useful symptom though. Another very common and more explicit symptom is that this object needs to juggle more than one responsibility. The <em>single responsibility principle</em> <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">SRP</a> is an excellent guideline to prevent this code smell and to write more stable code in general. It can be tricky to follow though—but nevertheless still worth the grind.</p>
+
+<p>Let’s look at this nasty example below. I modified the shotgun surgery example a bit. <a href="https://en.wikipedia.org/wiki/Ernst_Stavro_Blofeld">Blofeld</a>, head of <em>Spectre</em>, might be known to micromanage stuff but I doubt he would be interested in half the stuff this class is involved with.</p>
+
+<pre><code class="ruby">class Spectre
+
+  STANDARD_CHARGE = 10000000
+  STANDARD_PAYOUT = 200000
+
+  def charge_for_initializing_operation(client)
+    evil_client_id = PaymentGem.find_client(client.email).payments_id
+    PaymentGem.charge(evil_client_id, STANDARD_CHARGE)
+  end
+
+  def contractor_payout(contractor)
+    spectre_agent_id = PaymentGem.find_contractor(contractor.email).payments_id
+    PaymentGem.transfer_funds(spectre_agent_id, STANDARD_PAYOUT)
+  end
+
+  def assign_new_operation(operation)
+    operation.contractor = 'Some evil dude'
+    operation.objective  = 'Steal a boatload of valuable stuff'
+    operation.deadline   = 'Midnight, November 18th'
+  end
+
+  def print_operation_assignment(operation)
+    print "#{operation.contractor} is assigned to #{operation.objective}. The mission deadline ends at #{operation.deadline}."
+  end
+
+  def dispose_of_agent(spectre_agent)
+    puts "You disappointed this organisation. You know how Spectre handles failure. Good bye #{spectre_agent.code_name}!"
+  end
+end
+</code></pre>
+
+<p>The <strong>Spectre</strong> class has way too many different things it is concerned about:</p>
+
+<ul>
+<li>Assigning new operations</li>
+<li>Charging for their dirty work</li>
+<li>Printing mission assignments</li>
+<li>Killing unsuccessful spectre agents</li>
+<li>Dealing with the PaymentGem internals</li>
+<li>Paying their Spectre agents / contractors</li>
+<li>It also knows about the amounts of money for charging and payout</li>
+</ul>
+
+
+<p>Seven different responsibilities on a single class. Not good!  You need to change how agents are disposed of? One vector for changing the <strong>Spectre</strong> class. You wanna handle payouts differently? Another vector. You get the drift. Although this example is far from being realistic, it still tells the story how easy it is to uneccessarily amass behaviour that needs to change frequently in a single place. We can do better!</p>
+
+<pre><code class="ruby">class Spectre
+  # ...
+
+  def dispose_of_agent(spectre_agent)
+    puts "You disappointed this organisation. You know how Spectre handles failure. Good bye #{spectre_agent.code_name}!"
+  end
+end
+
+class PaymentHandler
+  STANDARD_CHARGE            = 10000000
+  STANDARD_CONTRACTOR_PAYOUT = 200000
+
+  #...
+
+  def initialize(payment_handler = PaymentGem)
+    @payment_handler = payment_handler
+  end
+
+  def charge_for_initializing_operation(evil_client)
+    evil_client_id = @payment_handler.find_client(evil_client.email).payments_id
+    @payment_handler.charge(evil_client_id, STANDARD_CHARGE)
+  end
+
+  def contractor_payout(contractor)
+    spectre_agent_id = @payment_handler.find_contractor(contractor.email).payments_id
+    @payment_handler.transfer_funds(spectre_agent_id, STANDARD_CONTRACTOR_PAYOUT)
+    end
+  end
+end
+
+class EvilClient
+  #...
+
+  def charge_for_initializing_operation
+    PaymentHandler.new.charge_for_initializing_operation(self)
+  end
+end
+
+class Contractor
+  #...
+
+  def process_payout
+    PaymentHandler.new.contractor_payout(self)
+  end
+end
+
+class Operation
+  attr_accessor :contractor, :objective, :deadline
+
+  def initialize(attrs = {})
+    @contractor = attrs[:contractor] 
+    @objective  = attrs[:objective] 
+    @deadline   = attrs[:deadline] 
+  end
+
+  def print_operation_assignment
+    print "#{contractor} is assigned to #{objective}. The mission deadline ends at #{deadline}."
+  end
+end
+</code></pre>
+
+<p>Here we extracted a bunch of classes and gave them their own unique responsiblities—and therefore their own contained reason to change. You want to handle payments differently? Now you won’t need to touch the <strong>Spectre</strong> class. You need to charge or payout differently? Again, no need to open the file for <strong>Spectre</strong>. Printing operation assignments is now the business of operation—where it belongs. That’s it. Not too complicated I think but definitely one of the more common smells you should learn to handle early imho.</p>
+
+<h3>Final Thoughts</h3>
+
+<p>I hope you got to the point where you feel ready to try these refactorings in your own code and have an easier time identifying code smells around you. Beware that we just got started but that you already tackled a couple of big ones. I bet it was not as tricky as you once might have thought! Sure, real world examples will be a lot more challenging, but if you have understood the mechanics and patterns to spot smells, you’ll surely be able to adapt quickly to realistic complexities.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Middleman Basics 01]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/05/Middleman-01/"/>
+    <updated>2015-11-05T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/05/Middleman-01</id>
+    <content type="html"><![CDATA[<p><img src="/images/middleman/Three_Stooges_1959.jpg"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Helpers</li>
+<li>Layouts</li>
+<li>Partials</li>
+<li>A new Site</li>
+<li>Frontmatter</li>
+<li>Middleman &amp; Static Pages</li>
+<li>Installation &amp; Getting Started</li>
+<li><p>Source vs Build vs Deploy(GitHub Pages)</p></li>
+<li><h3>Middleman &amp; Static Pages</h3></li>
+</ul>
+
+
+<p>What’s all the fuzz lately with static sites? Easy, they’re fast, pretty straightforward to set up and lightweight I’d say. Because you’re not serving anything database related, static sites are pretty reliable and speedy. HTML, CSS and if needed JS—that’s all. What’s it for? Well, a lot of people use it to set up their blogs and personal pages. Landing pages that are hit by traffic heavily are also a good candidate. <a href="https://www.healthcare.gov/">HealthCare.gov</a> from the Obama administration famously used Jekyll, another static site generator, for their site. Its not a Swiss Army knife for every purpose but if you need something quick and easy that is able to scale out of the box, static sites can be amazing. Especially if you can host them for free on <a href="https://pages.github.com/">GitHub Pages</a> or <a href="https://www.heroku.com/">Heroku</a>.</p>
+
+<p>I guess the whole static site hipness got slowly started a few years back when <a href="http://jekyllrb.com/">Jekyll</a> came along. Of course, static sites are as old as the first “Hello World!” from Sir Tim Berners-Lee but over the past 15 years, database backed apps were mostly “all that mattered”. Couple of years back, one of the co-founders of GitHub needed a better way to write blogs and he came up with Jekyll—this hip static site generator for “Blogging like a hacker”. Its pretty amazing! I’ve used it on a couple of occasions and have only good things to report. The core team is awesome too. Anyhow, for this series my editor and I agreed it would be more interesting to cover <a href="https://middlemanapp.com/">Middleman</a>. It might be fair to say that Middleman is a bit less “blog-aware” out of the box but none the less equally as powerful and great quality-wise.</p>
+
+<p>Middleman uses Ruby and offers a pretty extensive set of features to build cool stuff. Couple of my favorite blogs use Middleman. If you’ve ever used Rails or Sinatra you’ll feel right at home. It seems Middleman and Jekyll are the go-to options for static sites in the Ruby community. I have also heard more and more designers argue that they like using them for prototyping and for setting up their own personal pages. What a lot of these static site frameworks have in common is that they are pretty straightforward to use. I actually believe its a good idea to teach people coding by playing with one of these ruby based static site frameworks—instead of jumping into Rails or Sinatra right away. (Sure, Sinatra is small too but there are still more concepts at work compared to Middleman for example.) Next time someone wants to learn to program in Ruby and asks me for directions I’ll probably point them towards Middleman or Jekyll.</p>
+
+<p>So in this article I’ll assume that you are at least a bit interested in Ruby and have it installed on your system. Knowing how to deal with RubyGems is necessary too. I’ll do my best to not go over your head with programming concepts but I won’t cover basics like loops, code blocks and such. For the newbies among you, don’t worry, Middleman has not that many moving parts or tons of magic—not that I’m one of those magic naggers—and I believe its easy to learn too.</p>
+
+<ul>
+<li><h3>Installation &amp; Getting Started</h3></li>
+</ul>
+
+
+<p>So you got Ruby and RubyGems under your belt? Great, then we’re good to go.</p>
+
+<p>Terminal:</p>
+
+<pre><code class="bash">
+gem install middleman
+</code></pre>
+
+<p>After this process has finished, you’ll be able to use a couple of handy commands in your shell.</p>
+
+<ul>
+<li><strong>middleman init</strong></li>
+</ul>
+
+
+<p>This command initiates a new project—you just have to provide it with the name of your app.</p>
+
+<p>Terminal:</p>
+
+<pre><code class="bash">
+middleman init your_fancy_app
+</code></pre>
+
+<p>It also takes additional arguments like which template you wanna start with. This makes it really handy to customize your apps with templates right from the start—cuts down on repetitive setup tasks quite a bit! There are a couple ones ready out of the box—like one for blogs for example and you can use your own custom ones too of course. More on that in a later article.</p>
+
+<p>Terminal:</p>
+
+<pre><code class="bash ">
+middleman init your_fancy_blog --template=blog
+</code></pre>
+
+<pre><code class="bash">
+middleman init your_fancy_mobile_app --template=mobile
+</code></pre>
+
+<ul>
+<li><strong>middleman server</strong></li>
+</ul>
+
+
+<p>Middleman comes with a local server for your development. Starting it up lets you see your site at <strong><a href="http://localhost:4567/">http://localhost:4567/</a> </strong>. If you just type <strong>middleman</strong> without any additional argument, your server gets also fired up. Shut down your server with <strong>CTRL-c</strong>.</p>
+
+<ul>
+<li><strong>middleman build</strong></li>
+</ul>
+
+
+<p>Once you have something you are ready to put on an internet-facing server you need to <strong>build</strong> your site. That means that whatever you have prepared in your <strong>/source</strong> folder gets processed and the final output goes into the <strong>/build</strong> folder that middleman also creates for you. All your files that use preprocessors like <a href="http://slim-lang.com/about.html">Slim</a>, <a href="http://haml.info/">Haml</a>, <a href="http://sass-lang.com/">Sass</a>, <a href="http://coffeescript.org/">CoffeeScript</a> get translated into their respective counterparts and put into your /build directory which your server will host.</p>
+
+<ul>
+<li><strong>middleman deploy</strong></li>
+</ul>
+
+
+<p>Once your site is ready to face the internet, this command deploys your <strong>/build</strong> folder onto your web server. So every update you have finished goes through that process. Its the equivalent to depoying with Git to Heroku if you have played with that in the past.</p>
+
+<h4>Attention!</h4>
+
+<p>Do yourself a favor right away and activate <a href="http://livereload.com/">LiveReload</a> to instantly refresh your pages automatically after changes to your HTML, Sass or JS files. This is of great convenience during development—you won’t regret it! In the past it was sometimes a pain to set up but Middleman offers <em>LiveReload</em> out of the box—you just need to uncomment the following line in <strong>config.rb</strong>:</p>
+
+<pre><code class="ruby">
+# Reload the browser automatically whenever files change
+activate :livereload
+</code></pre>
+
+<ul>
+<li><h3>Source vs Build vs Deploy(GitHub Pages)</h3></li>
+</ul>
+
+
+<p>So let’s get get started with <strong>/source</strong> and <strong>/build</strong> folders. Between them is the dividing line that separates your development and production sections. When you use your local web server for development, /source gets used to serve your app. The /build folder is used by your non-local servers to serve your static pages. /build gets created every time you use <strong>middleman build</strong> in your command line. Therefore you should be careful to not accidentally spend your time coding in /build because this work will disappear after the build process. Sure there is Git if you’re lucky but in general, all your development is supposed to happen in /source.</p>
+
+<p>The build process creates the static sites that you want your server to host. Each file in your <strong>/source</strong> folder will get processed and then stored in <strong>/build</strong>. That means that your Sass, CoffeeScript, Slim / Haml and partials will translante themselves into CSS, JavaScript and HTML files. All the layouts will be pieced together as well. If you have activated compression for these files, this is the moment they get “uglified” too. During this whole shabang, the /build folder gets rejuvinated by getting rid of files that have no reference in /source anymore. During <strong>middleman build</strong>, any changes you made to files in /source will trigger a regeneration of new corresponding static files for /build.</p>
+
+<p>The deployment process is the last step. With the <strong>/build</strong> directory in place you have everything you need to put your app out there. My recommendation is to do this early and avoid running into any surprises. I’ll show you how to deploy via <a href="https://pages.github.com/">GitHub Pages</a>. You’ll see, it couldn’t be any easier or more convenient. Assuming that you already initiated Git (<strong>git init</strong>) it’s basically five simple steps:</p>
+
+<h3>Project Page For Users &amp; Organizations</h3>
+
+<h4>Step 00</h4>
+
+<p>We’ll need to start with adding a Gem for deployment to your <strong>Gemfile</strong>:</p>
+
+<pre><code class="ruby">
+gem "middleman-deploy"
+</code></pre>
+
+<h4>Step 01</h4>
+
+<p>In your terminal run</p>
+
+<pre><code class="bash">
+bundle install
+</code></pre>
+
+<h4>Step 02</h4>
+
+<p>Open your <strong>config.rb</strong> file and add the following:</p>
+
+<pre><code class="ruby">
+activate :deploy do |deploy|
+  deploy.method = :git
+  deploy.branch = 'gh-pages'
+  deploy.build_before = true
+end
+</code></pre>
+
+<h4>Attention!</h4>
+
+<p>The most important bit is the branch <code>'gh-pages</code>. That way you can setup a <strong>project page</strong> which means that for every GitHub repo you can possibly have your own GitHub pages page. Prettty neat!</p>
+
+<h4>Step 03</h4>
+
+<p>Create a new repository on GitHub and add the remote branch—so everthing you’d normally do when you follow GitHub’s instructions.</p>
+
+<pre><code class="bash">
+git remote add origin https://github.com/yourusername/repositoryname.git
+</code></pre>
+
+<h4>Optional Step</h4>
+
+<p>If you want you can back up your master branch the same way as always <strong>add</strong> / <strong>commit</strong> your changes as well and push them up. That way you’ll have both a <strong>master</strong> and a <strong>gh-pages</strong> branch in your remote repo.</p>
+
+<pre><code class="bash">
+git push -u origin master
+</code></pre>
+
+<h4>Step 04</h4>
+
+<pre><code class="bash">
+middleman deploy
+</code></pre>
+
+<p>Boom, that’s it! Your site is live! Now you have a <strong>gh-pages</strong> branch in your repo on GitHub and it will be used for all the heavy lifting of deploying your app for you. With this setup, if you forget to run <strong>middleman build</strong> yourself, the build process gets initiated automatically before the files in <strong>/build</strong> get deployed to GitHub Pages. Once you’re finished you’ll find your app under <code>username.github.io/projectname</code> or <code>organisationname.github.io/projectname</code> for organizations.</p>
+
+<p>At its most basic, the <strong>gh-pages</strong> branch in your repo consists of the following folders:</p>
+
+<ul>
+<li><strong>/images</strong></li>
+<li><strong>/javascripts</strong></li>
+<li><strong>/stylesheets</strong></li>
+</ul>
+
+
+<p>and an <strong>index.html</strong> file.</p>
+
+<h3>User &amp; Organization Pages</h3>
+
+<p>If you want your middleman app to be a <em>User</em> or <em>Organization</em> page on GitHub Pages you’d need to change a little bit of configuration that is concerned with the deploy branch. These pages reside under your <code>username.github.io</code>—why you obviously can only have one of these pages. Quite honestly I don’t see the need for these, after all you’d set up your own domain name for it anyway if the app is of any importance to you. Therefore I’ll stop here and let you figure this out on your own if you find a good reason not to use plain project pages. Its not tricky or anything, the main differnce is that the content from your master branch is used to build and publish this page for you.</p>
+
+<ul>
+<li><h3>A New Site</h3></li>
+</ul>
+
+
+<p>Let’s check out the basic structure of a Middleman app. The main components are:</p>
+
+<ul>
+<li><strong>/images</strong></li>
+<li><strong>/javascripts</strong></li>
+<li><strong>/layouts</strong></li>
+<li><strong>/stylesheets</strong></li>
+<li><strong>config.rb</strong></li>
+<li><strong>An index.html.erb file</strong></li>
+<li><strong>A Gemfile</strong></li>
+</ul>
+
+
+<p>As you can see below, the most Jazz goes into the <strong>/source</strong> folder. What I like about Middleman apps is their simple organization—even if you are a newbie, its pretty hard to get lost in here. One of the reasons I recommend beginners to play with Middleman first.</p>
+
+<h4>Screenshot:</h4>
+
+<p><img src="/images/middleman/source_structure.png"></p>
+
+<p>If you are unhappy with the naming of some of these folders you can change that in your configurations (<strong>config.rb</strong>) of course. The same names will be used then for your finished <strong>/build</strong> folder.</p>
+
+<pre><code class="ruby">
+set :css_dir,    'custom_foler_name'
+
+set :js_dir,     'custom_foler_name'
+
+set :images_dir, 'custom_foler_name'
+</code></pre>
+
+<p>When you have your server running, you can check out other options to configure Middleman right in your browser: <a href="http://localhost:4567/__middleman/config/.">http://localhost:4567/__middleman/config/.</a> Not all of them might make sense or are even important to know. Give it a glance and a mental bookmark is totally sufficient for now.</p>
+
+<p>One you run <strong>middleman build</strong> you can peak into the <strong>/build</strong> folder. All the plain HTML, CSS and JS files you need to serve your static site.</p>
+
+<p><img src="/images/middleman/build_structure.png"></p>
+
+<p>That’s pretty much all you need to know to get started and to orient yourself.</p>
+
+<h4>Suggestion</h4>
+
+<p>At this pont it would make a lot of sense if you start with initiating a test app yourself—in case you haven’t already. Look around and get a feel how things are organized and how the pieces fit together. You can go on without of course but I believe its easier to understand if you try it out a bit along the way.</p>
+
+<ul>
+<li><h3>Frontmatter</h3></li>
+</ul>
+
+
+<p>I know, naming is hard! Comes from book publishing or whatever. Anyway, every page allows you to have variables that can be stored right at the top inside a leading and a trailing triple hyphen—3 minus signs top and bottom. I’ll show you:</p>
+
+<p><strong>some.html.erb</strong></p>
+
+<p>``` erb</p>
+
+<hr />
+
+<p>layout: Bond
+title:  Favorite bond girl names
+date:   2015-11-09
+tags:   bond, 007</p>
+
+<p>some_secret: I won’t get rendered until you use me.</p>
+
+<p>bond_girls:
+  - Strawberry Fields
+  - Jill Masterson
+  - Tiffany Case</p>
+
+<hr />
+
+<h1>Top three names for Bond girls</h1>
+
+
+<ul>
+  <% current_page.data.bond_girls.each do |name| %>
+    <li><%= name %></li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+The YAML variables look just like a hash. You can access that local data through the **current_page** object: 
+</code></pre>
+
+<p>current_page.data.some_variable</p>
+
+<pre><code>
+You often use it to store tags, dates, titles and configuration options—like which layout you wanna use for particular pages. Frontmatter is a [YAML](https://en.wikipedia.org/wiki/YAML) store for your variables. You can also use [JSON](https://en.wikipedia.org/wiki/JSON) if you prefer that. Hopefully this doesn’t sound way more complicated than it is. You can think of it as a place for putting data that could normally reside in a database—I mean obviously a very trimmed down version of that. I will discuss the various options and uses along the way when they come up. 
+
+Maybe we should use this opportunity to briefly go over Erb lingo. Erb let’s you create dynamic templates that have embedded code in them. Your filenames need to have and **.erb** extension and you need to put your code in the following two “containers”.
+
+For code that gets exectuted but not “printed” onto the page you use this:
+</code></pre>
+
+<p>&lt;% %></p>
+
+<pre><code>
+Think of it as “computation only”.
+
+Otherwise, for return values that you wanna see show up “printed” on the page you need to add an equals sign as well. That’s it.
+</code></pre>
+
+<p>&lt;%= %></p>
+
+<pre><code>
+
++ ### Layouts
+
+The concepts of layouts and partials are closely related. Let me give you a little whirlwind tour in case you haven’t played with Rails, Sinatra or similar before. I think I should start with **layouts** first.
+
+Layouts provide you with the structure to share common markup among different pages—that belong to the same “family” of pages if you will. Its a tool to avoid duplication and to speed up your work. Instead of writing the same HTML skelleton all over the place you compose layouts for particular use cases. Popular examples are two different layouts for both an admin and a “normal” user. They usually have a very different experience looking at the “same” page.
+
+When you initiate a simple middleman app, you’ll automatically get a **layout.erb** file in **source/layouts**. Take notice that this file is ending in **.erb** and not **.html.erb**. Layouts should not be rendered to HTML and Middleman will throw an error if you create layouts with an leftmost **.html** extension. If you use a different templating languate like Slim or Haml, layouts should have their extensions instead or **.erb** of course. As the default suggests, you should put all your layouts into the **/layouts** folder in **source**. 
+
+**source/layouts/layout.erb**
+</code></pre>
+
+<p>&lt;!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"></p>
+
+<pre><code>&lt;!-- Always force latest IE rendering engine or request Chrome Frame --&gt;
+&lt;meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"&gt;
+
+&lt;!-- Use title if it's in the page YAML frontmatter --&gt;
+&lt;title&gt;&lt;%= current_page.data.title || "The Middleman" %&gt;&lt;/title&gt;
+
+&lt;%= stylesheet_link_tag "normalize", "all" %&gt;
+&lt;%= javascript_include_tag  "all" %&gt;
+</code></pre>
+
+<p>  </head></p>
+
+<p>  <body class="<%= page_classes %>&ldquo;>
+    &lt;%= yield %>
+  </body>
+</html></p>
+
+<pre><code>
+This default layout is pretty barebones but provides all you need to get started. Let’s have a look: 
+
++ A little bit of meta information.
++ A dynamic page title that reads data from every pages’ frontmatter.
++ Helper methods that include style and JavaScript files.
++ And finally a body tag that wraps your content which is “yielded” into the layout via **&lt;%= yield %&gt;**.
+
+And from there you can customize this layout to your every need. Its a starting point really. The only confusing part for Ruby newbies is maybe the **yield** thingy—it just means that it passes through the rest of the content you create. In other words, **yield** is a placeholder for your views which will get rendered into it. If that concept is completely alien to you just remember to not touch it for now or your app might not work as expected. Whenever you create your own layouts, having **yield** in there is most essential. Otherwise your content won’t show. You’ll get the hang of it in no time though.
+
+If you created different layouts you can specify via the frontmatter which layout you wanna use on a page-by-page basis. Let’s say you have a special layout for welcoming users that is a bit more salesy.
+
+**welcome.html.erb**
+</code></pre>
+
+<hr />
+
+<h2>layout: sales</h2>
+
+<h1>Hello there!</h1>
+
+
+<h2> Guess what, we’re trying to sell you some stuff?</h2>
+
+
+<pre><code>
+Alternatively you can specify layouts also in your config file.
+
+**config.rb**
+</code></pre>
+
+<p>page &ldquo;/welcome.html&rdquo;, :layout => &ldquo;sales&rdquo;</p>
+
+<pre><code>
+If you want to avoid doing this for every page manually, you can collect them in one place. You use a wildcard (**\***) to collect a bunch of pages that use the same layout. 
+
+**config.rb**
+</code></pre>
+
+<p>page &ldquo;/sales/*&rdquo;, :layout => &ldquo;sales&rdquo;</p>
+
+<pre><code>
+I personally like to put this layout info in the frontmatter. Its very explicit and not too repetetive. If I had a whole bunch of them though I’d rather use the wildcard approach.
+
+For any decent app, layouts can be nested of course—which means nested **yield** blocks as well. Layouts can be turned off as well. Maybe we’ll visit that later when we get into building something. For now that’s all you need to know about layouts.
+
++ ### Partials
+
+These lovely fellas provide you with the means to encapsulate  view code that you can reuse wherever you need. You just need to tell your view where to insert a partial and it gets rendered right in there. Partials are a very common technique for DRYing up your code—at least in Ruby land and therefore Middleman has it baked in as well.
+
+Very common examples include navbars, footers and **head** sections—which you don’t want to duplicate all over the place. Files for partials start with an underscore. For starters you can place them under **/source**. Your layouts are a good place to start with collecting code to extract into partials. There are tons of ways to make use of them though. Whenever you find something you should encapsulate and reuse, partials will be a handy friend. Just like layouts, you can nest partials as well. Just try to avoid making it too confusing to follow their breadcrumbs.
+
+**/source/layouts/layout.erb**
+</code></pre>
+
+<p>&lt;!doctype html>
+<html>
+  <head>
+    &lt;%= partial &ldquo;head&rdquo; %>
+  </head></p>
+
+<p>  <body class="<%= page_classes %>&ldquo;>
+    &lt;%= partial "navbar&rdquo; %>
+    &lt;%= yield %>
+    &lt;%= partial &ldquo;footer&rdquo; %>
+  </body>
+</html></p>
+
+<pre><code>
+**source/_head.html.erb**
+</code></pre>
+
+<p><meta charset="utf-8"></p>
+
+<!-- Always force latest IE rendering engine or request Chrome Frame -->
+
+
+<p><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"></p>
+
+<!-- Use title if it's in the page YAML frontmatter -->
+
+
+<p><title>&lt;%= current_page.data.title || &ldquo;The Middleman&rdquo; %></title></p>
+
+<p>&lt;%= stylesheet_link_tag &ldquo;normalize&rdquo;, &ldquo;all&rdquo; %>
+&lt;%= javascript_include_tag  &ldquo;all&rdquo; %></p>
+
+<pre><code>
+Sometimes you want to extract a partial not just for avoiding duplication but to make your views more readable. Over time, **head** sections are notorious for becoming quite loaded for example. Within them you can have other partials that only deal with style or JS files. 
+
+You’ll realize how convenient partials are once you can apply changes that ripple through your entire app—wherever you included the partial. No need to go through a bunch of files to apply the same change over and over. If you’ve never used partials before you’ll soon learn that there is no way you wanna go back and do it any other way. Frameworks that are not smart about this soon become pale in comparison—I guess most of them have caught up by now though. 
+
++ ### Helpers
+
+Helpers are methods that you can use for a lot of everyday taks in your views. I believe this was pioneered in Rails land and quickly became ubiquitous for web modern web development. You’ve already seen helpers that include stylesheets and JavaScript files. There’s a lot more where this is coming from though.
+
+**/source/_head.html.erb**
+</code></pre>
+
+<p><head>
+  &lt;%= stylesheet_link_tag &ldquo;normalize&rdquo;, &ldquo;all&rdquo; %>
+  &lt;%= javascript_include_tag  &ldquo;all&rdquo; %>
+</head></p>
+
+<pre><code>
+They are meant to help you write cleaner and more concise view code. In the helpers list below you’ll find a lot of useful stuff that comes out of the box. You are not limited by that though. Write your own helper methods in **config.rb** or collect them separately in a module. Totally up to you.
+
+It works like this: In your **config.rb** you create a **helpers** block and put all your helper methods inside. That’s it. Now your views have access to them.
+
+**/source/_navbar.erb**
+</code></pre>
+
+<p><nav>
+  &lt;%= random_username %>
+  &lt;%= random_image %>
+</nav></p>
+
+<pre><code>
+**config.rb**
+</code></pre>
+
+<p>helpers do</p>
+
+<p>  def random_username
+    &ldquo;#{lorem.first_name} #{lorem.last_name}&rdquo;
+    end</p>
+
+<pre><code>def random_image
+image_tag "#{lorem.image('30x40', :background_color =&gt; '333', :color =&gt; 'fff')}"
+end
+</code></pre>
+
+<p>end</p>
+
+<pre><code>
+These simple helpers might come in handy when I quickly wanna prototype something and want to avoid setting up dummy images and text myself. Just drop in a helper in your view, test how it looks and replace it when you have real content for example. Overall, you should look out for code that you’d like to be more concise or that you duplicate over and over again. Helpers are often a good home for that.
+
+Inside these custom helpers I used other Middleman helpers for creating **img** tags through **image_tag** as well as the **lorem** object for some random user names and image placeholders. These lorem thingies can be a bit customized to suit your needs. 
+
+Using the module approach however, you need a separate file for your module. Create a **lib** directory in your root folder—same level as **source** and **build**—and create a file for your helpers.
+
+**/lib/helpers.rb**
+</code></pre>
+
+<p>module PrototypingHelpers
+    def random_image
+    image_tag &ldquo;#{lorem.image(&lsquo;300x400&rsquo;, :background_color => &lsquo;333&rsquo;, :color => &lsquo;fff&rsquo;)}&rdquo;
+    end</p>
+
+<p>  def random_username
+    &ldquo;#{lorem.first_name} #{lorem.last_name}&rdquo;
+    end
+end</p>
+
+<pre><code>
+Then you’ll need to let your **config.rb** file know that you wanna use these helpers:
+
+**config.rb**
+</code></pre>
+
+<p>require &lsquo;lib/helpers&rsquo;
+helpers PrototypingHelpers</p>
+
+<pre><code>
+Boom! You’re ready to roll. In general, I’d go with the module approach right away. Feels a lot cleaner to me—plus you avoid polluting your config file with too much stuff.
+
+I’d also like to look into output helpers and **content_for** in particular—since they can be a bit confusing for newbies. This let’s you capture a bunch of content that you can yield / reuse someplace else. Its a minature partial of sorts if you like. I personally would go with a partial most of the time I guess but every now and then when you wanna apply on-off changes more surgically this is handy to know:
+
+
+**index.html.erb**
+</code></pre>
+
+<p>&lt;% content_for :navigation do %>
+  <ul>
+    <li>&lt;%= link_to &lsquo;Home&rsquo;,    &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Posts&rsquo;,   &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;About&rsquo;,   &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Contact&rsquo;, &lsquo;#&rsquo; %></li>
+  </ul>
+&lt;% end %></p>
+
+<h1> Hello new user!</h1>
+
+
+<p>&hellip;</p>
+
+<pre><code>
+**admin_index.html.erb**
+</code></pre>
+
+<p>&lt;% content_for :admin_navigation do %>
+  <ul>
+    <li>&lt;%= link_to &lsquo;Home&rsquo;,    &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Stats&rsquo;,   &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Edit&rsquo;,    &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Posts&rsquo;,   &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;About&rsquo;,   &lsquo;#&rsquo; %></li>
+    <li>&lt;%= link_to &lsquo;Contact&rsquo;, &lsquo;#&rsquo; %></li>
+  </ul>
+&lt;% end %></p>
+
+<p>&lt;% content_for :admin_javascript do %>
+  &lt;%= javascript_include_tag  &ldquo;admin&rdquo; %>
+  &lt;%= javascript_include_tag  &ldquo;some_library&rdquo; %>
+&lt;% end %></p>
+
+<h1> Hello Ms. Admin!</h1>
+
+
+<p>&hellip;</p>
+
+<pre><code>
+**layout.erb**
+</code></pre>
+
+<p><html>
+  <head>
+      &lt;% if content_for?(:admin_javascript) %>
+        &lt;%= yield_content :admin_javascript %>
+      &lt;% else %>
+        &lt;%= javascript_include_tag  &ldquo;all&rdquo; %>
+      &lt;% end %>
+  </head></p>
+
+<p>  <body class="<%= page_classes %>&ldquo;>
+    <nav>
+      &lt;% if content_for?(:admin_navigation) %>
+        &lt;%= yield_content :admin_navigation %>
+      &lt;% else %>
+        &lt;%= yield_content :navigation %>
+      &lt;% end %>
+    </nav></p>
+
+<pre><code>&lt;%= yield %&gt;
+
+&lt;%= partial "footer" %&gt;
+</code></pre>
+
+<p>  </body>
+</html></p>
+
+<p>```</p>
+
+<p>The key is using <strong>yield_content</strong> which is putting your collected content from the individual page into the layout—if found. No need to just use them only with layouts btw. When you need to make this a bit more involved, use <strong>content_for?</strong> to check for specific content blocks before you insert them. It is handy when you want to make small adaptions for sections that differ only slightly. Its kinda cool that you can save this content a bit like a configuration on the relevant pages themselves and “activate” it only where needed. You probably shouldn’t get too clever with these things though.</p>
+
+<p>A word about the <strong>link_to</strong> helper I used above. This is probaly the one you’ll use / run into the most. You basically feed the method a name and a url or path where this link should point to. I replaced the last part with a placeholder for brevity.</p>
+
+<p>Below is an overview what helpers are out-of-the-box at your disposal. I think the names are mostly self-explanatory and I shouldn’t go over what each of these can help you with. Make a mental bookmark what’s out there and check back with the documentation if they give you any trouble. By now, I’m pretty sure you got this. If not, nothing wrong with that either. Hang in there!</p>
+
+<h3>Tag Helpers</h3>
+
+<ul>
+<li><strong>tag</strong></li>
+<li><strong>link_to</strong></li>
+<li><strong>input_tag</strong></li>
+<li><strong>favicon_tag</strong></li>
+<li><strong>stylesheet_link_tag</strong></li>
+<li><strong>javascript_include_tag</strong></li>
+</ul>
+
+
+<h3>Output Helpers</h3>
+
+<ul>
+<li><strong>content_for</strong></li>
+<li><strong>content_for?</strong></li>
+<li><strong>capture_html</strong></li>
+<li><strong>yield_content</strong></li>
+<li><strong>concat_content</strong></li>
+</ul>
+
+
+<h3>Form Helpers</h3>
+
+<ul>
+<li><strong>form_tag</strong></li>
+<li><strong>label_tag</strong></li>
+<li><strong>select_tag</strong></li>
+<li><strong>submit_tag</strong></li>
+<li><strong>field_set_tag</strong></li>
+<li><strong>text_field_tag</strong></li>
+<li><strong>check_box_tag</strong></li>
+<li><strong>password_field_tag</strong></li>
+</ul>
+
+
+<h3>Format Helpers</h3>
+
+<ul>
+<li><strong>truncate</strong></li>
+<li><strong>pluralize</strong></li>
+<li><strong>word_wrap</strong></li>
+<li><strong>escape_html</strong></li>
+<li><strong>simple_format</strong></li>
+<li><strong>js_escape_html</strong></li>
+<li><strong>time_ago_in_words</strong></li>
+<li><strong>distance_of_time_in_words</strong></li>
+</ul>
+
+
+<h3>Lorem Helpers</h3>
+
+<ul>
+<li><strong>lorem.date</strong></li>
+<li><strong>lorem.name</strong></li>
+<li><strong>lorem.words</strong></li>
+<li><strong>lorem.word</strong></li>
+<li><strong>lorem.email</strong></li>
+<li><strong>lorem.image</strong></li>
+<li><strong>lorem.sentence</strong></li>
+<li><strong>lorem.last_name</strong></li>
+<li><strong>lorem.paragraph</strong></li>
+<li><strong>lorem.paragraphs</strong></li>
+<li><p><strong>lorem.first_name</strong></p></li>
+<li><h3>Final Thoughts</h3></li>
+</ul>
+
+
+<p>I believe this is a good basis to start playing around with a toy app. You should have a good sense what Middleman offers and how to navigate the framework. In part two of this series we’ll take it further and dive a bit deeper into the framework. The Middleman team has really done a great job with designing the API and with keeping things simple. Hopefully you can see by now why this framework has gained in popularity and why it is a good choice for all sorts of static projects—also why you should maybe give it a shot for teaching somebody to code in case a newbie who’s interested in Ruby comes along.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby / Rails Code Smells 01]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/11/05/Code-Smells-01/"/>
+    <updated>2015-11-05T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/11/05/Code-Smells-01</id>
+    <content type="html"><![CDATA[<p><img src="/images/code_smells/code_smell_01.jpeg"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Smelly Code</li>
+<li>Large Class / God Class</li>
+<li>Long Method</li>
+<li><p>Long Parameter List</p></li>
+<li><h3>Smelly Code</h3></li>
+</ul>
+
+
+<p>The following short series of articles is meant for slightly experienced Ruby developers and starters alike. I had the impression that code smells and their refactorings can be very daunting and intimidating to newbies—especially if they are not in the fortunate position to have mentors who can turn mystical programming concepts into shining light bulbs.</p>
+
+<p>So what are we talking about exactly when people mention code smells? Is it always a problem in your code? Not necessarily! Can you avoid them completely? I don’t think so! Do you mean code smells lead to broken code? Well, sometimes and sometimes not. Should it be my priority to fix them right away? Same answer I fear, sometimes yes and sometimes you certainly should fry bigger fish first. Are you insane? Fair question at this point! Before you continue diving into this whole smelly business, remember to take away one thing from all of this: Don’t try to fix every smell you encounter—this is most certainly a waste of your time!</p>
+
+<p>It seems to me that code smells are a bit hard to wrap up in a nicely labeled box. There are all kinds of smells with various different options to address them. Also, different programming languages and frameworks are prone to different kind of smells—but there are definitely a lot of common “genetic” strains among them. My attempt to describe code smells is to compare them with medical symptoms that tell you that you might have a problem. They can point to all sorts of latent problems and have a wide variety of solutions if diagnosed.</p>
+
+<p>Thankfully they’re overall not as complicated as dealing with the human body—and psyche of course. Its a fair comparison though because some of these symptoms need to be treated right away and some others give you ample time to come up with a solution that is best for the “patient’s” overall well-being. If you have working code and you run into something smelly you’ll have to make the hard decision if its worth the time to find a fix and if that refactoring improves the stability of your app. That being said, if you stumble upon code which you can improve right away its good advice to leave the code behind a bit better than before—even a tiny bit better adds up substantially over time.</p>
+
+<h4>Resistance</h4>
+
+<p>The quality of your code becomes questionable if the inclusion of new code becomes harder—like deciding where to put new code is a pain or comes with a lot of ripple effects throughout your codebase for example. This is called resistance. As a guideline for code quality you can measure it always by how easy it is to introduce changes. If that is getting harder and harder its definitely time to refactor and to take the last part of <em>red-green-REFACTOR</em> more seriously in the future.</p>
+
+<ul>
+<li><h3>Large Class / God Class</h3></li>
+</ul>
+
+
+<p>Let’s start with something fancy sounding—“God classes”—because I think they are particular easy to grasp for beginners. God classes are a special case of a code smell called <strong>Large Class</strong>. In this section I’ll address both of them. If you have spent a little bit of time in Rails land you probably have seen them so often that they look normal to you.</p>
+
+<p>You surely remember the “fat models, skinny controller” mantra? Well actually, skinny is good for all these classes but as a guideline its good advice for newbies I suppose. God classes are objects that attract all sorts of knowledge and behaviour like a black hole. Your usual suspects most often include the User model and whatever problem (hopefully ;) your app is trying to solve—first and foremost at least. A todo app might bulk up on the <strong>Todos</strong> model, a shopping app on <strong>Products</strong>, a photo app on <strong>Photos</strong>—you get the drift. People call them god classes because they know too much. They have too many connections with other classes—mostly because someone was modeling them lazily. It is hard work though to keep God classes in check. They make it really easy to dump more responsibilities onto them and as lots of greek heroes would attest, it takes a bit of skill to divide and conquer “gods”.</p>
+
+<p>The problem with them is that they become harder and harder to understand, especially for new team members, harder to change and reuse becomes less and less of an option the more gravity they’ve amassed. Oh yeah, you’re right, your tests are unnecessarily harder to write as well. In short, there is not really an upside to having large classes and god classes in particular.</p>
+
+<p>There are a couple of common symptoms / signs that your class needs some heroism / surgery:</p>
+
+<ul>
+<li>You need to scroll!</li>
+<li>Tons of private methods?</li>
+<li>Does your class have seven or more methods on it?</li>
+<li>Hard to tell what your class really does—concisely!</li>
+<li>Does your class have many reasons to change when your code evolves?</li>
+</ul>
+
+
+<p>Also, if you squint at your class and think “Eh? Ew!” you might be on to something too. If all that sounds familiar, chances are good that you found yourself a fine specimen.</p>
+
+<pre><code class="ruby">class CastingInviter
+  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
+
+  attr_reader :message, :invitees, :casting
+
+  def initialize(attributes = {})
+      @message  = attributes[:message]  || ''
+      @invitees = attributes[:invitees] || ''
+      @sender   = attributes[:sender]
+      @casting  = attributes[:casting]
+    end
+
+    def valid?
+      valid_message? &amp;&amp; valid_invitees?
+    end
+
+    def deliver
+    if valid?
+      invitee_list.each do |email|
+        invitation = create_invitation(email)
+        Mailer.invitation_notification(invitation, @message)
+      end
+      else
+        failure_message  = "Your #{ @casting } message couldn’t be sent. Invitees emails or message are invalid"
+        invitation = create_invitation(@sender)
+      Mailer.invitation_notification(invitation, failure_message )
+      end
+    end
+
+    private
+
+    def invalid_invitees
+      @invalid_invitees ||= invitee_list.map do |item|
+      unless item.match(EMAIL_REGEX)
+          item
+        end
+      end.compact
+    end
+
+    def invitee_list
+      @invitee_list ||= @invitees.gsub(/\s+/, '').split(/[\n,;]+/)
+    end
+
+    def valid_message?
+      @message.present?
+    end
+
+    def valid_invitees?
+      invalid_invitees.empty?
+    end
+
+  def create_invitation(email)
+    Invitation.create(
+      casting:       @casting,
+      sender:        @sender,
+      invitee_email: email,
+      status:        'pending'
+    )
+  end
+end
+</code></pre>
+
+<p>Ugly fella huh? Can you see how much nastyness is bundled in here? Of course I put a little cherry on top, but you will run into code like this sooner or later.  Let’s think about what responsibilities this <strong>CastingInviter</strong> class has to juggle.</p>
+
+<ul>
+<li>Delivering email</li>
+<li>Checking for valid messages and email addresses</li>
+<li>Getting rid of white space</li>
+<li>Splitting email addresses on commas and semicolons</li>
+</ul>
+
+
+<p>Should all of this be dumped on a class which just wants to deliver a casting call via <strong>deliver</strong>? Certainly not! If your method of invitation changes you can expect to run into some <a href="https://en.wikipedia.org/wiki/Shotgun_surgery">Shotgun surgery</a>. CastingInviter doesn’t need to know most of these details. That’s more the responsibility of some class that is specialized in dealing with email related stuff. In the future, you’ll find many reasons to change your code in here as well.</p>
+
+<h3>Extract Class</h3>
+
+<p>So how should we deal with this? Often, extracting a class is a handy refactoring pattern that will present itself as a reasonable solution to such problems as big, convoluted classes—especially when the class in question deals with multiple responsibilities. Private methods are often good candidates to start with—and easy marks as well. Sometimes you’ll need to extract even more than one class from such a bad boy—just don’t do it all in one step. Once you find enough coherent meat that seems to belong into a specialized object of its own you can extract that functionality into a new class.</p>
+
+<p>You create a new class and gradually move the functionality over—one by one. Move each method separately and rename them if you see a reason to. Then reference the new class in the orignal one and delegate the needed functionality. Good thing you have test coverage (hopefully!) that lets you check if things still work properly every step of the way. Aim at being able to reuse your extracted classes as well. Its easier to see how its done in action so lets read some code:</p>
+
+<pre><code class="ruby">class CastingInviter
+
+  attr_reader :message, :invitees, :casting
+
+  def initialize(attributes = {})
+    @message  = attributes[:message]  || ''
+    @invitees = attributes[:invitees] || ''
+    @casting  = attributes[:casting]
+    @sender   = attributes[:sender]
+  end
+
+  def valid?
+    casting_email_handler.valid?
+  end
+
+  def deliver
+    casting_email_handler.deliver
+  end
+
+  private
+
+  def casting_email_handler
+    @casting_email_handler = CastingEmailHandler.new(
+      message:  message, 
+      invitees: invitees, 
+      casting:  casting, 
+      sender:   @sender
+    )
+  end
+end
+</code></pre>
+
+<pre><code class="ruby">class CastingEmailHandler 
+  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
+
+  def initialize(attr = {})
+    @message  = attr[:message]  || ''
+    @invitees = attr[:invitees] || ''
+    @casting  = attr[:casting]
+    @sender   = attr[:sender]
+  end
+
+  def valid?
+    valid_message? &amp;&amp; valid_invitees?
+  end
+
+  def deliver
+    if valid?
+      invitee_list.each do |email|
+        invitation = create_invitation(email)
+        Mailer.invitation_notification(invitation, @message)
+      end
+    else
+      failure_message  = "Your #{ @casting } message couldn’t be sent. Invitees emails or message are invalid"
+      invitation = create_invitation(@sender)
+      Mailer.invitation_notification(invitation, failure_message )
+    end
+  end
+
+  private
+
+  def invalid_invitees
+    @invalid_invitees ||= invitee_list.map do |item|
+      unless item.match(EMAIL_REGEX)
+        item
+      end
+    end.compact
+  end
+
+  def invitee_list
+    @invitee_list ||= @invitees.gsub(/\s+/, '').split(/[\n,;]+/)
+  end
+
+  def valid_invitees?
+    invalid_invitees.empty?
+  end
+
+  def valid_message?
+    @message.present?
+  end
+
+  def create_invitation(email)
+    Invitation.create(
+      casting:       @casting,
+      sender:        @sender,
+      invitee_email: email,
+      status:        'pending'
+    )
+  end
+end
+</code></pre>
+
+<p>In this solution, you’ll not only see how this separation of concerns affects your code quality, it also reads a lot better and becomes easier to digest. Here we delegate methods to a new class that is specialized in dealing with delivering these invitations via email. You have one dedicated place that checks if the messages and invitees are valid and how they need to be delivered. <strong>CastingInviter</strong> doesn’t need to know anything about these details so we delegate these responsibilities to a new class <strong>CastingEmailHandler</strong>.</p>
+
+<p>The knowledge of how to deliver and check for validity of these casting invitation emails is now all contained in our new extracted class. Do we have more code now? You bet! Was it worth it to separate concerns? Pretty sure! Can we go beyond that and refactor <strong>CastingEmailHandler</strong> some more? Absolutely! Knock yourself out!</p>
+
+<p>In case you’re wondering about the <strong>valid?</strong> method on <strong>CastingEmailHandler</strong> and <strong>CastingInviter</strong>. This one is for RSpec to create a custom matcher. This lets me write something like</p>
+
+<pre><code class="ruby">expect(casting_inviter).to be_valid
+</code></pre>
+
+<p>Pretty handy I think.</p>
+
+<p>There are more techniques for dealing with large classes / god objects and over the course of this series you’ll learn a couple of ways to refactor such objects. There is no fixed prescription how you need to deal with these cases—it always depends and its a case-by-case judgement call if you need to bring the big guns or if smaller, incremental refactoring techniques oblige best. I know, a bit frustrating at times. Following the <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a> (SRP) will go a long way though and is a good nose to follow.</p>
+
+<ul>
+<li><h3>Long Method</h3></li>
+</ul>
+
+
+<p>Having methods that got a little big is one of the most common things you encounter as a developer. In general, you want to know at a glance what a method is supposed to do. It should also have only one level of nesting or one level of abstraction. In short, avoid to write complicated methods. I know this sounds hard and it often is. A solution that comes up frequently is extracting parts of the method into one or more new functions. This refactoring technique is called <strong>extract method</strong>—its one of the simplest but none the less very effective. As a nice side effect, your code becomes more readable if you name your methods appropriately.</p>
+
+<p>Let’s take a look at feature specs where you’ll need this technique a lot. I remember getting introduced to <em>extract method</em> while writing such feature specs and how amazing it felt when the lightbulb went on. Because feature specs like this are easy to understand they are a good candiate for demonstration. Plus you’ll run into similar scenarios over and over when you write your specs.</p>
+
+<p><strong>spec/features/some_feature_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M marks mission as complete' do
+  scenario 'successfully' do
+    visit_root_path
+    fill_in      'Email', with: 'M@mi6.com'
+    click_button 'Submit'
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name', with: 'Project Moonraker'
+    click_button 'Submit'
+
+    within "li:contains('Project Moonraker')" do
+      click_on 'Mission completed'
+    end
+
+    expect(page).to have_css 'ul.missions li.mission-name.completed', text: 'Project Moonraker'
+  end
+end
+</code></pre>
+
+<p>As you can easily see, there is a lot going on in this scenario. You go to the index page, sign in and create a mission for the setup, then exercise via marking the mission as complete and finally you verify the behaviour. No rocket science, but also not clean and definitely not composed for reuseability. We can do better than that:</p>
+
+<p><strong>spec/features/some_feature_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M marks mission as complete' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+    create_classified_mission_named 'Project Moonraker'
+
+    mark_mission_as_complete        'Project Moonraker'
+
+    agent_sees_completed_mission    'Project Moonraker'
+  end
+end
+
+def create_classified_mission_named(mission_name)
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name', with: mission_name
+    click_button 'Submit'
+    end
+
+def mark_mission_as_complete(mission_name)
+    within "li:contains('#{mission_name}')" do
+      click_on 'Mission completed'
+    end
+end
+
+def agent_sees_completed_mission(mission_name)
+    expect(page).to have_css 'ul.missions li.mission-name.completed', text: mission_name
+end
+
+def sign_in_as(email)
+    visit root_path
+    fill_in      'Email', with: email
+    click_button 'Submit'
+end
+</code></pre>
+
+<p>Here we extracted four methods that can be easily reused in other tests now. I hope its clear that we hit three birds with one stone. The feature is a lot more consise, it reads better and is made up of extracted components without duplication. Let’s imagine you’d have written all kinds of similar scenarios without extracting these methods and you want to change some implementation. Now you wish you’d taken the time to refactor your tests and have one central place to apply your changes.</p>
+
+<p>Sure there is an even better way to deal with feature specs like this—Page Objects for example—but that’s not our scope for today. I guess that’s all you need to know about extracting methods. You can apply this refactoring pattern everywhere in your code—not only in specs of course. In terms of fequency of use, my guess is that it will be your number one technique to improve the quality of your code. Have fun!</p>
+
+<ul>
+<li><h3>Long Parameter List</h3></li>
+</ul>
+
+
+<p>Let’s close this article with an example how you can slim down your parameters. It gets tedious pretty fast when you have to feed your methods more than one or two arguments. Wouldn’t it be nice to drop in one object instead? That’s exactly what you can do if you introduce a <em>parameter object</em>.</p>
+
+<p>All these parameters are not only a pain to write and to keep in order, it can also lead to code duplication—and we certainly want to avoid that wherever possible. What I like especially about this refactoring technique is how this affects other methods inside as well. You often are able to get rid of a lot of parameter junk down in the foodchain as well.</p>
+
+<p>Let’s go over this simple example. M can assign a new mission and needs needs a mission name, an agent, an objective and is also able to switch between double 0 status—meaning their licence to kill.</p>
+
+<pre><code class="ruby">class M
+  def assign_new_mission(mission_name, agent_name, objective, licence_to_kill: nil)
+    print "Mission #{mission_name} has been assigned to #{agent_name} with the objective to #{objective}."
+    if licence_to_kill
+      print " The licence to kill has been granted."
+    else
+      print "The licence to kill has not been granted."
+    end
+  end
+end
+
+m = M.new
+m.assign_new_mission('Octopussy', 'James Bond', 'find the nuclear device', licence_to_kill: true)
+# =&gt; Mission Octopussy has been assigned to James Bond with the objective to find the nuclear device. The licence to kill has been granted. 
+</code></pre>
+
+<p>When you look at this and ask what happens when the mission “parameters” grow in complexity then you’re already onto something. That’s a pain point that you can only solve if you pass in a single object that has all the information you need. More often than not, this also helps you to stay away from changing the method if the parameter object changes for some reason.</p>
+
+<pre><code class="ruby">class Mission
+  attr_reader :mission_name, :agent_name, :objective, :licence_to_kill
+
+  def initialize(mission_name: mission_name, agent_name: agent_name, objective: objective, licence_to_kill: licence_to_kill)
+      @mission_name    = mission_name
+      @agent_name      = agent_name
+      @objective       = objective
+      @licence_to_kill = licence_to_kill
+    end
+
+    def assign
+      print "Mission #{mission_name} has been assigned to #{agent_name} with the objective to #{objective}."
+      if licence_to_kill
+        print " The licence to kill has been granted."
+      else
+        print " The licence to kill has not been granted."
+      end
+    end
+end
+
+class M
+  def assign_new_mission(mission)
+      mission.assign
+    end
+end
+
+m = M.new
+mission = Mission.new(mission_name: 'Octopussy', agent_name: 'James Bond', objective: 'find the nuclear device', licence_to_kill: true)
+m.assign_new_mission(mission)
+# =&gt; Mission Octopussy has been assigned to James Bond with the objective to find the nuclear device. The licence to kill has been granted.
+</code></pre>
+
+<p>So we created a new object, <strong>Mission</strong>, that is soley focused on providing <strong>M</strong> with the information needed to assign a new mission and provide #<strong>assign_new_mission</strong> with a singular paramter object. No need to pass in these pesky parameters yourself. Instead you tell the object to reveal the information you need inside the method itself. Additionally, we also extracted some behaviour—the information how to print—into the new <strong>Mission</strong> object.</p>
+
+<p>Why should <strong>M</strong> need to know about how to print mission assignments? The new #<strong>assign</strong> also benefitted from extraction by loosing some weight because we didn’t need to pass in the parameter object—so no need to write stuff like <strong>mission.mission_name</strong>, <strong>mission.agent_name</strong> and so on. Now we just use our <strong>attr_reader</strong>(s) which is much cleaner than without the extraction. You dig? What’s also handy about this is that <strong>Mission</strong> might collect all sorts of additional methods or states that are nicely encapsulated in one place and ready for you to access.</p>
+
+<p>With this technique you’ll end up with methods that are more concise, they tend to read better and you avoid repeating the same group of parameters all over the place. Pretty good deal! Getting rid of identical groups of parameters is also an important strategy for DRY code. Try to look out for extracting more than just your data. If you can place behaviour in the new class as well you’ll have objects that are more useful—otherwise they’ll quickly start to smell as well.</p>
+
+<p>Sure, most of the time you’ll run into more complicated versions of that—and your tests will certainly also need to be adapted simultaneously during such refactorings—but if you have that simple example under your belt you’ll be ready for action.</p>
+
+<p>I’m gonna watch the new Bond now. Heard its not that good though…
+Update: Saw Spectre. My verdict: compared to Skyfall—which was MEH imho—Spectre was wawawiwa!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Page Objects for Capybara Connoisseurs]]></title>
+    <link href="http://vis-kid.github.io/octo-draft/blog/2015/10/26/Page-Objects/"/>
+    <updated>2015-10-26T04:29:10+01:00</updated>
+    <id>http://vis-kid.github.io/octo-draft/blog/2015/10/26/Page-Objects</id>
+    <content type="html"><![CDATA[<p><img src="/images/Page_Objects/capybara_bigger.png"></p>
+
+<h3>Topics</h3>
+
+<ul>
+<li>Acceptance test / feature specs</li>
+<li>Different types of Page Objects</li>
+<li>What are Page Objects</li>
+<li>When and why?</li>
+<li><p>How?</p></li>
+<li><h3>What are Page Objects?</h3></li>
+</ul>
+
+
+<p>I’ll give you the short pitch first. Its a design pattern to encapsulate markup and page interactions—specifically to refactor your feature specs. Its a combination of a two very common refactoring techniques: <em>Extract class</em> and  <em>Extract method</em>—which don’t have to happen at the same time because you can gradually build up to extracting a whole class via a new Page Object.</p>
+
+<p>This technique offers you to write high-level feature specs that are very expressive and DRY. In a way they are acceptance tests with application language. You might ask, aren’t specs written with Capybara already high-level and expressive? Sure, for developers who write code on a daily basis, Capybara specs read just fine. Are the DRY out of the box? Not really—actually, certainly not!</p>
+
+<pre><code class="ruby">feature 'M creates a mission' do
+  scenario 'successully' do
+    sign_in_as 'M@mi6.com'
+
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name',  with: 'Project Moonraker'
+    click_button 'Submit'
+
+    expect(page).to have_css 'li.mission-name', text: 'Project Moonraker'
+  end
+end
+</code></pre>
+
+<pre><code class="ruby">feature 'M marks mission as complete' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name', with: 'Octopussy'
+    click_button 'Submit'
+
+    within "li:contains('Octopussy')" do
+      click_on 'Mission completed'
+    end
+
+    expect(page).to have_css 'ul.missions li.mission-name.completed', text: 'Octopussy'
+  end
+end
+</code></pre>
+
+<p>When you look at these examples of feature specs, where do you see opportunities to make this read better and how could you extract information to avoid duplication? Also, is this high-level enough for easy modeling of user stories and for non-technical stakeholders to understand? In my mind, there are a couple of ways to improve this and to make everybody happy—developers who can avoid fiddling with the details of interacting with the DOM while applying OOP and other non-coding team members having no trouble jumping between user stories and these tests. The last point is nice to have for sure, but the most important benefits come mostly from making your DOM-interacting specs more robust.</p>
+
+<p>Encapsulation is the key concept with Page Objects. When you write your feature specs you’ll benefit from a strategy to extract the behaviour that is driving through a test flow. For quality code you want to capture the interactions with particular sets of elements on your pages—especially if you stumble upon repeating patterns. As your application grows, you want / need an approach that avoids spreading that logic all over your specs.</p>
+
+<p>”Well isn’t that overkill? Capybara reads just fine!” you say? Ask yourself:
+Why wouldn’t you have all the HTML implementation details in one place while having more stable tests? Why shouldn’t UI interaction tests have the same quality as tests for application code? Do you really wanna stop there? Due to everyday changes, your Capybara code is vulnerable when spread all over—it introduces possible breakpoints. Let’s say a designer wants to change the text on a button. No biggie right, but do you want to adapt to that change in one central wrapper for that element in your specs or do you prefer to do that all over the place? I thought so!</p>
+
+<p>There are many refactorings possible for your feature specs but Page Objects offer the cleanest abstractions for encapsulating user facing behaviour for pages or more complex flows. You don’t have to simulate the whole page(s) though—focus on the essential bits that are necessary for user flows. No need to overdo it!</p>
+
+<ul>
+<li><h3>Acceptance Tests / Feature Specs</h3></li>
+</ul>
+
+
+<p>Before we move on to the heart of the matter, I’d like to take a step back for people new to the whole testing business and clear up some of the lingo that is important in this context. People more familiar with TDD won’t miss much if they skip ahead.</p>
+
+<p>What are we talking about here? Acceptance testing usually comes in at a later stage of projects to evaluate if you have been building something of value for your users, product owner, or whatever stakeholder. These tests are usually run by customers or your users. Its sort of a check if the requirements are being met or not. There is something like a pyramid for all sorts of testing layers and acceptance tests are near the very top. Because this process includes often non-technical folks, a high-level language for writing these tests is a valuable asset to communicate back and forth.</p>
+
+<p>Feature specs on the other hand, are a bit lower in the testing food chain. A lot more high-level than unit tests which focus on the technial details and business logic of your models, feature specs describe flows on and in between your pages. Tools like <a href="http://jnicklas.github.io/capybara/">Capybara</a> help you to avoid doing this manually—meaning that you rarely have to open your browser to test stuff manually. With these kinds of tests we like to automate these tasks as much as possible and test drive the interaction through the browser while writing assertions against pages. Btw, you don’t use <strong>get</strong>, <strong>put</strong>, <strong>post</strong> or <strong>delete</strong> like with request specs.</p>
+
+<p>Feature specs are very similar to acceptance tests—sometimes I feel the differences are too blurry to really care about the terminology. You write tests that exercise your whole application which often involves a multi-step flow of user actions. These interaction tests show if your components work in harmony when they are brought together. In Ruby land, they are the main protagonist when we’re dealing with Page Objects. Feature specs themselves are already very expressive but they can be optimized and cleaned up by extracting their data, behaviour and markup into (a) separate classe(s). I felt clearing up this blurry terminology will help you see that having Page Objects is a bit like doing acceptance level testing while writing feature specs.</p>
+
+<h3>Capybara</h3>
+
+<p>Maybe we should go over this really quickly as well. This library describes itself as an “Acceptance test framework for web applications”. You can simulate user interactions with your pages via a very powerful and convenient domain-specific language. In my personal opinion, RSpec paired with Capybara offers atm the best way to write your feature specs. It lets you visit pages, fill in forms, click on links and buttons, look for markup on your pages and you are able to easily combine all kinds of these commands to interact with your pages through your tests.</p>
+
+<p>You basically can avoid opening the browser yourself to test this stuff manually most of the time—which is not only less elegant but also a lot more time consuming and error-prone. Without this tool, the process of “Outside-in-testing”–you drive your code from high-level tests down into your unit-level tests—would be a lot more painful and possibly therefore more neglected. In other words you start writing these feature tests which are based on your user stories and from there you go down the rabbit whole until your unit tests provide the coverage your feature specs needed. After that, when your tests are green of course, the game starts anew and you go back up to continue with a fresh feature test.</p>
+
+<ul>
+<li><h3>How?</h3></li>
+</ul>
+
+
+<p>Let’s look at two simple examples of feature specs that lets M create classified missions which can then be completed. In the markup, you have a list of missions and a successful completion creates an addtional class <strong>completed</strong> on the <strong>li</strong> of that particular mission. Straightforward stuff right? As a first approach, I started with small, very common refactorings that extract common behaviour into methods.</p>
+
+<p><strong>spec/features/m_creates_a_mission_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M creates mission' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+
+    create_classified_mission_named 'Project Moonraker'
+
+    agent_sees_mission              'Project Moonraker'
+  end
+
+  def create_classified_mission_named(mission_name)
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name', with: mission_name
+    click_button 'Submit'
+  end
+
+  def agent_sees_mission(mission_mame)
+    expect(page).to have_css 'li.mission-name', text: mission_name
+  end
+
+  def sign_in_as(email)
+    visit root_path
+    fill_in      'Email', with: email
+    click_button 'Submit'
+  end
+end
+</code></pre>
+
+<p><strong>spec/features/agent_completes_a_mission_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M marks mission as complete' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+
+    create_classified_mission_named 'Project Moonraker'
+    mark_mission_as_complete        'Project Moonraker'
+
+    agent_sees_completed_mission    'Project Moonraker'
+  end
+
+  def create_classified_mission_named(mission_name)
+    visit missions_path
+    click_on     'Create Mission' 
+    fill_in      'Mission Name', with: mission_name
+    click_button 'Submit'
+  end
+
+    def mark_mission_as_complete(mission_name)
+    within "li:contains('#{mission_name}')" do
+      click_on 'Mission completed'
+    end
+  end
+
+  def agent_sees_completed_mission(mission_name)
+    expect(page).to have_css 'ul.missions li.mission-name.completed', text: mission_name
+  end
+
+  def sign_in_as(email)
+    visit root_path
+    fill_in      'Email', with: email
+    click_button 'Submit'
+  end
+end
+</code></pre>
+
+<p>Although there are other ways of course to deal with stuff like <strong>sign_in_as</strong>, <strong>create_classified_mission_named</strong> and so on, its easy to see how fast these things can start to suck and to pile up. UI related specs often don’t get the OO treatment they need / deserve I think. They have the reputation of providing too little bang for the buck and of course developers are not most fond of times when they have to touch markup stuff much. In my mind, that makes it even more important to DRY these specs up and make it fun to deal with them by throwing in a couple of Ruby classes.</p>
+
+<p>Let’s do a little magic trick where I hide the Page Object’s implementation for now and only show you the end result applied to the feature specs above:</p>
+
+<p><strong>spec/features/m_creates_a_mission_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M creates mission' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+    visit missions_path
+    mission_page = Pages::Missions.new
+
+    mission_page.create_classified_mission_named 'Project Moonraker'
+
+    expect(mission_page).to have_mission_named   'Project Moonraker'
+  end
+end
+</code></pre>
+
+<p><strong>spec/features/agent_completes_a_mission_spec.rb</strong></p>
+
+<pre><code class="ruby">require 'rails_helper'
+
+feature 'M marks mission as complete' do
+  scenario 'successfully' do
+    sign_in_as 'M@mi6.com'
+    visit missions_path
+    mission_page = Pages::Missions.new
+
+    mission_page.create_classified_mission_named         'Project Moonraker'
+    mission_page.mark_mission_as_complete                'Project Moonraker'
+
+    expect(mission_page).to have_completed_mission_named 'Project Moonraker'
+  end
+end
+</code></pre>
+
+<p>Doesn’t read too bad huh? You basically create expressive wrapper methods on your Page Objects that let you deal with high-level concepts—instead of fiddling everywhere with the intestines of your markup all the time. Your extracted methods do this kind of dirty work now and that way <a href="https://en.wikipedia.org/wiki/Shotgun_surgery"><strong>Shotgun surgery</strong></a> is not your problem anymore. Put differently, you encapsulate most of the noisy, down in the weeds DOM interacting code. Gotta say though, sometimes intelligently extracted methods in your feature specs are sufficient and read a bit better since you can avoid dealing with Page Object instances. Anyway, let’s take a look at the implementation:</p>
+
+<p><strong>specs/support/features/pages/missions.rb</strong></p>
+
+<pre><code class="ruby">module Pages
+  class Missions
+    include Capybara::DSL
+
+    def create_classified_mission_named(mission_name)
+      click_on     'Create Mission'
+      fill_in      'Mission name', with: mission_name
+      click_button 'Submit'
+    end
+
+    def mark_mission_as_complete(mission_name)
+      within "li:contains('#{mission_name}')" do
+        click_on 'Mission completed'
+      end
+    end
+
+    def has_mission_named?(mission_name)
+      mission_list.has_css? 'li', text: mission_name
+    end
+
+    def has_completed_mission_named?(mission_name)
+      mission_list.has_css? 'li.mission-name.completed', text: mission_name
+    end
+
+    private
+
+    def mission_list
+      find('ul.missions')
+    end 
+  end
+end
+</code></pre>
+
+<p>What you see is a plain old Ruby object—Page Objects are in essence very simple classes really. Normally you don’t instantiate Page Objects with data (when the need occurs you can of course) and you create mostly a language via the API that a user or a non-technical stakeholder on a team might use. When you think about naming your methods, I think its good advice to ask yourself the question: How would a user describe the flow or the action taken?</p>
+
+<p>I should maybe add that without including Capybara the music stops pretty fast.</p>
+
+<pre><code class="ruby">include Capybara::DSL
+</code></pre>
+
+<p>You probably wonder how these custom matchers work:</p>
+
+<pre><code class="ruby">expect(page).to have_mission_named           'Project Moonraker'
+expect(page).to have_completed_mission_named 'Project Moonraker'
+
+def has_mission_named?(mission_name)
+  ...
+end
+
+def has_completed_mission_named?(mission_name)
+  ...
+end
+</code></pre>
+
+<p>RSpec generates these custom matchers based on predicate methods on your Page Objects. RSpec converts them by removing the <strong>?</strong> and changes <strong>has</strong> to <strong>have</strong>. Boom, matchers from scratch without much fuzz! A bit magic, I’ll give you that, but the good kind of wizardry I’d say.</p>
+
+<p>Since we parked our Page Object at <strong>specs/support/features/pages/missions.rb</strong> you also need to make sure that the following is not commented out in <strong>spec/rails_helper.rb</strong>.</p>
+
+<pre><code class="ruby">Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+</code></pre>
+
+<p>If you run into a <strong>NameError</strong> with an <strong>uninitialized constant Pages</strong> you’ll know what to do.</p>
+
+<p>If you’re curious what happened to the <strong>sign_in_as</strong> method, I extracted it into a module at <strong>spec/support/sign_in_helper.rb</strong> and told RSpec to include that module. This has nothing to do with Page Objects directly—it just makes more sense to store test functionality like <strong>sign in</strong> more globally accessible than via a Page Object.</p>
+
+<p><strong>spec/support/sign_in_helper.rb</strong></p>
+
+<pre><code class="ruby">module SignInHelper
+  def sign_in_as(email)
+    visit root_path
+    fill_in      'Email', with: email
+    click_button 'Submit'
+    end
+end
+</code></pre>
+
+<p>And you need to let RSpec know that you want access to this helper module:</p>
+
+<p><strong>spec/spec_helper.rb</strong></p>
+
+<pre><code class="ruby">...
+require 'support/sign_in_helper'
+
+RSpec.configure do |config|
+  config.include SignInHelper
+    ...
+end
+</code></pre>
+
+<p>Overall, its easy to see that we succeeded in hiding away the Capybara specifics—like finding elements, clicking links etc. We can now focus on the functionality and less on the actual structure of the markup which is now encapsulated in a Page Object—the DOM structure should be the least of your concerns when you test something as high-level as feature specs.</p>
+
+<h3>Attention!</h3>
+
+<p>Setup stuff like factory data belongs in the specs and not in Page Objects. Also assertions are probably better placed outside of your Page Objects to achieve a separation of concerns. There are two differnt perspectives on the topic:</p>
+
+<p>Advocates for putting assertions into Page Objects say it helps with avoiding duplication of assertions. You can provide better error messages and achieve a better “Tell, Don’t Ask” style. On the other hand, advocates for assertion-free Page Objects argue that its better to not mix responsibilities. Providing access to page data and assertion logic are two separate concerns and lead to bloated Page Objects when mixed. Page Object’s responsibility is access to the state of pages and assertion logic belongs to specs.</p>
+
+<ul>
+<li><h3>Page Objects Types</h3></li>
+</ul>
+
+
+<p><strong>Components</strong> represent the smallest units and are more focused—like a form object for example.</p>
+
+<p><strong>Pages</strong> combine more of these components and are abstractions of a full page.</p>
+
+<p><strong>Experiences</strong>, as you guessed by now, span the whole flow across potentially many different pages. They are more high-level. They focus on the flow the user experiences while they interact with various pages. A checkout flow which has a couple of steps is a good example to think about this.</p>
+
+<ul>
+<li><h3>When &amp; Why?</h3></li>
+</ul>
+
+
+<p>Its a good idea to apply this design pattern a little bit later in a project’s life cycle—when you have amassed a little bit of complexity in your feature specs and when you can identify repeating patterns like DOM structures, extracted methods or other commonalities that are consistent on your pages. So you probably shouldn’t start writing Page Objects right away. You approach these refactorings gradually when the complexity and size of your application / tests grow. Duplications and refactorings that need a better home through Page Objects will be easier to spot over time. My recommendation is to start with extracting methods in your feature specs locally first. Once they’ll hit critical mass, they’ll look like obvious candidates for further extraction and most of them will probably fit the profile for Page Objects. Start small, premature optimization leaves nasty bite marks!</p>
+
+<ul>
+<li><h3>Final Thoughts</h3></li>
+</ul>
+
+
+<p>Page Objects provide you the opportunity to write clearer specs that read better and are overall a lot more expressive because they are more high-level. Besides that, they offer a nice abstraction for everybody who likes to write OO code. They hide the specifics of the DOM and also enable you to have private methods that do the dirty work while being unexposed to the public API. Extracted methods in your feature specs don’t offer quite the same luxury. The API of Page Objects don’t need to share the nitty-gritty Capybare details</p>
+
+<p>For all the scenarios when design implementations change, your descriptions of how your app should work doesn’t need to change when you use Page Objects—your feature specs are more focused with user level interactions and don’t care so much about the specifics of the DOM implementations. Since change is inevitable, Page Objects become critical when applications grow and also aid the understanding when the sheer size of the application means drastically increased complexity.</p>
+]]></content>
+  </entry>
+  
+</feed>

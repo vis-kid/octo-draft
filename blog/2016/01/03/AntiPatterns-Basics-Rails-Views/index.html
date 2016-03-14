@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AntiPatterns Basics—Rails Views - Drafts Previewer</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Heads Up Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vis-kid.github.io/octo-draft/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/">
+  <link href="/octopress_drafts_previewer/favicon.png" rel="icon">
+  <link href="/octopress_drafts_previewer/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/octopress_drafts_previewer/atom.xml" rel="alternate" title="Drafts Previewer" type="application/atom+xml">
+  <script src="/octopress_drafts_previewer/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/octopress_drafts_previewer/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress_drafts_previewer/">Drafts Previewer</a></h1>
+  
+    <h2>Simple way to share my drafts for feedback</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress_drafts_previewer/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="vis-kid.github.io/octo-draft">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress_drafts_previewer/">Blog</a></li>
+  <li><a href="/octopress_drafts_previewer/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AntiPatterns Basics—Rails Views</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-03T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/octopress_drafts_previewer/images/AntiPatterns/Views/pisa-tower.1000x580.jpeg"></p>
+
+<h2>Heads Up</h2>
+
+<p>Anti- what? It probably sounds a lot more complicated than it is. Over the last couple of decades, programmers were able to identify a useful selection of “design” patterns that frequently occurred throughout their code solutions. While solving similar problems, they were able to classify solutions that prevented them from reinventing the wheel for every project. It is important to note that these patterns should be seen more as discoveries than the inventions of a group of advanced developers.</p>
+
+<p>AntiPatterns—as the name implies—on the other hand represent pretty much the opposite. They are discoveries of solutions to problems that you should definitely avoid. They often represent the work of inexperienced coders who don’t know what they don’t know yet. Worse, it could be the output of a lazy person who just ignores best practices for no good reason—or they think they don’t. What they might hope to gain in time savings in the beginning by hammering out quick, lazy or dirty solutions is gonna haunt them or some sorry successor later in the project’s life cycle. Do not underestimate the implications or these bad decisions, they’re gonna plague you like a curse—no matter what.</p>
+
+<p>This one is exactly written for you if all this sounds rather new to you and you identify yourself as being more on the beginner side of all things Ruby / Rails. I think, it’s best if you approach these articles as quick skinny-dips into a much deeper topic whose mastery will not happen overnight. Nevertheless, I strongly believe that starting to get into this early will benefit beginners and their mentors tremendously.</p>
+
+<h2>Topics</h2>
+
+<ul>
+<li>Rails Views</li>
+<li>PHPitis</li>
+<li>Extracting Helpers</li>
+<li>Helpful Helpers</li>
+<li>Forms</li>
+<li>Partials</li>
+<li>Conditional Content</li>
+<li>Semantic Markup</li>
+</ul>
+
+
+<h2>Rails Views</h2>
+
+<p>Rails comes with ERb out of the box and I think it’s not necessary to throw in cool view-rendering engines like Slim for our examples for now. When you think “convention over configuration” mostly applies to the model and controller layers you are missing out on a lot of the goodies that makes working with Rails so speedy and progressive. Taking good care of the view layer includes not only the way you compose your markup but also CSS / Sass, JavaScript, view helpers and your layout templates. Viewed from that angle it becomes a bit deeper than you might think at first. Alone that number of technologies which can be involved in creating your views suggest that care should be taken to keep things neat, clear and flexible.</p>
+
+<p>Since the way we write markup and styles is a lot less constrained than domain modeling, you want to be extra cautious to keep things as simple as possible. Maintenance should be pretty much your number one priority. Since redesigns or design iterations can be more frequent than extensive changes to your model layer, preparing for change gets a whole nother meaning when it comes to your user facing layer. My advice, don’t necessarily build for the future but also, by all means, do not underestimate the rate of change—especially if you have one of those “idea guys” who knows jack about implementations on the team. What I like about Rails’ approach towards views in MVC is that it is treated as equally important and the lessons learned from the model domain were incorporated into the view—whenever possible and useful. Other frameworks seem to agree since they integrated a lot of these ideas pioneered by Rails.</p>
+
+<p>Since the last article was a bit more extensive I chose this topic as a small breather. The following articles about Rails controllers and testing are again bigger in size. The AntiPatterns for views are not that many but they are nevertheless equally important—at least. We’ll focus on the main one, PHPitis, and work through a couple of techniques to keep your views lean and mean. Since the view is your presentation layer, maybe you should be especially careful to not create a hazardous mess. Let’s get to it!</p>
+
+<h2>PHPitis</h2>
+
+<p>Why do we have MVC in the first place? Yes, because the separation of concerns seemed like the most reasonable thing to do. Sure the implementations of this idea vary a bit here and there but the overall concept of having distinct responsibilities for each layer is the core motivation for building robust applications. Having tons of code in your view layer might not be alien to developers coming from the PHP side of things—although I hear their frameworks have caught up already (heavily influenced by things like Rails?)—but in Ruby land these things have been a loudly voiced AntiPattern—since forever I feel like.</p>
+
+<p>The obvious problems like mixing responsibilities and duplications aside, it simply feels nasty and lazy—a little stupid too to be frank. Sure, I get it, when you develop much within a framework, language or whatever ecosystem, it’s easy to become complicit or numb towards crap like that. What I like about the people pushing Ruby is that these things seem to have a lot less weight—might be a reason why innovating never seemed to be a problem within the community. Whatever works best wins the argument and we can move forward.</p>
+
+<p>So is this a whole section dedicated to bash PHP? Not at all! In the past, PHP apps had the reputation of having weak separations between models, views and controllers (Maybe this was one of the core reasons why people felt writing apps with Rails was much more appealing). Having single files with code for all three layers didn’t seem that sexy. So when we stuff tons of Ruby / domain code into our views it starts to look like the dreaded PHP style of structuring things—PHPitis. Only a few things are as bad as this when it comes to developing web apps I feel. When you care about happy developers and your own future sanity, I can’t see why anyone would go down that road—only pain ahead it seems.</p>
+
+<p>Rails offers a lot of goodies to minimize code in the view as much as possible. You must learn the ways of helpers, layouts and preprocessors in order to achieve a cleaner view. A simple rule of thumb is to keep domain logic out of your views—no shortcuts! The price to pay for being lazy on this is hard to overestimate. The Ruby code that must be in the presentation layer should be as little and as simple as possible as well as intelligently organized. Your reward will be code that is a joy to extend and to maintain—new team members will also have an easier time wrapping their heads around the new codebase. As a bonus, neat freak designers who code also won’t be angy and hide rotten food in your salad if you keep tons of Ruby code out of their markup.</p>
+
+<h3>Helpful Helpers</h3>
+
+<p>Knowing the myriad of helper methods in Rails will significantly improve the quality of your presentation layer. Not only will it clean things up and inject the occasional speed boost in productivity, but more importantly it helps you fight PHPitis. The thing that you should appreciate about these helpers is that they represent extractions from commonly needed code. Instead of reinventing the wheel, when in doubt, check if there isn’t already a helper around that solves your issue in the view—same goes for Models and Controllers as well of course.</p>
+
+<p>Here’s a list of helpers you should look into pretty much right away:</p>
+
+<ul>
+<li><code>form_for</code></li>
+<li>Other helpers for forms.</li>
+<li><code>fields_for</code></li>
+<li><code>link_to</code></li>
+<li><code>content_for</code></li>
+<li>And writing your very own of course.</li>
+</ul>
+
+
+<h3>Forms</h3>
+
+<p>Let’s have a look at <code>form_for</code> first. I know forms are a little bit boring and not that sexy for a topic, but I highly encourage you to read up on them to familiarize yourself with the finer details. It’s important to understand how they work. I remember often just glancing over them without giving them much attention. Sure you can get them to work quite easily without understanding what’s going on under the hood. In the future, I might take the time to write a complete article on them. In the meantime, I highly recommend that you spend a little time checking the documentation–at least you‘ll appreciate how convenient Rails makes it to deal with form stuff.</p>
+
+<h4>The Ugly</h4>
+
+<p>The example below shows you the HTML of a little form we need for creating agents. It only accepts three parameters as input: <code>name</code>, <code>number</code> and <code>licence_to_kill</code>. A lot of code for this little task actually. The <code>authenticity_token</code> comes from Rails–it’s a security thing that protects the app from “cross-site request forgery”.</p>
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;new_agent&quot;</span> <span class="na">id=</span><span class="s">&quot;new_agent&quot;</span> <span class="na">action=</span><span class="s">&quot;/agents&quot;</span> <span class="na">accept-charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;utf8&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;&amp;#x2713;&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;authenticity_token&quot;</span> <span class="na">value=</span><span class="s">&quot;8tD8G9mBt5l34TcN6Tnt/Mbto32itOuS1fWbc3Ez1vKinUmdexxUQlFp7mXIYoazQJjjSgryFIuL4dioxtJw/g==&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_name&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[name]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_name&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_number&quot;</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[number]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_number&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_licence_to_kill&quot;</span><span class="nt">&gt;</span>Licence to kill<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_licence_to_kill&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;commit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create Agent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Writing a form by hand is not only lengthy but error prone as well. Also, if we would approach it that way, we’d also have to solve the issue with the varying routes and  CSS classes that we might need for creating a new object and updating an existing one—in effect, we would need to duplicate forms to create and edit records. As you’ll see soon, Rails meets you more than halfway on that. Verdict, however you put it, the manual approach is nasty and lacks convenience.</p>
+
+<h4>The Bad</h4>
+
+<p>We could go down the following road which does not make perfect use of conventions in Rails. Heads up, don’t do it. It basically shows that you don’t handle the available tools to your advantage and you are duplicating the form for <code>new</code> and <code>edit</code> actions.</p>
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="ss">:agent</span><span class="p">,</span>
+</span><span class='line'>             <span class="ss">url</span><span class="p">:</span> <span class="n">agents_path</span><span class="p">(</span><span class="vi">@agent</span><span class="p">),</span>
+</span><span class='line'>             <span class="ss">html</span><span class="p">:</span> <span class="p">{</span><span class="nb">method</span><span class="p">:</span> <span class="ss">:post</span><span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">form_object</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">submit</span> <span class="s1">&#39;Create New Agent&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What happens here is that the form builder carries the model you need for the form.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Behind the scences, the line above get’s expanded into the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">text_field</span> <span class="ss">:agent</span><span class="p">,</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>form_for</code> method takes a couple of arguments:</p>
+
+<ul>
+<li>A symbol or a string for specifying the object</li>
+<li>A <code>url</code> hash</li>
+<li>A <code>html</code> hash.</li>
+<li>A <code>namespace</code> hash</li>
+</ul>
+
+
+<p>The url hash is for specifing the routing options. That means that you can manually specify to which routing path you submit the form to—named routes come in handy with this. This style is called the “generic way” because you need to manually configure the <code>form_for</code> call. Why is this solution suboptimal? Because we want to keep business logic out of our Views and Controllers as much as we can. A side effect of that is that we need to change fewer parts when needed.</p>
+
+<h6>HTML</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/agents&quot;</span> <span class="na">accept-charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;utf8&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;&amp;#x2713;&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;authenticity_token&quot;</span> <span class="na">value=</span><span class="s">&quot;FUjXyB+EKkwElmRNt//pUmzYa95qy+cBQWcUYJtOHIFFBWJOvRnJlyIevSWWpIId6q0r6cKNGBgfc1e7LK+6jQ==&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_name&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[name]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_name&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_number&quot;</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[number]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_number&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_licence_to_kill&quot;</span><span class="nt">&gt;</span>Licence to kill<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_licence_to_kill&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;commit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create New Agent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In case you missed it, this approach did not provide us with ids and classes for the <code>form</code> tag automatically. The ones for <code>input</code> tags however were generated for you. We’ll fix that in a minute. Just know what you can get for free and that you probably should use this to your advantage. If you need something different or an additional namespace, you can use the <code>html</code> hash or the <code>namespace</code> hash to specify things a bit more.</p>
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="ss">:agent</span><span class="p">,</span>
+</span><span class='line'>             <span class="ss">url</span><span class="p">:</span> <span class="n">agents_path</span><span class="p">(</span><span class="vi">@agent</span><span class="p">),</span>
+</span><span class='line'>             <span class="ss">html</span><span class="p">:</span> <span class="p">{</span><span class="nb">method</span><span class="p">:</span> <span class="ss">:post</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;create_agent&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s1">&#39;unique_agent&#39;</span><span class="p">},</span>
+</span><span class='line'>             <span class="ss">namespace</span><span class="p">:</span> <span class="s1">&#39;mi6&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">form_object</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>HTML</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;create_agent&quot;</span> <span class="na">id=</span><span class="s">&quot;unique_agent&quot;</span> <span class="na">action=</span><span class="s">&quot;/agents&quot;</span> <span class="na">accept-charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;utf8&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;&amp;#x2713;&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;authenticity_token&quot;</span> <span class="na">value=</span><span class="s">&quot;IAkMk58AJeTMbNHLf8wzYwf+seSpC8OfoHIJuu8M80FwRLkVPZ3GP+rkCKNel1gsgYvx0wFNPIb+ZkphWO1VTQ==&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;mi6_agent_name&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[name]&quot;</span> <span class="na">id=</span><span class="s">&quot;mi6_agent_name&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;mi6_agent_number&quot;</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[number]&quot;</span> <span class="na">id=</span><span class="s">&quot;mi6_agent_number&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;mi6_agent_licence_to_kill&quot;</span><span class="nt">&gt;</span>Licence to kill<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">id=</span><span class="s">&quot;mi6_agent_licence_to_kill&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;commit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create New Agent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Not bad! Now the <code>form</code> tag has the specified class and id—whatever makes your blood flow—and the <code>input</code> tags are namespaced with <code>mi6</code>. Almost there.</p>
+
+<h4>The Good</h4>
+
+<p>This one is called the “resource-oriented style” and has the least amount of Ruby you need to write in your views. With that approach we want to rely on automated resource identification. Rails figures out which routes it needs based on the object itself. Not only that, it gives you a different HTML output for creating a new object or for editing an existing one. Behind the scenes, Rails just asks the object if it already exits and acts accordingly. Creating forms this way is a clever use of conventions and helps avoid duplication. One line and all the heavy lifting is done for you.</p>
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@agent</span> <span class="k">do</span> <span class="o">|</span><span class="n">form_object</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">form_object</span><span class="o">.</span><span class="n">submit</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Much better, isn’t it? Now we get exactly what we need for both existing and new objects. Also, we didn’t need to add text to our submit button. Rails took care of that and also adapts to new or existing objects.</p>
+
+<h6>HTML FOR NEW OBJECT</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;new_agent&quot;</span> <span class="na">id=</span><span class="s">&quot;new_agent&quot;</span> <span class="na">action=</span><span class="s">&quot;/agents&quot;</span> <span class="na">accept-charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;utf8&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;&amp;#x2713;&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;authenticity_token&quot;</span> <span class="na">value=</span><span class="s">&quot;4BwAH2OkTvD0hOPOO7NB6rT94PoENUI4MazyoY8RN7+wUbWZwTmtK9IMOqYa6CqlMoigzaxzvSFvuLF6OPCRsw==&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_name&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[name]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_name&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_number&quot;</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[number]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_number&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;agent_licence_to_kill&quot;</span><span class="nt">&gt;</span>Licence to kill<span class="nt">&lt;/label&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;agent[licence_to_kill]&quot;</span> <span class="na">id=</span><span class="s">&quot;agent_licence_to_kill&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;commit&quot;</span> <span class="na">value=</span><span class="s">&quot;Create Agent&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>HTML FOR EDITING OBJECTS</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;edit_agent&quot;</span> <span class="na">id=</span><span class="s">&quot;edit_agent_7&quot;</span> <span class="na">action=</span><span class="s">&quot;/agents/7&quot;</span> <span class="na">accept-charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;utf8&quot;</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">value=</span><span class="s">&quot;&amp;#x2713;&quot;</span> <span class="nt">/&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;authenticity_token&quot;</span> <span class="na">value=</span><span class="s">&quot;4BwAH2OkTvD0hOPOO7NB6rT94PoENUI4MazyoY8RN7+wUbWZwTmtK9IMOqYa6CqlMoigzaxzvSFvuLF6OPCRsw==&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When editing objects, it is also reflected in the HTML output by adding the id to the form id and the route / action needed for updating a specific object.</p>
+
+<p> A word about Rails magic. When people argue in exactly these situations that Rails is too magical for their taste, I often think that this could simply mean that they haven’t spent enough time learning the tools of their trade. Because once you take the time to master these tools, you’ll often understand not only why a simplification or an extraction was made but they also appear a lot more sober and straightforward.</p>
+
+<h4>Attention!</h4>
+
+<p>The code examples above used <code>form_object</code> as a block parameter. This is not recommended best practice but was done to remind you what this object represents and what gets yielded from <code>form_for</code>. Most people just use a plain <code>|f|</code> or <code>|form|</code>—which looks much nicer and concise. Btw, stuff like <code>label</code>, <code>text_field</code>, <code>check_box</code> and the likes are just helper methods that are called on the form builder object. There are a ton of them which cover pretty much any possible need you might encounter.</p>
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@agent</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span>      <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">check_box</span>  <span class="ss">:licence_to_kill</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Concise and reads nice, right?</p>
+
+<h3>Partials</h3>
+
+<p>Collections are another thing we don’t want to be too verbose about. Rendering partials for individual objects of collections is so concise and straightforward—if done right—that I feel you have very little excuse not to make use of Rails’ conventions to reduce Ruby view code. Let’s turn things around with this one and start with an example that shows you how you are encouraged to approach this. Along they way, I’ll explain what you can leave out as well.</p>
+
+<h4>The Good</h4>
+
+<h6>app/views/agents/index.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@agents</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>render</code> method is quite smart. The line above is all you need to write for iterating over a collection. If you need to change something in this view, it will be a very small change—and therefore a small cause of error. What happens here is that the framework is able to determine which partial it needs. Through the name of the object, it knows where to look for the partial—given that you adhere to the conventional naming of things. The way I see it, this is a good example that Rails is not trying to impress you with wizardry. The Rails team works hard to make your lives easier by cutting through repetitive red tape of sorts.</p>
+
+<h6>app/views/agents/_agent.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;Agent name: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Number: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Gambler: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">gambler</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Womanizer: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">womanizer</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only other thing that is necessary to make this work is placing a partial template at the appropriate path in your objects’s directory and extract the attributes you need from the object. No need to write any loops on your own. Fast and easy, handy and pragmatic I’d say. This extraction was originally done because the name of the partial was most of the time the name of the iterated object anyway and so it was easy to create a convention that handles this common task more effectively.</p>
+
+<h4>The Bad</h4>
+
+<p>Ok, now that we know how to handle this, let’s look what you could do and should avoid. The example below is just a bad usage of Rails but I wouldn’t call it ugly this time.</p>
+
+<h6>app/views/agents/index.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="vi">@agents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">agent</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;h3&gt;Agent name: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">  &lt;h4&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">  &lt;h4&gt;Number: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">  &lt;h4&gt;Gambler: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">gambler</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">  &lt;h4&gt;Womanizer: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">womanizer</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You get the same result as above but it’s definitely more verbose. Iterating over the collection in the view is not necessary anymore. When you use <code>render</code> as above, the block parameter <code>agent</code> is implied and you can just use it without the <code>each</code> loop. So, stay away from code like this—it does not make you look particularly good (but nobody will collect your head for it either). It’s just not elegant and adds to the PHPitis.</p>
+
+<h3>Extracting Helpers</h3>
+
+<p>The most obvious solution to clean up code from your views is avoiding to write any or extracting them intelligently. Let’s say we want to scramble the names of our agents in the index list. We should not put this code directly in our views. If we decide that the model is also not the appropriate layer to place this, then a custom helper in the <code>app/helpers</code> directory might be the right choice.</p>
+
+<h5>app/helpers/agents_helper.rb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AgentsHelper</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">scramble</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">agent</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By packaging this in a module inside the helpers directory we now have access to this method in our views. Please give specific helpers their own home and don’t put everything on <code>ApplicationHelper</code> (<code>app/helpers/application_helper.rb</code>) which is really meant for more “global” stuff.</p>
+
+<p>Now I can access this little fellow in my partial template—or any view—for rendering my collection of agents.</p>
+
+<h5>app/views/agents/_agent.erb</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;Agent name: </span><span class="cp">&lt;%=</span> <span class="n">scramble</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Licence to kill: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">licence_to_kill</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Number: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">number</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Gambler: </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">gambler</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span><span class='line'><span class="x">&lt;h4&gt;Womanizer : </span><span class="cp">&lt;%=</span> <span class="n">agent</span><span class="o">.</span><span class="n">womanizer</span> <span class="cp">%&gt;</span><span class="x">&lt;/h4&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Your own custom helpers are a great way to keep your views clean and healthy. And as you have seen, it’s so quick and easy that there’s little excuse to be too lazy and not extract them for battling PHPitis.</p>
+
+<h2>Conditional Content</h2>
+
+<p>The helper method <code>content_for</code> is a handy tool for extracting content that doesn’t really fit the bill for a partial but needs a bit of encapsulation. It’s a way to store a bit of markup that you can apply on a page per page basis—you yield it into the layout where needed. In size, it should be a lot smaller than partials or even layouts.</p>
+
+<p>This technique can also save you the step to create your own method for it. Navigational menues or sidebars are often examples where this helper becomes useful. Let’s say you want to have a spot in your menu that is only for admins but don’t need to adjust the whole layout. Or you have pages where the sidebar is not needed. With <code>content_for</code> you inject what you need where you need it on a page per page basis. Duplication no more!</p>
+
+<h6>app/views/agents/index.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">content_for</span> <span class="ss">:double_o_navbar</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Operations&#39;</span><span class="p">,</span> <span class="n">operations_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">  &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Agents&#39;</span><span class="p">,</span> <span class="n">agents_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">  &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Messages&#39;</span><span class="p">,</span> <span class="n">messages_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@agents</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>app/views/layouts/application.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;body&gt; </span>
+</span><span class='line'><span class="x">  &lt;header&gt;</span>
+</span><span class='line'><span class="x">    &lt;ul class=&#39;navbar&#39;&gt;</span>
+</span><span class='line'><span class="x">      &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Home&#39;</span><span class="p">,</span> <span class="n">root_path</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      &lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;About&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="ss">:double_o_navbar</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/ul&gt;</span>
+</span><span class='line'><span class="x">  &lt;/header&gt;</span>
+</span><span class='line'><span class="x">  </span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Aside from that fact that this <code>header</code> is a good candidate for extraction into a partial, look at the <code>yield :double_o_navbar</code> section. This is a yielding region that inserts code from a <code>content_for</code> block. It will only insert code if the symbol names match. Here we want only double-o agents to have access to certain links in the navbar. Everyone else sees just <code>Home</code> and <code>About</code>. Think about the special links an admin needs to see that should never face a public interface.</p>
+
+<p>You can also use this helper to insert <code>id</code> or <code>class</code> attributes on HTML tags if needed. Every once in a while this comes in handy.</p>
+
+<p>Another common use is populating the <code>&lt;title&gt;</code> of a page dynamically with a <code>content_for</code> block.</p>
+
+<h6>app/views/layouts/application.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;title&gt;</span>
+</span><span class='line'><span class="x">  Spectre – </span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span><span class="o">.</span><span class="n">presence</span> <span class="o">||</span> <span class="s2">&quot;Default&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/title&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>some.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">content_for</span> <span class="ss">:title</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  Some funky title</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You just place the title you want in a <code>content_for</code> block and the application layout will insert it for you. You can get more clever with it but that should suffice for now. Should you have no need for a title or forget to add one then the logical <code>||</code> will kick in and yield a default of your choice. In the example above we need to check for the presence of a title or the default won’t work.</p>
+
+<p>What you definitely don’t wanna do is create instance variables for that kinda thing. Single responsibilities, remember?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="vi">@title</span> <span class="o">=</span> <span class="s2">&quot;Some page title&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One more thing, you can ask if pages have a <code>content_for</code> block.</p>
+
+<h6>app/views/layouts/application.html.erb</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">content_for?</span><span class="p">(</span><span class="ss">:q_navbar</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="ss">:q_navbar</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This can help you avoid duplicating markup that is relevant to styling a page which adapts if elements are present on a page or not.</p>
+
+<h2>Semantic Markup</h2>
+
+<p>This is stuff you definitely want to avoid.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;container&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;col-lg-6&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;col-md-4 col-md-offset-2&#39;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The markup above is from the <a href="http://getbootstrap.com">bootstrap</a> documentation and specifies how the columns are supposed to &lsquo;look'—information that has no semantic meaning and actually belongs into your stylesheets. That’s the stuff designers have nightmares about.</p>
+
+<p>So what’s the deal with that? This is important because—besides the questionable naming of classes—unsemantic markup violates <strong>separation of concerns</strong>. Your markup should not be bothered with styling information, instead both should stand on their own and enable you to <strong>switch out styles effortlessly</strong>—without touching your HTML. It’s not as difficult as it might sound at first. It takes a bit of discipline though.</p>
+
+<p>When you are able to keep that styling information out of your markup you have effectively achieved reducing PHPitis on another front—for designers an essential one! Also, the use of <strong>generic divs</strong> without inherent meaning is another example of poor markup. <strong>HTML5</strong> gives you lots of useful elements that convey more information to your <strong>future self</strong>, <strong>other developers and search engines</strong>. Naming is supposedly hard, but HTML5 provides you with lots of <strong>semantic elements</strong> that make your options much easier in that regard.</p>
+
+<h2>Final Thoughts</h2>
+
+<p>I hope you have seen that Rails Views don’t need much love to shine. Developers can be a bit snobby about the frontend layer. Dealing with Markup sometimes seems to be a little beneath them—writing HTML, DUH! Well, I shouldn’t throw any stones, but I came to appreciate a fine tuned, well honed presentation layer. It makes it much more fun to work with and when done right, much faster to make the inevitable changes. Parsing tons of Ruby code mixed with badly written markup is not a fun experience.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-03T04:29:10+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/octopress_drafts_previewer/blog/categories/antipatterns/'>antipatterns</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/code-smells/'>code smells</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/object-oriented-programming/'>object oriented programming</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/rails/'>rails</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/octopress_drafts_previewer/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://vis-kid.github.io/octo-draft/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/" data-via="" data-counturl="http://vis-kid.github.io/octo-draft/blog/2016/01/03/AntiPatterns-Basics-Rails-Views/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress_drafts_previewer/blog/2016/01/02/Middleman-Basics-06-Podcast-04/" title="Previous Post: Middleman Basics 06-Podcast Site (Part 04)">&laquo; Middleman Basics 06-Podcast Site (Part 04)</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/" title="Next Post: AntiPatterns Basics—Rails Controllers">AntiPatterns Basics—Rails Controllers &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/03/03/Visial-Design-101/">Visual Design 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/25/Slim-Basics-02/">Slim Basics 02</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/10/AntiPattern-Basics-Rails-Tests/">AntiPatterns Basics Rails—Tests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/02/08/Slim-Basics-01/">Slim Basics 01</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress_drafts_previewer/blog/2016/01/25/AntiPatterns-Basics-Rails-Controllers/">AntiPatterns Basics—Rails Controllers</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
